@@ -11,6 +11,7 @@ from .models import DailyBar, Stock, Theme
 
 
 HISTORY_VERSION = 1
+REPOSITORY_VERSION = 1
 
 
 def _float(value: Any, field: str) -> float:
@@ -18,6 +19,16 @@ def _float(value: Any, field: str) -> float:
         return float(value)
     except (TypeError, ValueError) as exc:
         raise ValueError(f"invalid theme history field: {field}") from exc
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(f"{path.suffix}.tmp")
+    temporary.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
 
 
 @dataclass(frozen=True)
@@ -175,10 +186,101 @@ class ThemeHistoryStore:
                 for item in self.series.values()
             ],
         }
-        path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = path.with_suffix(f"{path.suffix}.tmp")
-        temporary.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
-        temporary.replace(path)
+        _write_json(path, payload)
+
+    def save_repository(self, root: Path, market_date: date) -> tuple[Path, ...]:
+        """Persist runtime state plus reviewable, append-only repository snapshots."""
+        written: list[Path] = []
+
+        state_path = root / "state" / "theme-history.json"
+        self.save(state_path)
+        written.append(state_path)
+
+        themes = []
+        for item in sorted(self.series.values(), key=lambda value: value.theme.id):
+            themes.append(
+                {
+                    "id": item.theme.id,
+                    "name": item.theme.name,
+                    "stocks": [
+                        {"code": stock.code, "name": stock.name}
+                        for stock in item.theme.stocks
+                    ],
+                }
+            )
+        membership_payload = {
+            "version": REPOSITORY_VERSION,
+            "themes": themes,
+        }
+
+        catalog_path = root / "catalog" / "themes.json"
+        previous_memberships: dict[str, Any] | None = None
+        if catalog_path.exists():
+            try:
+                previous = json.loads(catalog_path.read_text(encoding="utf-8"))
+                if isinstance(previous, dict):
+                    previous_memberships = {
+                        "version": previous.get("version"),
+                        "themes": previous.get("themes"),
+                    }
+            except (OSError, json.JSONDecodeError):
+                previous_memberships = None
+
+        catalog_payload = {
+            **membership_payload,
+            "updated_at": market_date.isoformat(),
+        }
+        _write_json(catalog_path, catalog_payload)
+        written.append(catalog_path)
+
+        if previous_memberships != membership_payload:
+            membership_path = root / "memberships" / f"{market_date.isoformat()}.json"
+            _write_json(
+                membership_path,
+                {**membership_payload, "effective_date": market_date.isoformat()},
+            )
+            written.append(membership_path)
+
+        daily_rows = []
+        for item in sorted(self.series.values(), key=lambda value: value.theme.id):
+            point = next(
+                (value for value in reversed(item.points) if value.date == market_date),
+                None,
+            )
+            if point is None:
+                continue
+            daily_rows.append(
+                {
+                    "id": item.theme.id,
+                    "name": item.theme.name,
+                    "change_rate": item.theme.change_rate,
+                    "breadth": item.theme.breadth,
+                    "trading_value": item.theme.trading_value,
+                    "close": point.close,
+                    "high": point.high,
+                    "low": point.low,
+                    "turnover": point.turnover,
+                }
+            )
+        if daily_rows:
+            daily_path = (
+                root
+                / "daily"
+                / f"{market_date.year:04d}"
+                / f"{market_date.month:02d}"
+                / f"{market_date.isoformat()}.json"
+            )
+            _write_json(
+                daily_path,
+                {
+                    "version": REPOSITORY_VERSION,
+                    "market_date": market_date.isoformat(),
+                    "themes": daily_rows,
+                },
+            )
+            written.append(daily_path)
+
+        return tuple(written)
 
     @classmethod
     def load(cls, path: Path) -> ThemeHistoryStore:

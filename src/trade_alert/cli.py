@@ -38,6 +38,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--history-file",
         help="persist the rolling theme catalog and daily turnover history",
     )
+    parser.add_argument(
+        "--history-repository",
+        help="also export catalog and dated snapshots into a checked-out data branch",
+    )
     return parser
 
 
@@ -70,7 +74,10 @@ def main(argv: list[str] | None = None) -> int:
             history_min_bars=settings.history_min_bars,
         )
         now = datetime.now(ZoneInfo("Asia/Seoul"))
+        history_repository = Path(args.history_repository) if args.history_repository else None
         history_path = Path(args.history_file) if args.history_file else None
+        if history_path is None and history_repository is not None:
+            history_path = history_repository / "state" / "theme-history.json"
         history = None
         if history_path is not None and history_path.exists():
             try:
@@ -82,10 +89,21 @@ def main(argv: list[str] | None = None) -> int:
             if history_path is None:
                 raise ValueError("--history-file is required for collect mode")
             history, warnings, action = service.collect_history(now, history)
-            history.save(history_path)
+            if history_repository is not None and action != "unchanged":
+                latest_dates = [
+                    item.points[-1].date for item in history.series.values() if item.points
+                ]
+                repository_date = max(latest_dates, default=now.date())
+                written = history.save_repository(history_repository, repository_date)
+            elif history_repository is not None:
+                written = ()
+            else:
+                history.save(history_path)
+                written = (history_path,)
             print(
                 f"theme history {action}: {len(history.series)} themes, "
-                f"{sum(len(item.points) for item in history.series.values())} points"
+                f"{sum(len(item.points) for item in history.series.values())} points, "
+                f"{len(written)} files"
             )
             if warnings:
                 print(f"theme history warnings: {len(warnings)}", file=sys.stderr)

@@ -36,6 +36,9 @@ env:
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
+permissions:
+  contents: read
+
 jobs:
   premarket:
     if: github.event.schedule == '30 22 * * 0-4' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'premarket')
@@ -44,30 +47,24 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Check out accumulated theme data
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: .theme-data
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - id: market-date
         run: echo "value=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
-      - id: history-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: .cache/theme-history.json
-          key: theme-history-v1-read-${{ github.run_id }}
-          restore-keys: theme-history-v1-
       - run: python -m pip install .
-      - run: trade-alert --mode premarket --candidate-file .cache/candidates.json --history-file .cache/theme-history.json
+      - run: trade-alert --mode premarket --candidate-file .cache/candidates.json --history-file .theme-data/state/theme-history.json
       - if: always() && hashFiles('.cache/candidates.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
           key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
-      - if: success() && hashFiles('.cache/theme-history.json') != ''
-        uses: actions/cache/save@v4
-        with:
-          path: .cache/theme-history.json
-          key: theme-history-v1-${{ steps.market-date.outputs.value }}-premarket-${{ github.run_id }}
-
   preopen:
     if: github.event.schedule == '55 23 * * 0-4' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'preopen')
     runs-on: ubuntu-latest
@@ -123,22 +120,36 @@ jobs:
     runs-on: ubuntu-latest
     environment: action-env
     timeout-minutes: 15
+    permissions:
+      contents: write
+    concurrency:
+      group: theme-history-data
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
+      - name: Check out accumulated theme data
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: .theme-data
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - id: market-date
         run: echo "value=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache/restore@v4
-        with:
-          path: .cache/theme-history.json
-          key: theme-history-v1-read-${{ github.run_id }}
-          restore-keys: theme-history-v1-
       - run: python -m pip install .
-      - run: trade-alert --mode collect --history-file .cache/theme-history.json
-      - if: success() && hashFiles('.cache/theme-history.json') != ''
-        uses: actions/cache/save@v4
-        with:
-          path: .cache/theme-history.json
-          key: theme-history-v1-${{ steps.market-date.outputs.value }}-${{ github.run_id }}
+      - run: trade-alert --mode collect --history-repository .theme-data
+      - name: Commit accumulated theme data
+        working-directory: .theme-data
+        env:
+          MARKET_DATE: ${{ steps.market-date.outputs.value }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog daily memberships state
+          if git diff --cached --quiet; then
+            echo "No theme data changes"
+          else
+            git commit -m "data: collect ${MARKET_DATE}"
+            git push origin HEAD:data
+          fi

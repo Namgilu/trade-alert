@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import json
 import os
 import tempfile
 import unittest
@@ -309,6 +310,39 @@ class ThemeHistoryTest(unittest.TestCase):
             loaded = ThemeHistoryStore.load(path)
         self.assertEqual(loaded.series["10"].points[-1].turnover, 2_000)
         self.assertEqual(loaded.series["10"].theme.stocks[0].name, "대표주")
+
+    def test_exports_repository_snapshots_and_only_versions_membership_changes(self):
+        market_date = date(2026, 10, 7)
+        theme = Theme(
+            "10",
+            "전력설비",
+            2.0,
+            0.8,
+            2_000,
+            (Stock("000001", "대표주"),),
+        )
+        store = ThemeHistoryStore(
+            {
+                theme.id: ThemeSeries(
+                    theme,
+                    (ThemeDailyPoint(market_date, 102.0, 102.0, 102.0, 2_000),),
+                )
+            }
+        )
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            first = store.save_repository(root, market_date)
+            second = store.save_repository(root, market_date)
+
+            self.assertTrue((root / "state" / "theme-history.json").exists())
+            self.assertTrue((root / "catalog" / "themes.json").exists())
+            self.assertTrue((root / "memberships" / "2026-10-07.json").exists())
+            daily_path = root / "daily" / "2026" / "10" / "2026-10-07.json"
+            daily = json.loads(daily_path.read_text(encoding="utf-8"))
+            self.assertEqual(daily["themes"][0]["turnover"], 2_000)
+            self.assertEqual(len(first), 4)
+            self.assertEqual(len(second), 3)
 
 
 class ServiceScoringTest(unittest.TestCase):
