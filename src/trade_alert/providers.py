@@ -173,6 +173,9 @@ class NaverThemeProvider:
                 result.append(hydrated)
         return result
 
+    def list_themes(self, theme_limit: int) -> list[Theme]:
+        return self._list_themes(theme_limit)
+
     def refresh_themes(self, themes: list[Theme], universe_limit: int) -> list[Theme]:
         current = {theme.id: theme for theme in self._list_themes(universe_limit)}
         return [current.get(theme.id, theme) for theme in themes]

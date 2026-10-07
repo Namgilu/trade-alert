@@ -48,6 +48,9 @@ class ThemePattern:
     down_volume_ratio: float
     trend_breadth: float
     score: float = 0.0
+    turnover_spike_ratio: float = 1.0
+    days_since_turnover_spike: int = 0
+    turnover_cooldown_ratio: float = 1.0
 
 
 @dataclass(frozen=True)

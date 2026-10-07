@@ -8,6 +8,8 @@ on:
     - cron: "55 23 * * 0-4"
     # 09:10 Asia/Seoul, Monday-Friday
     - cron: "10 0 * * 1-5"
+    # 16:10 Asia/Seoul, Monday-Friday
+    - cron: "10 7 * * 1-5"
   workflow_dispatch:
     inputs:
       mode:
@@ -19,6 +21,7 @@ on:
           - premarket
           - preopen
           - confirmation
+          - collect
 
 env:
   NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
@@ -46,13 +49,24 @@ jobs:
           python-version: "3.12"
       - id: market-date
         run: echo "value=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
+      - id: history-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/theme-history.json
+          key: theme-history-v1-read-${{ github.run_id }}
+          restore-keys: theme-history-v1-
       - run: python -m pip install .
-      - run: trade-alert --mode premarket --candidate-file .cache/candidates.json
+      - run: trade-alert --mode premarket --candidate-file .cache/candidates.json --history-file .cache/theme-history.json
       - if: always() && hashFiles('.cache/candidates.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
+      - if: success() && hashFiles('.cache/theme-history.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/theme-history.json
+          key: theme-history-v1-${{ steps.market-date.outputs.value }}-premarket-${{ github.run_id }}
 
   preopen:
     if: github.event.schedule == '55 23 * * 0-4' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'preopen')
@@ -70,14 +84,14 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
       - run: python -m pip install .
       - run: trade-alert --mode preopen --candidate-file .cache/candidates.json
       - if: always() && steps.candidate-cache.outputs.cache-hit != 'true' && hashFiles('.cache/candidates.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
 
   confirmation:
     if: github.event.schedule == '10 0 * * 1-5' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'confirmation')
@@ -95,11 +109,36 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
       - run: python -m pip install .
       - run: trade-alert --mode confirmation --candidate-file .cache/candidates.json
       - if: always() && steps.candidate-cache.outputs.cache-hit != 'true' && hashFiles('.cache/candidates.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
+
+  collect:
+    if: github.event.schedule == '10 7 * * 1-5' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'collect')
+    runs-on: ubuntu-latest
+    environment: action-env
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: market-date
+        run: echo "value=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache/theme-history.json
+          key: theme-history-v1-read-${{ github.run_id }}
+          restore-keys: theme-history-v1-
+      - run: python -m pip install .
+      - run: trade-alert --mode collect --history-file .cache/theme-history.json
+      - if: success() && hashFiles('.cache/theme-history.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/theme-history.json
+          key: theme-history-v1-${{ steps.market-date.outputs.value }}-${{ github.run_id }}

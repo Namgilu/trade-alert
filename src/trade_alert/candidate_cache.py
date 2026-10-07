@@ -8,7 +8,7 @@ from typing import Any
 from .models import Stock, Theme, ThemePattern
 
 
-CACHE_VERSION = 2
+CACHE_VERSION = 3
 
 
 def _number(value: Any, field: str) -> float:
@@ -20,6 +20,13 @@ def _number(value: Any, field: str) -> float:
 
 def _optional_number(value: Any, field: str) -> float | None:
     return None if value is None else _number(value, field)
+
+
+def _integer(value: Any, field: str) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"invalid candidate cache field: {field}") from exc
 
 
 def save_candidates(
@@ -47,6 +54,9 @@ def save_candidates(
                     "down_volume_ratio": pattern.down_volume_ratio,
                     "trend_breadth": pattern.trend_breadth,
                     "score": pattern.score,
+                    "turnover_spike_ratio": pattern.turnover_spike_ratio,
+                    "days_since_turnover_spike": pattern.days_since_turnover_spike,
+                    "turnover_cooldown_ratio": pattern.turnover_cooldown_ratio,
                 },
             }
             for theme, pattern in candidates
@@ -106,6 +116,15 @@ def load_candidates(path: Path, market_date: date) -> list[tuple[Theme, ThemePat
             down_volume_ratio=_number(pattern_data.get("down_volume_ratio"), "down_volume_ratio"),
             trend_breadth=_number(pattern_data.get("trend_breadth"), "trend_breadth"),
             score=_number(pattern_data.get("score"), "score"),
+            turnover_spike_ratio=_number(
+                pattern_data.get("turnover_spike_ratio", 1.0), "turnover_spike_ratio"
+            ),
+            days_since_turnover_spike=_integer(
+                pattern_data.get("days_since_turnover_spike", 0), "days_since_turnover_spike"
+            ),
+            turnover_cooldown_ratio=_number(
+                pattern_data.get("turnover_cooldown_ratio", 1.0), "turnover_cooldown_ratio"
+            ),
         )
         candidates.append((theme, pattern))
     return candidates

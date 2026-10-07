@@ -14,6 +14,7 @@ from .providers import (
     OpenDartProvider,
     deduplicate_events,
 )
+from .theme_history import ThemeDailyPoint, ThemeHistoryStore
 
 
 def _clamp(value: float, minimum: float = 0.0, maximum: float = 100.0) -> float:
@@ -108,12 +109,78 @@ def _theme_pattern(patterns: list[_StockPattern]) -> ThemePattern:
     )
 
 
+def _history_pattern(points: tuple[ThemeDailyPoint, ...], min_bars: int) -> ThemePattern | None:
+    if len(points) < min_bars:
+        return None
+    sample = points[-65:]
+    start_close = sample[0].close
+    current_close = sample[-1].close
+    peak_close = max(point.close for point in sample)
+    if start_close <= 0 or peak_close <= 0:
+        return None
+
+    recent = sample[-15:]
+    recent_low = min(point.low for point in recent)
+    if recent_low <= 0:
+        return None
+    consolidation_range = (max(point.high for point in recent) / recent_low - 1.0) * 100.0
+    prior_turnover_window = sample[-30:-10]
+    prior_average_turnover = (
+        sum(point.turnover for point in prior_turnover_window) / len(prior_turnover_window)
+        if prior_turnover_window
+        else 0.0
+    )
+    recent_down_turnovers = [
+        sample[index].turnover
+        for index in range(max(1, len(sample) - 10), len(sample))
+        if sample[index].close < sample[index - 1].close
+    ]
+    down_turnover = (
+        sum(recent_down_turnovers) / len(recent_down_turnovers)
+        if recent_down_turnovers
+        else 0.0
+    )
+    down_turnover_ratio = (
+        down_turnover / prior_average_turnover if prior_average_turnover > 0 else 1.0
+    )
+
+    spikes: list[tuple[float, int]] = []
+    for index in range(20, len(sample)):
+        baseline = median(point.turnover for point in sample[index - 20:index])
+        if baseline > 0:
+            spikes.append((sample[index].turnover / baseline, index))
+    spike_ratio, spike_index = max(spikes, default=(1.0, len(sample) - 1))
+    spike_turnover = sample[spike_index].turnover
+    recent_turnover = median(point.turnover for point in sample[-5:])
+    cooldown_ratio = recent_turnover / spike_turnover if spike_turnover > 0 else 1.0
+    sma60 = sum(point.close for point in sample[-60:]) / min(60, len(sample))
+    return ThemePattern(
+        peak_return=(peak_close / start_close - 1.0) * 100.0,
+        drawdown=(current_close / peak_close - 1.0) * 100.0,
+        consolidation_range=consolidation_range,
+        down_volume_ratio=down_turnover_ratio,
+        trend_breadth=1.0 if current_close >= sma60 else 0.0,
+        turnover_spike_ratio=spike_ratio,
+        days_since_turnover_spike=len(sample) - 1 - spike_index,
+        turnover_cooldown_ratio=cooldown_ratio,
+    )
+
+
 def _pattern_is_eligible(pattern: ThemePattern) -> bool:
     return (
         pattern.peak_return >= 20.0
         and -30.0 <= pattern.drawdown <= -5.0
         and pattern.consolidation_range <= 20.0
         and pattern.trend_breadth >= 0.5
+    )
+
+
+def _history_pattern_is_eligible(pattern: ThemePattern) -> bool:
+    return (
+        _pattern_is_eligible(pattern)
+        and pattern.turnover_spike_ratio >= 1.8
+        and 10 <= pattern.days_since_turnover_spike <= 45
+        and pattern.turnover_cooldown_ratio <= 0.8
     )
 
 
@@ -183,6 +250,39 @@ class MarketAlertService:
         self.history_lookback_days = history_lookback_days
         self.history_min_bars = history_min_bars
 
+    def _score_patterns(
+        self,
+        raw_patterns: list[tuple[Theme, ThemePattern]],
+        *,
+        require_turnover_spike: bool,
+    ) -> list[tuple[Theme, ThemePattern]]:
+        predicate = _history_pattern_is_eligible if require_turnover_spike else _pattern_is_eligible
+        eligible = [(theme, pattern) for theme, pattern in raw_patterns if predicate(pattern)]
+        momentum_values = [pattern.peak_return for _, pattern in eligible]
+        scored: list[tuple[Theme, ThemePattern]] = []
+        for theme, pattern in eligible:
+            if require_turnover_spike:
+                score = (
+                    0.20 * _relative(pattern.peak_return, momentum_values)
+                    + 0.20 * _drawdown_score(pattern.drawdown)
+                    + 0.15 * _inverse_scale(pattern.consolidation_range, 5.0, 20.0)
+                    + 0.10 * _inverse_scale(pattern.down_volume_ratio, 0.5, 1.2)
+                    + 0.10 * pattern.trend_breadth * 100.0
+                    + 0.15 * _scale(pattern.turnover_spike_ratio, 1.8, 5.0)
+                    + 0.10 * _inverse_scale(pattern.turnover_cooldown_ratio, 0.2, 0.8)
+                )
+            else:
+                score = (
+                    0.25 * _relative(pattern.peak_return, momentum_values)
+                    + 0.25 * _drawdown_score(pattern.drawdown)
+                    + 0.20 * _inverse_scale(pattern.consolidation_range, 5.0, 20.0)
+                    + 0.20 * _inverse_scale(pattern.down_volume_ratio, 0.5, 1.2)
+                    + 0.10 * pattern.trend_breadth * 100.0
+                )
+            scored.append((theme, replace(pattern, score=_clamp(score))))
+        scored.sort(key=lambda item: item[1].score, reverse=True)
+        return scored[: self.theme_candidate_pool]
+
     def _screen_candidates(self, now: datetime, warnings: list[str]) -> list[tuple[Theme, ThemePattern]]:
         if self.market_data is None or not self.market_data.enabled:
             raise ValueError("3-month theme screening requires KIS_APP_KEY and KIS_APP_SECRET")
@@ -210,20 +310,90 @@ class MarketAlertService:
         if successful_histories == 0:
             detail = f" First error: {warnings[0]}" if warnings else ""
             raise RuntimeError(f"KIS did not return enough daily history for any theme.{detail}")
-        eligible = [(theme, pattern) for theme, pattern in raw_patterns if _pattern_is_eligible(pattern)]
-        momentum_values = [pattern.peak_return for _, pattern in eligible]
-        scored: list[tuple[Theme, ThemePattern]] = []
-        for theme, pattern in eligible:
-            score = (
-                0.25 * _relative(pattern.peak_return, momentum_values)
-                + 0.25 * _drawdown_score(pattern.drawdown)
-                + 0.20 * _inverse_scale(pattern.consolidation_range, 5.0, 20.0)
-                + 0.20 * _inverse_scale(pattern.down_volume_ratio, 0.5, 1.2)
-                + 0.10 * pattern.trend_breadth * 100.0
+        return self._score_patterns(raw_patterns, require_turnover_spike=False)
+
+    def _bootstrap_history(
+        self,
+        now: datetime,
+        warnings: list[str],
+        *,
+        include_today: bool = False,
+    ) -> ThemeHistoryStore:
+        if self.market_data is None or not self.market_data.enabled:
+            raise ValueError("theme history bootstrap requires KIS_APP_KEY and KIS_APP_SECRET")
+        end = now.date() if include_today else now.date() - timedelta(days=1)
+        start = end - timedelta(days=self.history_lookback_days)
+        themes = self.themes.screening_themes(self.theme_scan_limit, self.theme_screen_stocks)
+        if not themes:
+            raise RuntimeError("Naver did not return theme constituents for history bootstrap")
+        store = ThemeHistoryStore()
+        successful_histories = 0
+        for theme in themes:
+            histories: list[tuple[Stock, tuple[DailyBar, ...]]] = []
+            for stock in theme.stocks:
+                try:
+                    bars = self.market_data.history(stock, start, end)
+                    if len(bars) >= self.history_min_bars:
+                        successful_histories += 1
+                        histories.append((stock, bars))
+                except Exception as exc:
+                    warnings.append(f"{theme.name}/{stock.name} 일봉 {type(exc).__name__}: {exc}")
+            store.add_bootstrap(theme, histories)
+        if successful_histories == 0 or not store.ready(self.history_min_bars):
+            detail = f" First error: {warnings[0]}" if warnings else ""
+            raise RuntimeError(f"KIS did not return enough history to bootstrap themes.{detail}")
+        return store
+
+    def _screen_history(
+        self, store: ThemeHistoryStore, now: datetime
+    ) -> list[tuple[Theme, ThemePattern]]:
+        raw_patterns: list[tuple[Theme, ThemePattern]] = []
+        for item in store.series.values():
+            if not item.points or (now.date() - item.points[-1].date).days > 10:
+                continue
+            pattern = _history_pattern(item.points, self.history_min_bars)
+            if pattern is not None:
+                raw_patterns.append((item.theme, pattern))
+        return self._score_patterns(raw_patterns, require_turnover_spike=True)
+
+    def prepare_candidates(
+        self,
+        now: datetime,
+        store: ThemeHistoryStore | None,
+    ) -> tuple[list[tuple[Theme, ThemePattern]], tuple[str, ...], ThemeHistoryStore]:
+        warnings: list[str] = []
+        if (
+            store is None
+            or not store.ready(self.history_min_bars)
+            or not store.fresh(now.date())
+        ):
+            store = self._bootstrap_history(now, warnings)
+        return self._screen_history(store, now), tuple(warnings), store
+
+    def collect_history(
+        self,
+        now: datetime,
+        store: ThemeHistoryStore | None,
+    ) -> tuple[ThemeHistoryStore, tuple[str, ...], str]:
+        warnings: list[str] = []
+        if (
+            store is None
+            or not store.ready(self.history_min_bars)
+            or not store.fresh(now.date())
+        ):
+            return (
+                self._bootstrap_history(now, warnings, include_today=True),
+                tuple(warnings),
+                "bootstrapped",
             )
-            scored.append((theme, replace(pattern, score=_clamp(score))))
-        scored.sort(key=lambda item: item[1].score, reverse=True)
-        return scored[: self.theme_candidate_pool]
+        themes = self.themes.list_themes(self.theme_scan_limit)
+        if not themes:
+            raise RuntimeError("Naver did not return a theme snapshot")
+        if store.snapshot_unchanged(themes):
+            warnings.append("테마 스냅샷이 이전 거래일과 같아 휴장일로 간주하고 적재를 건너뜀")
+            return store, tuple(warnings), "unchanged"
+        store.append_snapshot(themes, now.date())
+        return store, tuple(warnings), "appended"
 
     def screen_candidates(
         self, now: datetime
@@ -496,9 +666,15 @@ def format_report(report: DailyReport) -> str:
                 f"   3개월 고점상승 {pattern.peak_return:+.1f}% · 고점대비 {pattern.drawdown:+.1f}%"
             )
             lines.append(
-                f"   15일 변동폭 {pattern.consolidation_range:.1f}% · 하락거래량비 {pattern.down_volume_ratio:.2f}"
+                f"   15일 변동폭 {pattern.consolidation_range:.1f}% · 하락거래대금비 {pattern.down_volume_ratio:.2f}"
                 f" · 60일선 상회 {pattern.trend_breadth:.0%}"
             )
+            if pattern.turnover_spike_ratio > 1.0:
+                lines.append(
+                    f"   거래대금 최대 {pattern.turnover_spike_ratio:.1f}배 · "
+                    f"폭발 후 {pattern.days_since_turnover_spike}거래일 · "
+                    f"현재/고점 {pattern.turnover_cooldown_ratio:.2f}배"
+                )
         for stock_rank, result in enumerate(analysis.stocks, 1):
             stock = result.stock
             rate = f"{stock.change_rate:+.2f}%" if stock.change_rate is not None else "-"

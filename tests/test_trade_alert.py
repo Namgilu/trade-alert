@@ -26,6 +26,7 @@ from trade_alert.models import (
 )
 from trade_alert.providers import KisMarketDataProvider, JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
 from trade_alert.service import MarketAlertService, format_report
+from trade_alert.theme_history import ThemeDailyPoint, ThemeHistoryStore, ThemeSeries
 
 
 class FakeHttp:
@@ -218,7 +219,7 @@ class CandidateCacheTest(unittest.TestCase):
     def test_round_trips_candidates_and_rejects_another_market_date(self):
         market_date = date(2026, 10, 7)
         theme = Theme("10", "반도체", 2.5, 0.75, 1_000, (Stock("005930", "삼성전자"),))
-        pattern = ThemePattern(65, -12, 8, 0.55, 0.75, 84)
+        pattern = ThemePattern(65, -12, 8, 0.55, 0.75, 84, 3.2, 20, 0.4)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "candidates.json"
             save_candidates(path, market_date, [(theme, pattern)])
@@ -226,6 +227,88 @@ class CandidateCacheTest(unittest.TestCase):
             self.assertEqual(loaded, [(theme, pattern)])
             with self.assertRaisesRegex(ValueError, "today's Korean market date"):
                 load_candidates(path, market_date + timedelta(days=1))
+
+
+class ThemeHistoryTest(unittest.TestCase):
+    def test_daily_collection_uses_one_theme_list_call_and_no_kis(self):
+        now = datetime(2026, 10, 7, 16, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        theme = Theme("10", "전력설비", 1.0, 0.7, 1_000)
+        points = tuple(
+            ThemeDailyPoint(
+                now.date() - timedelta(days=65 - index), 100.0, 100.0, 100.0, 100.0
+            )
+            for index in range(65)
+        )
+        store = ThemeHistoryStore({theme.id: ThemeSeries(theme, points)})
+
+        class Themes:
+            calls = 0
+
+            def list_themes(self, *_):
+                self.calls += 1
+                return [Theme("10", "전력설비", 2.0, 0.8, 2_000)]
+
+        class NoMarketCalls:
+            enabled = True
+
+            def __getattr__(self, name):
+                raise AssertionError(f"daily collection must not call KIS {name}")
+
+        themes = Themes()
+        service = MarketAlertService(
+            themes, None, None, None, NoMarketCalls(), theme_limit=1, theme_candidate_pool=1,
+            stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
+        )
+        collected, warnings, action = service.collect_history(now, store)
+        self.assertEqual(action, "appended")
+        self.assertEqual(warnings, ())
+        self.assertEqual(themes.calls, 1)
+        self.assertEqual(collected.series["10"].points[-1].turnover, 2_000)
+
+    def test_persists_snapshot_and_screens_past_turnover_spike(self):
+        now = datetime(2026, 10, 7, 7, 30, tzinfo=ZoneInfo("Asia/Seoul"))
+        theme = Theme("10", "전력설비", 1.0, 0.7, 1_000, (Stock("000001", "대표주"),))
+        points = []
+        start = now.date() - timedelta(days=65)
+        for index in range(65):
+            if index < 15:
+                close = 100.0 + 100.0 * index / 14.0
+            elif index < 30:
+                close = 200.0 - 19.0 * (index - 14) / 15.0
+            else:
+                close = 185.0
+            turnover = 500.0 if index == 30 else (50.0 if index >= 60 else 100.0)
+            points.append(ThemeDailyPoint(start + timedelta(days=index), close, close, close, turnover))
+        store = ThemeHistoryStore({theme.id: ThemeSeries(theme, tuple(points))})
+
+        class NoCalls:
+            enabled = True
+
+            def __getattr__(self, name):
+                raise AssertionError(f"history-backed screening must not call {name}")
+
+        service = MarketAlertService(
+            NoCalls(), None, None, None, NoCalls(), theme_limit=1, theme_candidate_pool=1,
+            stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
+        )
+        candidates, warnings, returned_store = service.prepare_candidates(now, store)
+        self.assertIs(returned_store, store)
+        self.assertEqual(warnings, ())
+        self.assertEqual(candidates[0][0].name, "전력설비")
+        self.assertEqual(candidates[0][1].turnover_spike_ratio, 5.0)
+        self.assertEqual(candidates[0][1].days_since_turnover_spike, 34)
+        self.assertEqual(candidates[0][1].turnover_cooldown_ratio, 0.1)
+
+        store.append_snapshot([Theme("10", "전력설비", 2.0, 0.8, 2_000)], now.date())
+        first_close = store.series["10"].points[-1].close
+        store.append_snapshot([Theme("10", "전력설비", 2.0, 0.8, 2_000)], now.date())
+        self.assertEqual(store.series["10"].points[-1].close, first_close)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "history.json"
+            store.save(path)
+            loaded = ThemeHistoryStore.load(path)
+        self.assertEqual(loaded.series["10"].points[-1].turnover, 2_000)
+        self.assertEqual(loaded.series["10"].theme.stocks[0].name, "대표주")
 
 
 class ServiceScoringTest(unittest.TestCase):
@@ -409,14 +492,16 @@ class FormattingTest(unittest.TestCase):
         quote = PreopenQuote(72_100, 3.15, 123_456, 1_000, 2_500)
         result = StockAnalysis(stock, None, score=78, signal="장전 유효", preopen_quote=quote)
         theme = Theme("1", "반도체", 3.2, 0.8, 1000, (stock,))
-        pattern = ThemePattern(65, -12, 8, 0.55, 0.75, 84)
+        pattern = ThemePattern(65, -12, 8, 0.55, 0.75, 84, 3.2, 20, 0.4)
         report = DailyReport(now, "preopen", (ThemeAnalysis(theme, (result,), 82, pattern),))
         message = format_report(report)
         self.assertIn("08:55 장전 중간확정", message)
         self.assertIn("예상 +3.15%", message)
         self.assertIn("매수/매도 잔량비 2.50배", message)
         self.assertIn("3개월 고점상승 +65.0%", message)
-        self.assertIn("하락거래량비 0.55", message)
+        self.assertIn("하락거래대금비 0.55", message)
+        self.assertIn("거래대금 최대 3.2배", message)
+        self.assertIn("폭발 후 20거래일", message)
         self.assertIn("09:10 최종 확인 전 중간 신호", message)
 
 
