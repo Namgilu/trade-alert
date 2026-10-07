@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "morning-theme-alert"
+version = "0.1.0"
+description = "Korean stock theme, news sentiment, and Telegram morning alert"
+requires-python = ">=3.11"
+
+[project.scripts]
+trade-alert = "trade_alert.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
