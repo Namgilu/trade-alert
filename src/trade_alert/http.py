@@ -18,7 +18,18 @@ class HttpClient:
         headers: dict[str, str] | None = None,
         body: dict[str, Any] | None = None,
     ) -> Any:
-        request_headers = {"Accept": "application/json", "User-Agent": "morning-theme-alert/0.1"}
+        raw = self.bytes(url, method=method, headers=headers, body=body)
+        return json.loads(raw.decode("utf-8"))
+
+    def bytes(
+        self,
+        url: str,
+        *,
+        method: str = "GET",
+        headers: dict[str, str] | None = None,
+        body: dict[str, Any] | None = None,
+    ) -> bytes:
+        request_headers = {"Accept": "application/json", "User-Agent": "morning-theme-alert/0.2"}
         request_headers.update(headers or {})
         data = None
         if body is not None:
@@ -27,8 +38,7 @@ class HttpClient:
         request = Request(url, data=data, headers=request_headers, method=method)
         try:
             with urlopen(request, timeout=self.timeout) as response:
-                charset = response.headers.get_content_charset() or "utf-8"
-                return json.loads(response.read().decode(charset))
+                return response.read()
         except HTTPError as exc:
             detail = exc.read(500).decode("utf-8", errors="replace")
             raise RuntimeError(f"HTTP {exc.code} from {url}: {detail}") from exc

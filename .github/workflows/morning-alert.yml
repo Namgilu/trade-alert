@@ -1,27 +1,55 @@
-name: Morning theme alert
+name: Korean market two-stage alert
 
 on:
   schedule:
-    # 07:30 Asia/Seoul (GitHub Actions cron uses UTC)
-    - cron: "30 22 * * *"
+    # 07:30 Asia/Seoul, Monday-Friday (UTC Sunday-Thursday)
+    - cron: "30 22 * * 0-4"
+    # 09:10 Asia/Seoul, Monday-Friday
+    - cron: "10 0 * * 1-5"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Alert stage to run
+        required: true
+        default: premarket
+        type: choice
+        options:
+          - premarket
+          - confirmation
+
+env:
+  NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+  NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+  JEV_API_KEY: ${{ secrets.JEV_API_KEY }}
+  JEV_API_URL: ${{ vars.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone' }}
+  JEV_MODEL: ${{ vars.JEV_MODEL || 'jev-latest' }}
+  DART_API_KEY: ${{ secrets.DART_API_KEY }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
 jobs:
-  alert:
+  premarket:
+    if: github.event.schedule == '30 22 * * 0-4' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'premarket')
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    environment: action-env
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: python -m pip install .
-      - run: trade-alert
-        env:
-          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
-          JEV_API_KEY: ${{ secrets.JEV_API_KEY }}
-          JEV_API_URL: ${{ vars.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone' }}
-          JEV_MODEL: ${{ vars.JEV_MODEL || 'jev-latest' }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - run: trade-alert --mode premarket
+
+  confirmation:
+    if: github.event.schedule == '10 0 * * 1-5' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'confirmation')
+    runs-on: ubuntu-latest
+    environment: action-env
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install .
+      - run: trade-alert --mode confirmation

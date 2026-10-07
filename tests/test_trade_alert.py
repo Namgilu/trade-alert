@@ -1,15 +1,17 @@
 from __future__ import annotations
 
 import os
+import io
 import unittest
-from datetime import datetime
+import zipfile
+from datetime import datetime, timedelta
 from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 from trade_alert.config import Settings
-from trade_alert.models import DailyReport, Sentiment, Stock, StockAnalysis, Theme, ThemeAnalysis
-from trade_alert.providers import JevSentimentProvider, NaverThemeProvider
-from trade_alert.service import format_report
+from trade_alert.models import DailyReport, EventSummary, MarketEvent, Stock, StockAnalysis, Theme, ThemeAnalysis
+from trade_alert.providers import JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
+from trade_alert.service import MarketAlertService, format_report
 
 
 class FakeHttp:
@@ -22,61 +24,162 @@ class FakeHttp:
         return next(self.responses)
 
 
+class FakeDartHttp:
+    def __init__(self, archive: bytes, disclosure: dict):
+        self.archive = archive
+        self.disclosure = disclosure
+
+    def bytes(self, url, **kwargs):
+        return self.archive
+
+    def json(self, url, **kwargs):
+        return self.disclosure
+
+
 class ThemeProviderTest(unittest.TestCase):
-    def test_selects_top_themes_and_stocks(self):
+    def test_parses_live_contract_and_selects_top_items(self):
         http = FakeHttp(
             [
-                {"items": [{"no": "20", "name": "B", "changeRate": "1.2"}, {"no": "10", "name": "A", "changeRate": "3.5"}]},
-                [{"itemcode": "2", "itemname": "둘", "prevChangeRate": "2"}, {"itemcode": "1", "itemname": "하나", "prevChangeRate": "5"}],
+                [
+                    {"no": "20", "name": "B", "changeRate": "1.2", "riseCnt": "3", "totalCnt": "6", "totalAccAmount": "100"},
+                    {"no": "10", "name": "A", "changeRate": "3.5", "riseCnt": "8", "totalCnt": "10", "totalAccAmount": "200"},
+                ],
+                [
+                    {"itemcode": "2", "itemname": "둘", "prevChangeRate": "2", "tradeAmount": "1000", "tradeVolume": "50", "prevQuant": "100"},
+                    {"itemcode": "1", "itemname": "하나", "prevChangeRate": "5", "tradeAmount": "2000", "tradeVolume": "80", "prevQuant": "100"},
+                ],
                 [{"itemcode": "3", "itemname": "셋", "prevChangeRate": "1"}],
             ]
         )
-        provider = NaverThemeProvider(http, "themes", "theme/{theme_id}")
-        result = provider.top_themes(2, 1)
+        result = NaverThemeProvider(http, "themes", "theme/{theme_id}").top_themes(2, 1)
         self.assertEqual([theme.name for theme in result], ["A", "B"])
         self.assertEqual(result[0].stocks[0].name, "하나")
+        self.assertEqual(result[0].breadth, 0.8)
+        self.assertEqual(result[0].stocks[0].relative_volume, 0.8)
 
 
-class JevProviderTest(unittest.TestCase):
-    def test_averages_probabilities(self):
-        now = datetime.now(ZoneInfo("Asia/Seoul"))
-        from trade_alert.models import NewsArticle
-
-        articles = [NewsArticle("좋은 뉴스", "설명", "https://example.com", now)]
-        http = FakeHttp([{"answers": {"news_0": {"choice": "positive", "probabilities": {"positive": 0.8, "neutral": 0.1, "negative": 0.1}}}}])
-        provider = JevSentimentProvider(http, "https://jev", "secret", "jev-latest")
-        result = provider.analyze(Stock("005930", "삼성전자"), articles)
+class EventProviderTest(unittest.TestCase):
+    def test_scores_structured_krx_event(self):
+        now = datetime(2026, 10, 7, 7, 30, tzinfo=ZoneInfo("Asia/Seoul"))
+        event = MarketEvent("대규모 공급계약", "매출액 대비 30%", "https://example.com", now - timedelta(hours=1))
+        response = {
+            "answers": {
+                "relevance": {"noul": 0.95},
+                "primary_event": {"choice": "event_0"},
+                "event_type": {"choice": "contract"},
+                "impact": {
+                    "choice": "strong_positive",
+                    "probabilities": {"strong_positive": 0.8, "positive": 0.2},
+                    "confidence": 0.9,
+                },
+                "horizon": {"choice": "open"},
+                "confirmed": {"noul": 0.9},
+            }
+        }
+        http = FakeHttp([response])
+        result = JevEventProvider(http, "https://jev", "secret", "jev-latest").analyze(
+            Stock("005930", "삼성전자"), [event], now
+        )
         self.assertIsNotNone(result)
-        self.assertAlmostEqual(result.positive, 0.8)
-        self.assertEqual(result.outlook, "강한 긍정")
-        self.assertEqual(http.calls[0][1]["headers"]["Authorization"], "Bearer secret")
+        self.assertGreater(result.score, 60)
+        self.assertEqual(result.event_type, "contract")
+        self.assertEqual(result.primary_event.title, "대규모 공급계약")
+        self.assertEqual(len(http.calls[0][1]["body"]["questions"]), 6)
+
+
+class DeduplicationTest(unittest.TestCase):
+    def test_prefers_disclosure_over_duplicate_news(self):
+        now = datetime.now(ZoneInfo("Asia/Seoul"))
+        news = MarketEvent("A사 공급계약 체결", "", "news", now, "news")
+        disclosure = MarketEvent("A사, 공급계약 체결", "", "dart", now - timedelta(minutes=5), "disclosure")
+        result = deduplicate_events([news, disclosure], 5)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].source_kind, "disclosure")
+
+
+class OpenDartProviderTest(unittest.TestCase):
+    def test_maps_stock_code_and_returns_disclosure(self):
+        xml = b"<result><list><corp_code>00126380</corp_code><stock_code>005930</stock_code></list></result>"
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as archive:
+            archive.writestr("CORPCODE.xml", xml)
+        disclosure = {
+            "status": "000",
+            "list": [{"rcept_no": "202610070001", "report_nm": "공급계약", "rcept_dt": "20261007", "flr_nm": "삼성전자"}],
+        }
+        provider = OpenDartProvider(FakeDartHttp(buffer.getvalue(), disclosure), "key")
+        now = datetime(2026, 10, 7, 7, 30, tzinfo=ZoneInfo("Asia/Seoul"))
+        result = provider.recent(Stock("005930", "삼성전자"), 24, now)
+        self.assertEqual(result[0].source_kind, "disclosure")
+        self.assertIn("202610070001", result[0].url)
+
+
+class ServiceScoringTest(unittest.TestCase):
+    def test_confirmation_requires_market_and_event_strength(self):
+        now = datetime(2026, 10, 7, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        stock = Stock("005930", "삼성전자", 7.0, 50_000_000_000, 200_000, 1_000_000)
+        theme = Theme("1", "반도체", 5.0, 1.0, 1000, (stock,))
+        event = MarketEvent("공급계약", "", "url", now, "disclosure")
+        summary = EventSummary(80, 1, 1, "contract", "open", 0.9, 1, event)
+
+        class Themes:
+            def top_themes(self, *_):
+                return [theme]
+
+        class News:
+            def recent(self, *_):
+                return [event]
+
+        class Dart:
+            enabled = False
+
+        class Model:
+            def analyze(self, *_):
+                return summary
+
+        service = MarketAlertService(
+            Themes(), News(), Dart(), Model(), theme_limit=1, theme_candidate_pool=1,
+            stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
+        )
+        report = service.run("confirmation", now)
+        self.assertEqual(report.themes[0].stocks[0].signal, "거래 확인")
+        self.assertGreaterEqual(report.themes[0].stocks[0].score, 75)
 
 
 class FormattingTest(unittest.TestCase):
-    def test_formats_report(self):
-        stock = Stock("005930", "삼성전자", 2.1)
-        theme = Theme("1", "반도체", 3.2, (stock,))
-        result = StockAnalysis(stock, Sentiment(0.7, 0.2, 0.1, 5))
-        report = DailyReport(datetime(2026, 10, 7, 7, 30, tzinfo=ZoneInfo("Asia/Seoul")), (ThemeAnalysis(theme, (result,)),))
+    def test_formats_confirmation_report(self):
+        now = datetime(2026, 10, 7, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        event = MarketEvent("공급계약", "", "https://example.com", now, "disclosure")
+        summary = EventSummary(72, 0.9, 1.0, "contract", "open", 0.9, 2, event)
+        stock = Stock("005930", "삼성전자", 4.2, 42_000_000_000, 150_000, 1_000_000)
+        theme = Theme("1", "반도체", 3.2, 0.8, 1000, (stock,))
+        result = StockAnalysis(stock, summary, (event,), 81, "거래 확인")
+        report = DailyReport(now, "confirmation", (ThemeAnalysis(theme, (result,), 84),))
         message = format_report(report)
-        self.assertIn("반도체", message)
-        self.assertIn("긍정 70%", message)
-        self.assertIn("투자 권유가 아닙니다", message)
+        self.assertIn("09:10 시장 확인", message)
+        self.assertIn("거래 확인", message)
+        self.assertIn("전일거래량 대비 0.15배", message)
+        self.assertIn("핵심 공시", message)
 
 
 class SettingsTest(unittest.TestCase):
-    def test_limits_requested_ranks_to_three(self):
+    def test_optional_dart_and_limits(self):
         env = {
             "NAVER_CLIENT_ID": "id",
             "NAVER_CLIENT_SECRET": "secret",
             "JEV_API_KEY": "jev",
             "THEME_LIMIT": "9",
+            "THEME_CANDIDATE_POOL": "30",
             "STOCKS_PER_THEME": "7",
+            "MAX_EVENTS_PER_STOCK": "30",
         }
         with patch.dict(os.environ, env, clear=True):
             settings = Settings.from_env(require_telegram=False)
         self.assertEqual(settings.theme_limit, 3)
+        self.assertEqual(settings.theme_candidate_pool, 10)
         self.assertEqual(settings.stocks_per_theme, 3)
+        self.assertEqual(settings.max_events_per_stock, 10)
+        self.assertEqual(settings.dart_api_key, "")
 
 
 if __name__ == "__main__":

@@ -29,11 +29,14 @@ class Settings:
     jev_api_key: str
     jev_api_url: str
     jev_model: str
+    dart_api_key: str
     telegram_bot_token: str
     telegram_chat_id: str
     theme_limit: int
+    theme_candidate_pool: int
     stocks_per_theme: int
     news_per_stock: int
+    max_events_per_stock: int
     news_lookback_hours: int
     http_timeout_seconds: int
     theme_list_url: str
@@ -49,11 +52,14 @@ class Settings:
             jev_api_key=_required("JEV_API_KEY"),
             jev_api_url=os.getenv("JEV_API_URL", "https://api.typesafe.ai/v1/systemone"),
             jev_model=os.getenv("JEV_MODEL", "jev-latest"),
+            dart_api_key=os.getenv("DART_API_KEY", "").strip(),
             telegram_bot_token=token,
             telegram_chat_id=chat_id,
             theme_limit=min(_positive_int("THEME_LIMIT", 3), 3),
+            theme_candidate_pool=min(_positive_int("THEME_CANDIDATE_POOL", 5), 10),
             stocks_per_theme=min(_positive_int("STOCKS_PER_THEME", 3), 3),
             news_per_stock=min(_positive_int("NEWS_PER_STOCK", 10), 100),
+            max_events_per_stock=min(_positive_int("MAX_EVENTS_PER_STOCK", 5), 10),
             news_lookback_hours=_positive_int("NEWS_LOOKBACK_HOURS", 24),
             http_timeout_seconds=_positive_int("HTTP_TIMEOUT_SECONDS", 20),
             theme_list_url=os.getenv(
