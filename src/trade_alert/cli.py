@@ -38,13 +38,23 @@ def main(argv: list[str] | None = None) -> int:
             NaverNewsProvider(http, settings.naver_client_id, settings.naver_client_secret),
             OpenDartProvider(http, settings.dart_api_key),
             JevEventProvider(http, settings.jev_api_url, settings.jev_api_key, settings.jev_model),
-            KisPreopenProvider(http, settings.kis_app_key, settings.kis_app_secret, settings.kis_base_url),
+            KisPreopenProvider(
+                http,
+                settings.kis_app_key,
+                settings.kis_app_secret,
+                settings.kis_base_url,
+                request_interval_seconds=0.06,
+            ),
             theme_limit=settings.theme_limit,
             theme_candidate_pool=settings.theme_candidate_pool,
+            theme_scan_limit=settings.theme_scan_limit,
+            theme_screen_stocks=settings.theme_screen_stocks,
             stocks_per_theme=settings.stocks_per_theme,
             news_per_stock=settings.news_per_stock,
             max_events_per_stock=settings.max_events_per_stock,
             news_lookback_hours=settings.news_lookback_hours,
+            history_lookback_days=settings.history_lookback_days,
+            history_min_bars=settings.history_min_bars,
         )
         message = format_report(service.run(args.mode))
         print(message)

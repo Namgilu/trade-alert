@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from dataclasses import replace
-from datetime import datetime
+from dataclasses import dataclass, replace
+from datetime import datetime, timedelta
+from statistics import median
 from zoneinfo import ZoneInfo
 
-from .models import DailyReport, EventSummary, StockAnalysis, ThemeAnalysis
+from .models import DailyBar, DailyReport, EventSummary, Stock, StockAnalysis, Theme, ThemeAnalysis, ThemePattern
 from .providers import (
     JevEventProvider,
     KisPreopenProvider,
@@ -32,6 +33,88 @@ def _relative(value: float | None, values: list[float]) -> float:
     if high == low:
         return 50.0
     return _scale(value, low, high)
+
+
+def _inverse_scale(value: float, best: float, worst: float) -> float:
+    if worst <= best:
+        return 0.0
+    return _clamp((worst - value) / (worst - best) * 100.0)
+
+
+def _drawdown_score(drawdown: float) -> float:
+    depth = abs(drawdown)
+    if depth < 5.0 or depth > 30.0:
+        return 0.0
+    if depth <= 15.0:
+        return _scale(depth, 5.0, 15.0, default=0.0)
+    return _inverse_scale(depth, 15.0, 30.0)
+
+
+@dataclass(frozen=True)
+class _StockPattern:
+    peak_return: float
+    drawdown: float
+    consolidation_range: float
+    down_volume_ratio: float
+    above_sma60: bool
+
+
+def _stock_pattern(bars: tuple[DailyBar, ...], min_bars: int) -> _StockPattern | None:
+    if len(bars) < min_bars:
+        return None
+    sample = bars[-110:]
+    start_close = sample[0].close
+    current_close = sample[-1].close
+    peak_close = max(bar.close for bar in sample)
+    if start_close <= 0 or peak_close <= 0:
+        return None
+    recent = sample[-15:]
+    recent_low = min(bar.low for bar in recent)
+    consolidation_range = (max(bar.high for bar in recent) / recent_low - 1.0) * 100.0
+    prior_volume_window = sample[-30:-10]
+    prior_average_volume = (
+        sum(bar.volume for bar in prior_volume_window) / len(prior_volume_window)
+        if prior_volume_window
+        else 0.0
+    )
+    recent_down_volumes = [
+        sample[index].volume
+        for index in range(max(1, len(sample) - 10), len(sample))
+        if sample[index].close < sample[index - 1].close
+    ]
+    down_volume = (
+        sum(recent_down_volumes) / len(recent_down_volumes)
+        if recent_down_volumes
+        else 0.0
+    )
+    down_volume_ratio = down_volume / prior_average_volume if prior_average_volume > 0 else 1.0
+    sma60 = sum(bar.close for bar in sample[-60:]) / min(60, len(sample))
+    return _StockPattern(
+        peak_return=(peak_close / start_close - 1.0) * 100.0,
+        drawdown=(current_close / peak_close - 1.0) * 100.0,
+        consolidation_range=consolidation_range,
+        down_volume_ratio=down_volume_ratio,
+        above_sma60=current_close >= sma60,
+    )
+
+
+def _theme_pattern(patterns: list[_StockPattern]) -> ThemePattern:
+    return ThemePattern(
+        peak_return=median(pattern.peak_return for pattern in patterns),
+        drawdown=median(pattern.drawdown for pattern in patterns),
+        consolidation_range=median(pattern.consolidation_range for pattern in patterns),
+        down_volume_ratio=median(pattern.down_volume_ratio for pattern in patterns),
+        trend_breadth=sum(pattern.above_sma60 for pattern in patterns) / len(patterns),
+    )
+
+
+def _pattern_is_eligible(pattern: ThemePattern) -> bool:
+    return (
+        pattern.peak_return >= 20.0
+        and -30.0 <= pattern.drawdown <= -5.0
+        and pattern.consolidation_range <= 20.0
+        and pattern.trend_breadth >= 0.5
+    )
 
 
 def _event_score(summary: EventSummary | None) -> float:
@@ -79,6 +162,10 @@ class MarketAlertService:
         news_per_stock: int,
         max_events_per_stock: int,
         news_lookback_hours: int,
+        theme_scan_limit: int = 100,
+        theme_screen_stocks: int = 3,
+        history_lookback_days: int = 180,
+        history_min_bars: int = 80,
     ) -> None:
         self.themes = themes
         self.news = news
@@ -87,10 +174,55 @@ class MarketAlertService:
         self.kis = kis
         self.theme_limit = theme_limit
         self.theme_candidate_pool = max(theme_limit, theme_candidate_pool)
+        self.theme_scan_limit = max(self.theme_candidate_pool, theme_scan_limit)
+        self.theme_screen_stocks = theme_screen_stocks
         self.stocks_per_theme = stocks_per_theme
         self.news_per_stock = news_per_stock
         self.max_events_per_stock = max_events_per_stock
         self.news_lookback_hours = news_lookback_hours
+        self.history_lookback_days = history_lookback_days
+        self.history_min_bars = history_min_bars
+
+    def _screen_candidates(self, now: datetime, warnings: list[str]) -> list[tuple[Theme, ThemePattern]]:
+        if self.kis is None or not self.kis.enabled:
+            raise ValueError("5-month theme screening requires KIS_APP_KEY and KIS_APP_SECRET")
+        end = now.date() - timedelta(days=1)
+        start = end - timedelta(days=self.history_lookback_days)
+        raw_patterns: list[tuple[Theme, ThemePattern]] = []
+        successful_histories = 0
+        screening_themes = self.themes.screening_themes(self.theme_scan_limit, self.theme_screen_stocks)
+        if not screening_themes:
+            raise RuntimeError("Naver did not return theme constituents for screening")
+        for theme in screening_themes:
+            stock_patterns: list[_StockPattern] = []
+            for stock in theme.stocks:
+                try:
+                    bars = self.kis.history(stock, start, end)
+                    pattern = _stock_pattern(bars, self.history_min_bars)
+                    if pattern is not None:
+                        successful_histories += 1
+                        stock_patterns.append(pattern)
+                except Exception as exc:
+                    warnings.append(f"{theme.name}/{stock.name} 일봉 {type(exc).__name__}: {exc}")
+            if stock_patterns:
+                raw_patterns.append((theme, _theme_pattern(stock_patterns)))
+
+        if successful_histories == 0:
+            raise RuntimeError("KIS did not return enough daily history for any theme")
+        eligible = [(theme, pattern) for theme, pattern in raw_patterns if _pattern_is_eligible(pattern)]
+        momentum_values = [pattern.peak_return for _, pattern in eligible]
+        scored: list[tuple[Theme, ThemePattern]] = []
+        for theme, pattern in eligible:
+            score = (
+                0.25 * _relative(pattern.peak_return, momentum_values)
+                + 0.25 * _drawdown_score(pattern.drawdown)
+                + 0.20 * _inverse_scale(pattern.consolidation_range, 5.0, 20.0)
+                + 0.20 * _inverse_scale(pattern.down_volume_ratio, 0.5, 1.2)
+                + 0.10 * pattern.trend_breadth * 100.0
+            )
+            scored.append((theme, replace(pattern, score=_clamp(score))))
+        scored.sort(key=lambda item: item[1].score, reverse=True)
+        return scored[: self.theme_candidate_pool]
 
     def _analyze_stock(
         self,
@@ -139,20 +271,23 @@ class MarketAlertService:
     def run(self, mode: str, now: datetime | None = None) -> DailyReport:
         if mode not in {"premarket", "preopen", "confirmation"}:
             raise ValueError("mode must be premarket, preopen, or confirmation")
-        if mode == "preopen" and (self.kis is None or not self.kis.enabled):
-            raise ValueError("08:55 preopen mode requires KIS_APP_KEY and KIS_APP_SECRET")
         now = now or datetime.now(ZoneInfo("Asia/Seoul"))
-        candidates = self.themes.top_themes(self.theme_candidate_pool, self.stocks_per_theme)
         warnings: list[str] = []
+        screened = self._screen_candidates(now, warnings)
         raw_analyses: list[ThemeAnalysis] = []
-        for theme in candidates:
+        for screening_theme, pattern in screened:
+            try:
+                theme = self.themes.hydrate_theme(screening_theme, self.stocks_per_theme)
+            except Exception as exc:
+                warnings.append(f"{screening_theme.name} 구성종목 {type(exc).__name__}: {exc}")
+                continue
             stocks = tuple(
                 self._analyze_stock(stock, now, warnings, include_preopen=mode == "preopen")
                 for stock in theme.stocks
             )
-            raw_analyses.append(ThemeAnalysis(theme=theme, stocks=stocks))
+            raw_analyses.append(ThemeAnalysis(theme=theme, stocks=stocks, pattern=pattern))
 
-        if mode == "preopen" and not any(
+        if mode == "preopen" and raw_analyses and not any(
             result.preopen_quote is not None for analysis in raw_analyses for result in analysis.stocks
         ):
             raise RuntimeError("KIS did not return pre-open expected execution data for any candidate stock")
@@ -181,6 +316,7 @@ class MarketAlertService:
         scored_themes: list[ThemeAnalysis] = []
         for theme_index, analysis in enumerate(raw_analyses):
             theme = analysis.theme
+            technical_score = analysis.pattern.score if analysis.pattern else 0.0
             breadth_score = (theme.breadth if theme.breadth is not None else 0.5) * 100.0
             change_score = _scale(theme.change_rate, -2.0, 8.0)
             trading_score = _relative(theme.trading_value, theme_values)
@@ -192,20 +328,15 @@ class MarketAlertService:
             event_scores = [_event_score(stock.event_summary) for stock in analysis.stocks]
             news_score = sum(event_scores) / len(event_scores) if event_scores else 50.0
             if mode == "premarket":
-                theme_score = (
-                    0.25 * breadth_score
-                    + 0.15 * change_score
-                    + 0.10 * trading_score
-                    + 0.10 * leader_score
-                    + 0.40 * news_score
-                )
+                theme_score = 0.85 * technical_score + 0.15 * news_score
             elif mode == "confirmation":
                 theme_score = (
-                    0.25 * breadth_score
-                    + 0.20 * change_score
-                    + 0.20 * trading_score
-                    + 0.15 * leader_score
-                    + 0.20 * news_score
+                    0.30 * technical_score
+                    + 0.20 * breadth_score
+                    + 0.15 * change_score
+                    + 0.15 * trading_score
+                    + 0.10 * leader_score
+                    + 0.10 * news_score
                 )
             else:
                 quotes = [result.preopen_quote for result in analysis.stocks if result.preopen_quote]
@@ -228,12 +359,13 @@ class MarketAlertService:
                 )
                 prior_theme_score = 0.40 * breadth_score + 0.35 * change_score + 0.25 * leader_score
                 theme_score = (
-                    0.25 * expected_breadth
-                    + 0.20 * expected_rate_score
-                    + 0.15 * _relative(preopen_theme_values[theme_index], preopen_theme_values)
+                    0.30 * technical_score
+                    + 0.20 * expected_breadth
+                    + 0.15 * expected_rate_score
+                    + 0.10 * _relative(preopen_theme_values[theme_index], preopen_theme_values)
                     + 0.10 * orderbook_score
-                    + 0.20 * news_score
-                    + 0.10 * prior_theme_score
+                    + 0.10 * news_score
+                    + 0.05 * prior_theme_score
                 )
 
             scored_stocks: list[StockAnalysis] = []
@@ -266,7 +398,14 @@ class MarketAlertService:
                     signal = _preopen_signal(score)
                 scored_stocks.append(replace(stock_result, score=_clamp(score), signal=signal))
             scored_stocks.sort(key=lambda item: item.score, reverse=True)
-            scored_themes.append(ThemeAnalysis(theme=theme, stocks=tuple(scored_stocks), score=_clamp(theme_score)))
+            scored_themes.append(
+                ThemeAnalysis(
+                    theme=theme,
+                    stocks=tuple(scored_stocks),
+                    score=_clamp(theme_score),
+                    pattern=analysis.pattern,
+                )
+            )
 
         scored_themes.sort(key=lambda item: item.score, reverse=True)
         return DailyReport(now, mode, tuple(scored_themes[: self.theme_limit]), tuple(warnings))
@@ -311,7 +450,7 @@ def _event_lines(summary: EventSummary | None) -> list[str]:
 
 def format_report(report: DailyReport) -> str:
     if report.mode == "premarket":
-        lines = [f"🌅 {report.generated_at:%Y-%m-%d} 07:30 장전 관심 후보", ""]
+        lines = [f"🌅 {report.generated_at:%Y-%m-%d} 07:30 5개월 조정 후보", ""]
     elif report.mode == "preopen":
         lines = [f"⏱️ {report.generated_at:%Y-%m-%d} 08:55 장전 중간확정", ""]
     else:
@@ -324,6 +463,15 @@ def format_report(report: DailyReport) -> str:
         breadth = f"{theme.breadth:.0%}" if theme.breadth is not None else "-"
         lines.append(f"{theme_rank}. {theme.name} · 강도 {analysis.score:.0f}/100")
         lines.append(f"   등락 {rate} · 확산도 {breadth}")
+        if analysis.pattern:
+            pattern = analysis.pattern
+            lines.append(
+                f"   5개월 고점상승 {pattern.peak_return:+.1f}% · 고점대비 {pattern.drawdown:+.1f}%"
+            )
+            lines.append(
+                f"   15일 변동폭 {pattern.consolidation_range:.1f}% · 하락거래량비 {pattern.down_volume_ratio:.2f}"
+                f" · 60일선 상회 {pattern.trend_breadth:.0%}"
+            )
         for stock_rank, result in enumerate(analysis.stocks, 1):
             stock = result.stock
             rate = f"{stock.change_rate:+.2f}%" if stock.change_rate is not None else "-"
@@ -358,7 +506,7 @@ def format_report(report: DailyReport) -> str:
     if report.warnings:
         lines.append(f"⚠️ 일부 데이터 처리 실패: {len(report.warnings)}건")
     if report.mode == "premarket":
-        lines.append("※ 장전 후보이며 09:10 시장 확인 전에는 거래 신호가 아닙니다.")
+        lines.append("※ 5개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.")
     elif report.mode == "preopen":
         lines.append("※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.")
     else:

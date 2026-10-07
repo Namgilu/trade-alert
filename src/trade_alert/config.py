@@ -37,10 +37,14 @@ class Settings:
     telegram_chat_id: str
     theme_limit: int
     theme_candidate_pool: int
+    theme_scan_limit: int
+    theme_screen_stocks: int
     stocks_per_theme: int
     news_per_stock: int
     max_events_per_stock: int
     news_lookback_hours: int
+    history_lookback_days: int
+    history_min_bars: int
     http_timeout_seconds: int
     theme_list_url: str
     theme_stocks_url_template: str
@@ -63,10 +67,14 @@ class Settings:
             telegram_chat_id=chat_id,
             theme_limit=min(_positive_int("THEME_LIMIT", 3), 3),
             theme_candidate_pool=min(_positive_int("THEME_CANDIDATE_POOL", 5), 10),
+            theme_scan_limit=min(_positive_int("THEME_SCAN_LIMIT", 100), 100),
+            theme_screen_stocks=min(_positive_int("THEME_SCREEN_STOCKS", 3), 5),
             stocks_per_theme=min(_positive_int("STOCKS_PER_THEME", 3), 3),
             news_per_stock=min(_positive_int("NEWS_PER_STOCK", 10), 100),
             max_events_per_stock=min(_positive_int("MAX_EVENTS_PER_STOCK", 5), 10),
             news_lookback_hours=_positive_int("NEWS_LOOKBACK_HOURS", 24),
+            history_lookback_days=_positive_int("HISTORY_LOOKBACK_DAYS", 180),
+            history_min_bars=_positive_int("HISTORY_MIN_BARS", 80),
             http_timeout_seconds=_positive_int("HTTP_TIMEOUT_SECONDS", 20),
             theme_list_url=os.getenv(
                 "THEME_LIST_URL",

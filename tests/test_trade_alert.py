@@ -1,16 +1,17 @@
 from __future__ import annotations
 
-import os
 import io
+import os
 import unittest
 import zipfile
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 from trade_alert.config import Settings
 from trade_alert.models import (
     DailyReport,
+    DailyBar,
     EventSummary,
     MarketEvent,
     PreopenQuote,
@@ -18,6 +19,7 @@ from trade_alert.models import (
     StockAnalysis,
     Theme,
     ThemeAnalysis,
+    ThemePattern,
 )
 from trade_alert.providers import KisPreopenProvider, JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
 from trade_alert.service import MarketAlertService, format_report
@@ -45,6 +47,21 @@ class FakeDartHttp:
         return self.disclosure
 
 
+def consolidation_bars() -> tuple[DailyBar, ...]:
+    bars = []
+    start = date(2026, 5, 1)
+    for index in range(100):
+        if index < 20:
+            close = 100.0 + 100.0 * index / 19.0
+        elif index < 40:
+            close = 200.0 - 20.0 * (index - 19) / 20.0
+        else:
+            close = 180.0
+        volume = 400_000.0 if index >= 90 else 1_000_000.0
+        bars.append(DailyBar(start + timedelta(days=index), close, close * 1.01, close * 0.99, close, volume))
+    return tuple(bars)
+
+
 class ThemeProviderTest(unittest.TestCase):
     def test_parses_live_contract_and_selects_top_items(self):
         http = FakeHttp(
@@ -65,6 +82,22 @@ class ThemeProviderTest(unittest.TestCase):
         self.assertEqual(result[0].stocks[0].name, "하나")
         self.assertEqual(result[0].breadth, 0.8)
         self.assertEqual(result[0].stocks[0].relative_volume, 0.8)
+
+    def test_screening_universe_uses_market_cap_leaders(self):
+        http = FakeHttp(
+            [
+                [{"no": "10", "name": "반도체"}],
+                [
+                    {"itemcode": "005930", "itemname": "삼성전자", "marketSum": "500"},
+                    {"itemcode": "000660", "itemname": "SK하이닉스", "marketSum": "400"},
+                ],
+            ]
+        )
+        result = NaverThemeProvider(http, "https://themes?startIdx=0&pageSize=20", "theme/{theme_id}").screening_themes(100, 2)
+        self.assertEqual([stock.code for stock in result[0].stocks], ["005930", "000660"])
+        self.assertIn("pageSize=100", http.calls[0][0])
+        self.assertIn("orderType=marketSum", http.calls[1][0])
+        self.assertEqual(len(http.calls), 2)
 
 
 class EventProviderTest(unittest.TestCase):
@@ -148,6 +181,35 @@ class KisPreopenProviderTest(unittest.TestCase):
         self.assertEqual(http.calls[1][1]["headers"]["tr_id"], "FHKST01010200")
         self.assertEqual(http.calls[1][1]["headers"]["authorization"], "Bearer token")
 
+    def test_parses_adjusted_daily_history(self):
+        http = FakeHttp(
+            [
+                {"access_token": "token"},
+                {
+                    "rt_cd": "0",
+                    "output2": [
+                        {
+                            "stck_bsop_date": "20261006",
+                            "stck_oprc": "70000",
+                            "stck_hgpr": "72000",
+                            "stck_lwpr": "69000",
+                            "stck_clpr": "71000",
+                            "acml_vol": "123456",
+                        }
+                    ],
+                },
+            ]
+        )
+        provider = KisPreopenProvider(http, "app-key", "app-secret", "https://kis.example")
+        bars = provider.history(Stock("005930", "삼성전자"), date(2026, 5, 1), date(2026, 10, 6))
+        self.assertEqual(len(bars), 1)
+        self.assertEqual(bars[0].close, 71000)
+        self.assertIn("FID_ORG_ADJ_PRC=0", http.calls[1][0])
+        self.assertEqual(http.calls[1][1]["headers"]["tr_id"], "FHKST03010100")
+        cached = provider.history(Stock("005930", "삼성전자"), date(2026, 5, 1), date(2026, 10, 6))
+        self.assertIs(cached, bars)
+        self.assertEqual(len(http.calls), 2)
+
 
 class ServiceScoringTest(unittest.TestCase):
     def test_confirmation_requires_market_and_event_strength(self):
@@ -158,8 +220,11 @@ class ServiceScoringTest(unittest.TestCase):
         summary = EventSummary(80, 1, 1, "contract", "open", 0.9, 1, event)
 
         class Themes:
-            def top_themes(self, *_):
+            def screening_themes(self, *_):
                 return [theme]
+
+            def hydrate_theme(self, value, *_):
+                return value
 
         class News:
             def recent(self, *_):
@@ -172,8 +237,14 @@ class ServiceScoringTest(unittest.TestCase):
             def analyze(self, *_):
                 return summary
 
+        class Kis:
+            enabled = True
+
+            def history(self, *_):
+                return consolidation_bars()
+
         service = MarketAlertService(
-            Themes(), News(), Dart(), Model(), theme_limit=1, theme_candidate_pool=1,
+            Themes(), News(), Dart(), Model(), Kis(), theme_limit=1, theme_candidate_pool=1,
             stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
         )
         report = service.run("confirmation", now)
@@ -188,8 +259,11 @@ class ServiceScoringTest(unittest.TestCase):
         summary = EventSummary(80, 1, 1, "contract", "open", 0.9, 1, event)
 
         class Themes:
-            def top_themes(self, *_):
+            def screening_themes(self, *_):
                 return [theme]
+
+            def hydrate_theme(self, value, *_):
+                return value
 
         class News:
             def recent(self, *_):
@@ -208,6 +282,9 @@ class ServiceScoringTest(unittest.TestCase):
             def quote(self, *_):
                 return PreopenQuote(80_000, 10.0, 300_000, 100_000, 900_000)
 
+            def history(self, *_):
+                return consolidation_bars()
+
         service = MarketAlertService(
             Themes(), News(), Dart(), Model(), Kis(), theme_limit=1, theme_candidate_pool=1,
             stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
@@ -215,6 +292,31 @@ class ServiceScoringTest(unittest.TestCase):
         report = service.run("preopen", now)
         self.assertEqual(report.themes[0].stocks[0].signal, "장전 유효")
         self.assertGreaterEqual(report.themes[0].stocks[0].score, 72)
+
+    def test_screen_excludes_theme_without_meaningful_drawdown(self):
+        now = datetime(2026, 10, 7, 7, 30, tzinfo=ZoneInfo("Asia/Seoul"))
+        stock = Stock("005930", "삼성전자")
+        theme = Theme("1", "반도체", stocks=(stock,))
+
+        class Themes:
+            def screening_themes(self, *_):
+                return [theme]
+
+        class Kis:
+            enabled = True
+
+            def history(self, *_):
+                bars = list(consolidation_bars())
+                latest = bars[-1]
+                bars[-1] = DailyBar(latest.date, 200, 201, 199, 200, latest.volume)
+                return tuple(bars)
+
+        service = MarketAlertService(
+            Themes(), None, None, None, Kis(), theme_limit=1, theme_candidate_pool=1,
+            stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
+        )
+        report = service.run("premarket", now)
+        self.assertEqual(report.themes, ())
 
     def test_preopen_requires_kis_credentials(self):
         class DisabledKis:
@@ -249,11 +351,14 @@ class FormattingTest(unittest.TestCase):
         quote = PreopenQuote(72_100, 3.15, 123_456, 1_000, 2_500)
         result = StockAnalysis(stock, None, score=78, signal="장전 유효", preopen_quote=quote)
         theme = Theme("1", "반도체", 3.2, 0.8, 1000, (stock,))
-        report = DailyReport(now, "preopen", (ThemeAnalysis(theme, (result,), 82),))
+        pattern = ThemePattern(65, -12, 8, 0.55, 0.75, 84)
+        report = DailyReport(now, "preopen", (ThemeAnalysis(theme, (result,), 82, pattern),))
         message = format_report(report)
         self.assertIn("08:55 장전 중간확정", message)
         self.assertIn("예상 +3.15%", message)
         self.assertIn("매수/매도 잔량비 2.50배", message)
+        self.assertIn("5개월 고점상승 +65.0%", message)
+        self.assertIn("하락거래량비 0.55", message)
         self.assertIn("09:10 최종 확인 전 중간 신호", message)
 
 
@@ -272,11 +377,14 @@ class SettingsTest(unittest.TestCase):
             settings = Settings.from_env(require_telegram=False)
         self.assertEqual(settings.theme_limit, 3)
         self.assertEqual(settings.theme_candidate_pool, 10)
+        self.assertEqual(settings.theme_scan_limit, 100)
+        self.assertEqual(settings.theme_screen_stocks, 3)
         self.assertEqual(settings.stocks_per_theme, 3)
         self.assertEqual(settings.max_events_per_stock, 10)
         self.assertEqual(settings.dart_api_key, "")
         self.assertEqual(settings.kis_app_key, "")
         self.assertEqual(settings.kis_base_url, "https://openapi.koreainvestment.com:9443")
+        self.assertEqual(settings.history_min_bars, 80)
 
 
 if __name__ == "__main__":

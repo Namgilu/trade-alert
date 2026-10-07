@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import date, datetime
 
 
 @dataclass(frozen=True)
@@ -28,6 +28,26 @@ class Theme:
     breadth: float | None = None
     trading_value: float | None = None
     stocks: tuple[Stock, ...] = ()
+
+
+@dataclass(frozen=True)
+class DailyBar:
+    date: date
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: float
+
+
+@dataclass(frozen=True)
+class ThemePattern:
+    peak_return: float
+    drawdown: float
+    consolidation_range: float
+    down_volume_ratio: float
+    trend_breadth: float
+    score: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -109,6 +129,7 @@ class ThemeAnalysis:
     theme: Theme
     stocks: tuple[StockAnalysis, ...] = ()
     score: float = 0.0
+    pattern: ThemePattern | None = None
 
 
 @dataclass(frozen=True)

@@ -4,16 +4,17 @@ import html
 import io
 import math
 import re
+import time
 import zipfile
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from typing import Any
-from urllib.parse import quote, urlencode
+from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
 
 from .http import HttpClient
-from .models import EventSummary, MarketEvent, PreopenQuote, Stock, Theme
+from .models import DailyBar, EventSummary, MarketEvent, PreopenQuote, Stock, Theme
 
 
 _TAG_RE = re.compile(r"<[^>]+>")
@@ -58,6 +59,13 @@ def _items(payload: Any) -> list[dict[str, Any]]:
     return []
 
 
+def _query_url(url: str, **updates: Any) -> str:
+    parts = urlsplit(url)
+    query = dict(parse_qsl(parts.query, keep_blank_values=True))
+    query.update({key: str(value) for key, value in updates.items()})
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
+
+
 def deduplicate_events(events: list[MarketEvent], limit: int) -> list[MarketEvent]:
     """Prefer disclosures and newer articles while removing syndicated headlines."""
     ordered = sorted(
@@ -86,8 +94,19 @@ class NaverThemeProvider:
         self.list_url = list_url
         self.stocks_url_template = stocks_url_template
 
-    def top_themes(self, theme_limit: int, stocks_per_theme: int) -> list[Theme]:
-        raw_themes = _items(self.http.json(self.list_url))
+    @staticmethod
+    def _leading_stocks(value: Any, limit: int) -> tuple[Stock, ...]:
+        stocks: list[Stock] = []
+        for item in str(value or "").split("|"):
+            parts = [part.strip() for part in item.split(",")]
+            if len(parts) < 3 or not parts[1] or not parts[2]:
+                continue
+            stocks.append(Stock(parts[1], ",".join(parts[2:])))
+        return tuple(stocks[:limit])
+
+    def _list_themes(self, theme_limit: int, stocks_per_theme: int = 0) -> list[Theme]:
+        list_url = _query_url(self.list_url, startIdx=0, pageSize=min(theme_limit, 100))
+        raw_themes = _items(self.http.json(list_url))
         themes: list[Theme] = []
         for raw in raw_themes:
             theme_id = str(_first(raw, ("no", "id", "themeCode", "sectorCode", "code"), "")).strip()
@@ -104,43 +123,60 @@ class NaverThemeProvider:
                     change_rate=_float(_first(raw, ("changeRate", "fluctuationsRatio", "rate"))),
                     breadth=breadth,
                     trading_value=_float(_first(raw, ("totalAccAmount", "tradeAmount", "tradingValue"))),
+                    stocks=self._leading_stocks(raw.get("leadingItem"), stocks_per_theme),
                 )
             )
 
-        themes.sort(key=lambda item: item.change_rate if item.change_rate is not None else float("-inf"), reverse=True)
-        result: list[Theme] = []
-        for theme in themes[:theme_limit]:
-            url = self.stocks_url_template.format(theme_id=quote(theme.id, safe=""))
-            stocks: list[Stock] = []
-            for raw in _items(self.http.json(url)):
-                code = str(_first(raw, ("itemCode", "itemcode", "stockCode", "symbol", "code"), "")).strip()
-                name = str(_first(raw, ("stockName", "itemName", "itemname", "name", "korName"), "")).strip()
-                if not code or not name:
-                    continue
-                stocks.append(
-                    Stock(
-                        code=code,
-                        name=name,
-                        change_rate=_float(
-                            _first(raw, ("changeRate", "prevChangeRate", "fluctuationsRatio", "rate"))
-                        ),
-                        trade_amount=_float(_first(raw, ("tradeAmount", "accumulatedTradingValue"))),
-                        trade_volume=_float(_first(raw, ("tradeVolume", "accumulatedTradingVolume"))),
-                        previous_volume=_float(_first(raw, ("prevQuant", "previousTradingVolume"))),
-                    )
-                )
-            stocks.sort(key=lambda item: item.change_rate if item.change_rate is not None else float("-inf"), reverse=True)
-            result.append(
-                Theme(
-                    id=theme.id,
-                    name=theme.name,
-                    change_rate=theme.change_rate,
-                    breadth=theme.breadth,
-                    trading_value=theme.trading_value,
-                    stocks=tuple(stocks[:stocks_per_theme]),
+        return themes[:theme_limit]
+
+    def hydrate_theme(self, theme: Theme, stocks_per_theme: int, *, order_type: str = "up") -> Theme:
+        url = _query_url(
+            self.stocks_url_template.format(theme_id=quote(theme.id, safe="")),
+            orderType=order_type,
+            startIdx=0,
+            pageSize=max(stocks_per_theme, 3),
+        )
+        stocks: list[Stock] = []
+        for raw in _items(self.http.json(url)):
+            code = str(_first(raw, ("itemCode", "itemcode", "stockCode", "symbol", "code"), "")).strip()
+            name = str(_first(raw, ("stockName", "itemName", "itemname", "name", "korName"), "")).strip()
+            if not code or not name:
+                continue
+            stocks.append(
+                Stock(
+                    code=code,
+                    name=name,
+                    change_rate=_float(_first(raw, ("changeRate", "prevChangeRate", "fluctuationsRatio", "rate"))),
+                    trade_amount=_float(_first(raw, ("tradeAmount", "accumulatedTradingValue"))),
+                    trade_volume=_float(_first(raw, ("tradeVolume", "accumulatedTradingVolume"))),
+                    previous_volume=_float(_first(raw, ("prevQuant", "previousTradingVolume"))),
                 )
             )
+        stocks.sort(key=lambda item: item.change_rate if item.change_rate is not None else float("-inf"), reverse=True)
+        return Theme(
+            id=theme.id,
+            name=theme.name,
+            change_rate=theme.change_rate,
+            breadth=theme.breadth,
+            trading_value=theme.trading_value,
+            stocks=tuple(stocks[:stocks_per_theme]),
+        )
+
+    def screening_themes(self, theme_limit: int, stocks_per_theme: int) -> list[Theme]:
+        result: list[Theme] = []
+        for theme in self._list_themes(theme_limit):
+            try:
+                hydrated = self.hydrate_theme(theme, stocks_per_theme, order_type="marketSum")
+            except Exception:
+                continue
+            if hydrated.stocks:
+                result.append(hydrated)
         return result
+
+    def top_themes(self, theme_limit: int, stocks_per_theme: int) -> list[Theme]:
+        themes = self._list_themes(theme_limit)
+        themes.sort(key=lambda item: item.change_rate if item.change_rate is not None else float("-inf"), reverse=True)
+        return [self.hydrate_theme(theme, stocks_per_theme) for theme in themes[:theme_limit]]
 
 
 class NaverNewsProvider:
@@ -257,13 +293,25 @@ class KisPreopenProvider:
     token_path = "/oauth2/tokenP"
     quote_path = "/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn"
     quote_tr_id = "FHKST01010200"
+    history_path = "/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice"
+    history_tr_id = "FHKST03010100"
 
-    def __init__(self, http: HttpClient, app_key: str, app_secret: str, base_url: str) -> None:
+    def __init__(
+        self,
+        http: HttpClient,
+        app_key: str,
+        app_secret: str,
+        base_url: str,
+        request_interval_seconds: float = 0.0,
+    ) -> None:
         self.http = http
         self.app_key = app_key
         self.app_secret = app_secret
         self.base_url = base_url.rstrip("/")
+        self.request_interval_seconds = max(0.0, request_interval_seconds)
         self._access_token: str | None = None
+        self._last_request_at = 0.0
+        self._history_cache: dict[tuple[str, date, date], tuple[DailyBar, ...]] = {}
 
     @property
     def enabled(self) -> bool:
@@ -289,6 +337,25 @@ class KisPreopenProvider:
         self._access_token = token
         return token
 
+    def _market_json(self, path: str, tr_id: str, params: dict[str, str]) -> dict[str, Any]:
+        wait = self.request_interval_seconds - (time.monotonic() - self._last_request_at)
+        if wait > 0:
+            time.sleep(wait)
+        payload = self.http.json(
+            f"{self.base_url}{path}?{urlencode(params)}",
+            headers={
+                "authorization": f"Bearer {self._token()}",
+                "appkey": self.app_key,
+                "appsecret": self.app_secret,
+                "tr_id": tr_id,
+                "custtype": "P",
+            },
+        )
+        self._last_request_at = time.monotonic()
+        if str(payload.get("rt_cd", "0")) != "0":
+            raise RuntimeError(f"KIS market data error {payload.get('msg_cd', '')}: {payload.get('msg1', '')}")
+        return payload
+
     @staticmethod
     def _object(value: Any) -> dict[str, Any]:
         if isinstance(value, dict):
@@ -298,19 +365,11 @@ class KisPreopenProvider:
         return {}
 
     def quote(self, stock: Stock) -> PreopenQuote:
-        params = urlencode({"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock.code})
-        payload = self.http.json(
-            f"{self.base_url}{self.quote_path}?{params}",
-            headers={
-                "authorization": f"Bearer {self._token()}",
-                "appkey": self.app_key,
-                "appsecret": self.app_secret,
-                "tr_id": self.quote_tr_id,
-                "custtype": "P",
-            },
+        payload = self._market_json(
+            self.quote_path,
+            self.quote_tr_id,
+            {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock.code},
         )
-        if str(payload.get("rt_cd", "0")) != "0":
-            raise RuntimeError(f"KIS quote error {payload.get('msg_cd', '')}: {payload.get('msg1', '')}")
         orderbook = self._object(payload.get("output1"))
         expected = self._object(payload.get("output2"))
         quote = PreopenQuote(
@@ -323,6 +382,53 @@ class KisPreopenProvider:
         if quote.expected_price is None and quote.expected_change_rate is None:
             raise RuntimeError("KIS response did not include pre-open expected execution data")
         return quote
+
+    def history(self, stock: Stock, start: date, end: date) -> tuple[DailyBar, ...]:
+        cache_key = (stock.code, start, end)
+        if cache_key in self._history_cache:
+            return self._history_cache[cache_key]
+        bars: dict[date, DailyBar] = {}
+        cursor_end = end
+        for _ in range(2):
+            payload = self._market_json(
+                self.history_path,
+                self.history_tr_id,
+                {
+                    "FID_COND_MRKT_DIV_CODE": "J",
+                    "FID_INPUT_ISCD": stock.code,
+                    "FID_INPUT_DATE_1": start.strftime("%Y%m%d"),
+                    "FID_INPUT_DATE_2": cursor_end.strftime("%Y%m%d"),
+                    "FID_PERIOD_DIV_CODE": "D",
+                    "FID_ORG_ADJ_PRC": "0",
+                },
+            )
+            rows = payload.get("output2") if isinstance(payload.get("output2"), list) else []
+            page_dates: list[date] = []
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                try:
+                    day = datetime.strptime(str(row.get("stck_bsop_date", "")), "%Y%m%d").date()
+                except ValueError:
+                    continue
+                open_price = _float(row.get("stck_oprc"))
+                high = _float(row.get("stck_hgpr"))
+                low = _float(row.get("stck_lwpr"))
+                close = _float(row.get("stck_clpr"))
+                volume = _float(row.get("acml_vol"))
+                if None in (open_price, high, low, close, volume) or close <= 0 or low <= 0:
+                    continue
+                bars[day] = DailyBar(day, open_price, high, low, close, volume)
+                page_dates.append(day)
+            if not page_dates or len(rows) < 100:
+                break
+            oldest = min(page_dates)
+            if oldest <= start:
+                break
+            cursor_end = oldest - timedelta(days=1)
+        result = tuple(bars[day] for day in sorted(bars) if start <= day <= end)
+        self._history_cache[cache_key] = result
+        return result
 
 
 class JevEventProvider:
