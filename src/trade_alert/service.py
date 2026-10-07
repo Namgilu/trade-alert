@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 from .models import DailyBar, DailyReport, EventSummary, Stock, StockAnalysis, Theme, ThemeAnalysis, ThemePattern
 from .providers import (
     JevEventProvider,
-    KisPreopenProvider,
+    KiwoomMarketDataProvider,
     NaverNewsProvider,
     NaverThemeProvider,
     OpenDartProvider,
@@ -154,7 +154,7 @@ class MarketAlertService:
         news: NaverNewsProvider,
         dart: OpenDartProvider,
         event_model: JevEventProvider,
-        kis: KisPreopenProvider | None = None,
+        market_data: KiwoomMarketDataProvider | None = None,
         *,
         theme_limit: int,
         theme_candidate_pool: int,
@@ -171,7 +171,7 @@ class MarketAlertService:
         self.news = news
         self.dart = dart
         self.event_model = event_model
-        self.kis = kis
+        self.market_data = market_data
         self.theme_limit = theme_limit
         self.theme_candidate_pool = max(theme_limit, theme_candidate_pool)
         self.theme_scan_limit = max(self.theme_candidate_pool, theme_scan_limit)
@@ -184,8 +184,8 @@ class MarketAlertService:
         self.history_min_bars = history_min_bars
 
     def _screen_candidates(self, now: datetime, warnings: list[str]) -> list[tuple[Theme, ThemePattern]]:
-        if self.kis is None or not self.kis.enabled:
-            raise ValueError("5-month theme screening requires KIS_APP_KEY and KIS_APP_SECRET")
+        if self.market_data is None or not self.market_data.enabled:
+            raise ValueError("5-month theme screening requires KIWOOM_APP_KEY and KIWOOM_APP_SECRET")
         end = now.date() - timedelta(days=1)
         start = end - timedelta(days=self.history_lookback_days)
         raw_patterns: list[tuple[Theme, ThemePattern]] = []
@@ -197,7 +197,7 @@ class MarketAlertService:
             stock_patterns: list[_StockPattern] = []
             for stock in theme.stocks:
                 try:
-                    bars = self.kis.history(stock, start, end)
+                    bars = self.market_data.history(stock, start, end)
                     pattern = _stock_pattern(bars, self.history_min_bars)
                     if pattern is not None:
                         successful_histories += 1
@@ -208,7 +208,7 @@ class MarketAlertService:
                 raw_patterns.append((theme, _theme_pattern(stock_patterns)))
 
         if successful_histories == 0:
-            raise RuntimeError("KIS did not return enough daily history for any theme")
+            raise RuntimeError("Kiwoom did not return enough daily history for any theme")
         eligible = [(theme, pattern) for theme, pattern in raw_patterns if _pattern_is_eligible(pattern)]
         momentum_values = [pattern.peak_return for _, pattern in eligible]
         scored: list[tuple[Theme, ThemePattern]] = []
@@ -253,11 +253,11 @@ class MarketAlertService:
         preopen_quote = None
         if include_preopen:
             try:
-                if self.kis is None:
-                    raise RuntimeError("KIS provider is not configured")
-                preopen_quote = self.kis.quote(stock)
+                if self.market_data is None:
+                    raise RuntimeError("Kiwoom provider is not configured")
+                preopen_quote = self.market_data.quote(stock)
             except Exception as exc:
-                errors.append(f"KIS {type(exc).__name__}: {exc}")
+                errors.append(f"Kiwoom {type(exc).__name__}: {exc}")
         if errors:
             warnings.append(f"{stock.name}: {'; '.join(errors)}")
         return StockAnalysis(
@@ -290,7 +290,7 @@ class MarketAlertService:
         if mode == "preopen" and raw_analyses and not any(
             result.preopen_quote is not None for analysis in raw_analyses for result in analysis.stocks
         ):
-            raise RuntimeError("KIS did not return pre-open expected execution data for any candidate stock")
+            raise RuntimeError("Kiwoom did not return pre-open expected execution data for any candidate stock")
 
         theme_values = [theme.theme.trading_value for theme in raw_analyses if theme.theme.trading_value is not None]
         stock_values = [

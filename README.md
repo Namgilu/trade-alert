@@ -45,7 +45,7 @@ JEV/LLM은 시계열 패턴을 고르는 데 사용하지 않습니다. 정량 �
 
 ### 08:55 장전 중간확정 점수
 
-한국투자 Open API의 KRX 호가/예상체결 조회를 사용합니다. 08:55 값은 09:00 시가가 아니라 동시호가 중간값이므로 `장전 유효`, `장전 주의`, `장전 제외`로만 표시합니다.
+키움증권 REST API의 예상체결가·예상체결수량과 KRX 호가 잔량 조회를 사용합니다. 08:55 값은 09:00 시가가 아니라 동시호가 중간값이므로 `장전 유효`, `장전 주의`, `장전 제외`로만 표시합니다.
 
 ```text
 테마: 5개월 정량 패턴 30% + 상승 예상 종목 비율 20%
@@ -102,8 +102,8 @@ trade-alert --mode confirmation --dry-run
 | `JEV_API_KEY` | 예 | JEV API 키 |
 | `JEV_API_URL`, `JEV_MODEL` | 공급자별 | System One URL과 모델 ID |
 | `DART_API_KEY` | 아니요 | OpenDART 공시 키. 설정하면 공시를 뉴스보다 우선 반영 |
-| `KIS_APP_KEY`, `KIS_APP_SECRET` | 예 | 5개월 일봉과 08:55 예상체결 조회용 한국투자 Open API 키 |
-| `KIS_BASE_URL` | 아니요 | 기본값은 한국투자 실전 Open API 서버 |
+| `KIWOOM_APP_KEY`, `KIWOOM_APP_SECRET` | 예 | 5개월 수정주가 일봉과 08:55 예상체결·호가 조회용 키움 REST API 키 |
+| `KIWOOM_BASE_URL` | 아니요 | 기본값은 키움 실전 서버 `https://api.kiwoom.com` |
 | `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` | 전송 시 | 텔레그램 봇과 수신 대상 |
 
 ## 자동 실행
@@ -114,7 +114,17 @@ GitHub Actions는 한국 영업일 기준으로 세 번 실행됩니다.
 - 08:55 Asia/Seoul: 동시호가 중간확정
 - 09:10 Asia/Seoul: 개장 후 최종확인
 
-`action-env` 환경의 Actions secrets에 필수 키를 등록하십시오. 저장소 secrets를 사용해도 됩니다. `DART_API_KEY`만 선택 사항입니다. Actions 화면의 수동 실행에서는 세 단계 중 하나를 선택할 수 있습니다.
+`action-env` 환경의 Actions secrets에 필수 키를 등록하십시오. 저장소 secrets를 사용해도 됩니다. 기존 `KIS_*` 값은 사용하지 않으며, `KIWOOM_APP_KEY`와 `KIWOOM_APP_SECRET`으로 교체해야 합니다. `DART_API_KEY`만 선택 사항입니다. Actions 화면의 수동 실행에서는 세 단계 중 하나를 선택할 수 있습니다.
+
+GitHub 저장소에서 `Settings → Environments → action-env → Environment secrets`로 이동해 아래 값을 등록합니다.
+
+- `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`
+- `JEV_API_KEY`
+- `KIWOOM_APP_KEY`, `KIWOOM_APP_SECRET`
+- `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
+- 선택: `DART_API_KEY`
+
+실전 키는 기본 주소를 그대로 사용합니다. 모의투자 키로 조회를 검증하려면 같은 화면의 `Environment variables`에 `KIWOOM_BASE_URL=https://mockapi.kiwoom.com`을 추가해야 하며, 운영 키와 모의 키를 섞어 쓰면 안 됩니다. 비밀값은 저장소 파일이나 Actions variable이 아니라 secret에 넣습니다.
 
 ## 테스트
 
@@ -126,8 +136,8 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 
 - 뉴스 검색은 네이버 공식 Search API를 사용합니다.
 - 공시는 금융감독원 OpenDART API를 사용합니다.
-- 최근 5개월 일봉은 한국투자 Open API의 수정주가를 사용합니다. 같은 대표 종목이 여러 테마에 겹치면 한 실행 안에서 조회 결과를 재사용합니다.
-- 08:55 예상체결과 호가 잔량은 한국투자 Open API를 사용합니다. 예상체결 데이터가 한 종목도 없으면 잘못된 중간확정 알림 대신 실행을 실패시킵니다.
+- 최근 5개월 일봉은 키움 `ka10081`의 수정주가를 사용합니다. 같은 대표 종목이 여러 테마에 겹치면 한 실행 안에서 조회 결과를 재사용합니다.
+- 08:55에는 키움 `ka10001`의 예상체결가·수량과 `ka10004`의 총매수·총매도 잔량을 결합합니다. 예상체결 데이터가 한 종목도 없으면 잘못된 중간확정 알림 대신 실행을 실패시킵니다.
 - 테마와 구성 종목은 네이버 증권 웹 화면의 미문서화된 읽기 전용 응답이므로 변경될 수 있습니다.
 - 종목별 데이터 오류는 다른 종목 분석을 중단시키지 않고 텔레그램 하단에 실패 건수로 표시합니다.
 - GitHub Actions 예약 실행은 혼잡 시 몇 분 지연될 수 있습니다.

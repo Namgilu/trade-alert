@@ -27,9 +27,9 @@ env:
   JEV_API_URL: ${{ vars.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone' }}
   JEV_MODEL: ${{ vars.JEV_MODEL || 'jev-latest' }}
   DART_API_KEY: ${{ secrets.DART_API_KEY }}
-  KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
-  KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
-  KIS_BASE_URL: ${{ vars.KIS_BASE_URL || 'https://openapi.koreainvestment.com:9443' }}
+  KIWOOM_APP_KEY: ${{ secrets.KIWOOM_APP_KEY }}
+  KIWOOM_APP_SECRET: ${{ secrets.KIWOOM_APP_SECRET }}
+  KIWOOM_BASE_URL: ${{ vars.KIWOOM_BASE_URL || 'https://api.kiwoom.com' }}
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
