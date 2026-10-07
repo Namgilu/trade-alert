@@ -7,7 +7,7 @@ from .config import Settings
 from .http import HttpClient
 from .providers import (
     JevEventProvider,
-    KiwoomMarketDataProvider,
+    KisMarketDataProvider,
     NaverNewsProvider,
     NaverThemeProvider,
     OpenDartProvider,
@@ -38,12 +38,12 @@ def main(argv: list[str] | None = None) -> int:
             NaverNewsProvider(http, settings.naver_client_id, settings.naver_client_secret),
             OpenDartProvider(http, settings.dart_api_key),
             JevEventProvider(http, settings.jev_api_url, settings.jev_api_key, settings.jev_model),
-            KiwoomMarketDataProvider(
+            KisMarketDataProvider(
                 http,
-                settings.kiwoom_app_key,
-                settings.kiwoom_app_secret,
-                settings.kiwoom_base_url,
-                request_interval_seconds=0.2,
+                settings.kis_app_key,
+                settings.kis_app_secret,
+                settings.kis_base_url,
+                request_interval_seconds=0.06,
             ),
             theme_limit=settings.theme_limit,
             theme_candidate_pool=settings.theme_candidate_pool,

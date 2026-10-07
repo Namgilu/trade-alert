@@ -289,14 +289,12 @@ class OpenDartProvider:
         return events
 
 
-class KiwoomMarketDataProvider:
-    token_path = "/oauth2/token"
-    stock_info_path = "/api/dostk/stkinfo"
-    stock_info_api_id = "ka10001"
-    orderbook_path = "/api/dostk/mrkcond"
-    orderbook_api_id = "ka10004"
-    history_path = "/api/dostk/chart"
-    history_api_id = "ka10081"
+class KisMarketDataProvider:
+    token_path = "/oauth2/tokenP"
+    quote_path = "/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn"
+    quote_tr_id = "FHKST01010200"
+    history_path = "/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice"
+    history_tr_id = "FHKST03010100"
 
     def __init__(
         self,
@@ -323,113 +321,116 @@ class KiwoomMarketDataProvider:
         if self._access_token:
             return self._access_token
         if not self.enabled:
-            raise RuntimeError("Kiwoom market data requires KIWOOM_APP_KEY and KIWOOM_APP_SECRET")
+            raise RuntimeError("KIS market data requires KIS_APP_KEY and KIS_APP_SECRET")
         payload = self.http.json(
             f"{self.base_url}{self.token_path}",
             method="POST",
-            headers={"Content-Type": "application/json;charset=UTF-8"},
             body={
                 "grant_type": "client_credentials",
                 "appkey": self.app_key,
-                "secretkey": self.app_secret,
+                "appsecret": self.app_secret,
             },
         )
-        if str(payload.get("return_code", "0")) != "0":
-            raise RuntimeError(f"Kiwoom access token error: {payload.get('return_msg') or 'unknown error'}")
-        token = str(payload.get("token", "")).strip()
+        token = str(payload.get("access_token", "")).strip()
         if not token:
-            raise RuntimeError(f"Kiwoom access token error: {payload.get('return_msg') or 'empty token'}")
+            raise RuntimeError(
+                f"KIS access token error: "
+                f"{payload.get('error_description') or payload.get('msg1') or 'empty token'}"
+            )
         self._access_token = token
         return token
 
-    def _market_json(self, path: str, api_id: str, body: dict[str, str]) -> dict[str, Any]:
+    def _market_json(self, path: str, tr_id: str, params: dict[str, str]) -> dict[str, Any]:
         wait = self.request_interval_seconds - (time.monotonic() - self._last_request_at)
         if wait > 0:
             time.sleep(wait)
         payload = self.http.json(
-            f"{self.base_url}{path}",
-            method="POST",
+            f"{self.base_url}{path}?{urlencode(params)}",
             headers={
                 "authorization": f"Bearer {self._token()}",
-                "api-id": api_id,
-                "cont-yn": "N",
-                "next-key": "",
-                "Content-Type": "application/json;charset=UTF-8",
+                "appkey": self.app_key,
+                "appsecret": self.app_secret,
+                "tr_id": tr_id,
+                "custtype": "P",
             },
-            body=body,
         )
         self._last_request_at = time.monotonic()
-        if str(payload.get("return_code", "0")) != "0":
+        if str(payload.get("rt_cd", "0")) != "0":
             raise RuntimeError(
-                f"Kiwoom market data error {payload.get('return_code', '')}: {payload.get('return_msg', '')}"
+                f"KIS market data error {payload.get('msg_cd', '')}: {payload.get('msg1', '')}"
             )
         return payload
 
     @staticmethod
-    def _magnitude(value: Any) -> float | None:
-        number = _float(value)
-        return abs(number) if number is not None else None
+    def _object(value: Any) -> dict[str, Any]:
+        if isinstance(value, dict):
+            return value
+        if isinstance(value, list) and value and isinstance(value[0], dict):
+            return value[0]
+        return {}
 
     def quote(self, stock: Stock) -> PreopenQuote:
-        stock_info = self._market_json(
-            self.stock_info_path,
-            self.stock_info_api_id,
-            {"stk_cd": stock.code},
+        payload = self._market_json(
+            self.quote_path,
+            self.quote_tr_id,
+            {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock.code},
         )
-        orderbook = self._market_json(
-            self.orderbook_path,
-            self.orderbook_api_id,
-            {"stk_cd": stock.code},
-        )
-        expected_price = self._magnitude(stock_info.get("exp_cntr_pric"))
-        base_price = self._magnitude(stock_info.get("base_pric"))
-        expected_change_rate = None
-        if expected_price is not None and expected_price > 0 and base_price is not None and base_price > 0:
-            expected_change_rate = (expected_price / base_price - 1.0) * 100.0
-        elif expected_price is not None and expected_price > 0:
-            expected_change_rate = _float(stock_info.get("flu_rt"))
+        orderbook = self._object(payload.get("output1"))
+        expected = self._object(payload.get("output2"))
         quote = PreopenQuote(
-            expected_price=expected_price,
-            expected_change_rate=expected_change_rate,
-            expected_volume=self._magnitude(stock_info.get("exp_cntr_qty")),
-            total_ask_volume=self._magnitude(orderbook.get("tot_sel_req")),
-            total_bid_volume=self._magnitude(orderbook.get("tot_buy_req")),
+            expected_price=_float(_first(expected, ("antc_cnpr", "stck_prpr"))),
+            expected_change_rate=_float(_first(expected, ("antc_cntg_prdy_ctrt", "prdy_ctrt"))),
+            expected_volume=_float(_first(expected, ("antc_vol", "antc_cnqn"))),
+            total_ask_volume=_float(orderbook.get("total_askp_rsqn")),
+            total_bid_volume=_float(orderbook.get("total_bidp_rsqn")),
         )
-        if quote.expected_price is None or quote.expected_price <= 0:
-            raise RuntimeError("Kiwoom response did not include pre-open expected execution data")
+        if quote.expected_price is None and quote.expected_change_rate is None:
+            raise RuntimeError("KIS response did not include pre-open expected execution data")
         return quote
 
     def history(self, stock: Stock, start: date, end: date) -> tuple[DailyBar, ...]:
         cache_key = (stock.code, start, end)
         if cache_key in self._history_cache:
             return self._history_cache[cache_key]
-        payload = self._market_json(
-            self.history_path,
-            self.history_api_id,
-            {
-                "stk_cd": stock.code,
-                "base_dt": end.strftime("%Y%m%d"),
-                "upd_stkpc_tp": "1",
-            },
-        )
-        rows = payload.get("stk_dt_pole_chart_qry")
-        rows = rows if isinstance(rows, list) else []
         bars: dict[date, DailyBar] = {}
-        for row in rows:
-            if not isinstance(row, dict):
-                continue
-            try:
-                day = datetime.strptime(str(row.get("dt", "")), "%Y%m%d").date()
-            except ValueError:
-                continue
-            open_price = self._magnitude(row.get("open_pric"))
-            high = self._magnitude(row.get("high_pric"))
-            low = self._magnitude(row.get("low_pric"))
-            close = self._magnitude(row.get("cur_prc"))
-            volume = self._magnitude(row.get("trde_qty"))
-            if None in (open_price, high, low, close, volume) or close <= 0 or low <= 0:
-                continue
-            bars[day] = DailyBar(day, open_price, high, low, close, volume)
+        cursor_end = end
+        for _ in range(2):
+            payload = self._market_json(
+                self.history_path,
+                self.history_tr_id,
+                {
+                    "FID_COND_MRKT_DIV_CODE": "J",
+                    "FID_INPUT_ISCD": stock.code,
+                    "FID_INPUT_DATE_1": start.strftime("%Y%m%d"),
+                    "FID_INPUT_DATE_2": cursor_end.strftime("%Y%m%d"),
+                    "FID_PERIOD_DIV_CODE": "D",
+                    "FID_ORG_ADJ_PRC": "0",
+                },
+            )
+            rows = payload.get("output2") if isinstance(payload.get("output2"), list) else []
+            page_dates: list[date] = []
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                try:
+                    day = datetime.strptime(str(row.get("stck_bsop_date", "")), "%Y%m%d").date()
+                except ValueError:
+                    continue
+                open_price = _float(row.get("stck_oprc"))
+                high = _float(row.get("stck_hgpr"))
+                low = _float(row.get("stck_lwpr"))
+                close = _float(row.get("stck_clpr"))
+                volume = _float(row.get("acml_vol"))
+                if None in (open_price, high, low, close, volume) or close <= 0 or low <= 0:
+                    continue
+                bars[day] = DailyBar(day, open_price, high, low, close, volume)
+                page_dates.append(day)
+            if not page_dates or len(rows) < 100:
+                break
+            oldest = min(page_dates)
+            if oldest <= start:
+                break
+            cursor_end = oldest - timedelta(days=1)
         result = tuple(bars[day] for day in sorted(bars) if start <= day <= end)
         self._history_cache[cache_key] = result
         return result

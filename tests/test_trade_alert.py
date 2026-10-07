@@ -21,7 +21,7 @@ from trade_alert.models import (
     ThemeAnalysis,
     ThemePattern,
 )
-from trade_alert.providers import KiwoomMarketDataProvider, JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
+from trade_alert.providers import KisMarketDataProvider, JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
 from trade_alert.service import MarketAlertService, format_report
 
 
@@ -156,69 +156,56 @@ class OpenDartProviderTest(unittest.TestCase):
         self.assertIn("202610070001", result[0].url)
 
 
-class KiwoomMarketDataProviderTest(unittest.TestCase):
+class KisMarketDataProviderTest(unittest.TestCase):
     def test_gets_token_once_and_parses_expected_execution(self):
         http = FakeHttp(
             [
+                {"access_token": "token"},
                 {
-                    "token": "token",
-                    "expires_dt": "20261007235959",
-                    "return_code": 0,
+                    "rt_cd": "0",
+                    "output1": {"total_askp_rsqn": "1000", "total_bidp_rsqn": "2500"},
+                    "output2": {
+                        "antc_cnpr": "72100",
+                        "antc_cntg_prdy_ctrt": "3.15",
+                        "antc_vol": "123456",
+                    },
                 },
-                {
-                    "return_code": 0,
-                    "exp_cntr_pric": "+72100",
-                    "exp_cntr_qty": "123456",
-                    "base_pric": "69900",
-                    "flu_rt": "+3.15",
-                },
-                {"return_code": 0, "tot_sel_req": "1000", "tot_buy_req": "2500"},
             ]
         )
-        provider = KiwoomMarketDataProvider(http, "app-key", "app-secret", "https://kiwoom.example")
+        provider = KisMarketDataProvider(http, "app-key", "app-secret", "https://kis.example")
         quote = provider.quote(Stock("005930", "삼성전자"))
         self.assertEqual(quote.expected_price, 72100)
         self.assertEqual(quote.expected_volume, 123456)
-        self.assertAlmostEqual(quote.expected_change_rate, (72100 / 69900 - 1) * 100)
         self.assertEqual(quote.bid_ask_ratio, 2.5)
-        self.assertEqual(http.calls[0][0], "https://kiwoom.example/oauth2/token")
-        self.assertEqual(http.calls[0][1]["body"]["secretkey"], "app-secret")
-        self.assertEqual(http.calls[1][0], "https://kiwoom.example/api/dostk/stkinfo")
-        self.assertEqual(http.calls[1][1]["method"], "POST")
-        self.assertEqual(http.calls[1][1]["body"], {"stk_cd": "005930"})
-        self.assertEqual(http.calls[1][1]["headers"]["api-id"], "ka10001")
+        self.assertIn("FID_INPUT_ISCD=005930", http.calls[1][0])
+        self.assertEqual(http.calls[1][1]["headers"]["tr_id"], "FHKST01010200")
         self.assertEqual(http.calls[1][1]["headers"]["authorization"], "Bearer token")
-        self.assertEqual(http.calls[2][1]["headers"]["api-id"], "ka10004")
 
     def test_parses_adjusted_daily_history(self):
         http = FakeHttp(
             [
-                {"token": "token", "expires_dt": "20261007235959", "return_code": 0},
+                {"access_token": "token"},
                 {
-                    "return_code": 0,
-                    "stk_dt_pole_chart_qry": [
+                    "rt_cd": "0",
+                    "output2": [
                         {
-                            "dt": "20261006",
-                            "open_pric": "-70000",
-                            "high_pric": "+72000",
-                            "low_pric": "-69000",
-                            "cur_prc": "+71000",
-                            "trde_qty": "123456",
+                            "stck_bsop_date": "20261006",
+                            "stck_oprc": "70000",
+                            "stck_hgpr": "72000",
+                            "stck_lwpr": "69000",
+                            "stck_clpr": "71000",
+                            "acml_vol": "123456",
                         }
                     ],
                 },
             ]
         )
-        provider = KiwoomMarketDataProvider(http, "app-key", "app-secret", "https://kiwoom.example")
+        provider = KisMarketDataProvider(http, "app-key", "app-secret", "https://kis.example")
         bars = provider.history(Stock("005930", "삼성전자"), date(2026, 5, 1), date(2026, 10, 6))
         self.assertEqual(len(bars), 1)
         self.assertEqual(bars[0].close, 71000)
-        self.assertEqual(bars[0].low, 69000)
-        self.assertEqual(http.calls[1][1]["headers"]["api-id"], "ka10081")
-        self.assertEqual(
-            http.calls[1][1]["body"],
-            {"stk_cd": "005930", "base_dt": "20261006", "upd_stkpc_tp": "1"},
-        )
+        self.assertIn("FID_ORG_ADJ_PRC=0", http.calls[1][0])
+        self.assertEqual(http.calls[1][1]["headers"]["tr_id"], "FHKST03010100")
         cached = provider.history(Stock("005930", "삼성전자"), date(2026, 5, 1), date(2026, 10, 6))
         self.assertIs(cached, bars)
         self.assertEqual(len(http.calls), 2)
@@ -331,7 +318,7 @@ class ServiceScoringTest(unittest.TestCase):
         report = service.run("premarket", now)
         self.assertEqual(report.themes, ())
 
-    def test_preopen_requires_kiwoom_credentials(self):
+    def test_preopen_requires_kis_credentials(self):
         class DisabledMarketData:
             enabled = False
 
@@ -339,7 +326,7 @@ class ServiceScoringTest(unittest.TestCase):
             None, None, None, None, DisabledMarketData(), theme_limit=1, theme_candidate_pool=1,
             stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
         )
-        with self.assertRaisesRegex(ValueError, "KIWOOM_APP_KEY"):
+        with self.assertRaisesRegex(ValueError, "KIS_APP_KEY"):
             service.run("preopen")
 
 
@@ -395,8 +382,8 @@ class SettingsTest(unittest.TestCase):
         self.assertEqual(settings.stocks_per_theme, 3)
         self.assertEqual(settings.max_events_per_stock, 10)
         self.assertEqual(settings.dart_api_key, "")
-        self.assertEqual(settings.kiwoom_app_key, "")
-        self.assertEqual(settings.kiwoom_base_url, "https://api.kiwoom.com")
+        self.assertEqual(settings.kis_app_key, "")
+        self.assertEqual(settings.kis_base_url, "https://openapi.koreainvestment.com:9443")
         self.assertEqual(settings.history_min_bars, 80)
 
 
