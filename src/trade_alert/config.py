@@ -30,6 +30,9 @@ class Settings:
     jev_api_url: str
     jev_model: str
     dart_api_key: str
+    kis_app_key: str
+    kis_app_secret: str
+    kis_base_url: str
     telegram_bot_token: str
     telegram_chat_id: str
     theme_limit: int
@@ -53,6 +56,9 @@ class Settings:
             jev_api_url=os.getenv("JEV_API_URL", "https://api.typesafe.ai/v1/systemone"),
             jev_model=os.getenv("JEV_MODEL", "jev-latest"),
             dart_api_key=os.getenv("DART_API_KEY", "").strip(),
+            kis_app_key=os.getenv("KIS_APP_KEY", "").strip(),
+            kis_app_secret=os.getenv("KIS_APP_SECRET", "").strip(),
+            kis_base_url=os.getenv("KIS_BASE_URL", "https://openapi.koreainvestment.com:9443").strip(),
             telegram_bot_token=token,
             telegram_chat_id=chat_id,
             theme_limit=min(_positive_int("THEME_LIMIT", 3), 3),

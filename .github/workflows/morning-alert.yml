@@ -1,9 +1,11 @@
-name: Korean market two-stage alert
+name: Korean market three-stage alert
 
 on:
   schedule:
     # 07:30 Asia/Seoul, Monday-Friday (UTC Sunday-Thursday)
     - cron: "30 22 * * 0-4"
+    # 08:55 Asia/Seoul, Monday-Friday (UTC Sunday-Thursday)
+    - cron: "55 23 * * 0-4"
     # 09:10 Asia/Seoul, Monday-Friday
     - cron: "10 0 * * 1-5"
   workflow_dispatch:
@@ -15,6 +17,7 @@ on:
         type: choice
         options:
           - premarket
+          - preopen
           - confirmation
 
 env:
@@ -24,6 +27,9 @@ env:
   JEV_API_URL: ${{ vars.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone' }}
   JEV_MODEL: ${{ vars.JEV_MODEL || 'jev-latest' }}
   DART_API_KEY: ${{ secrets.DART_API_KEY }}
+  KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+  KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+  KIS_BASE_URL: ${{ vars.KIS_BASE_URL || 'https://openapi.koreainvestment.com:9443' }}
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
@@ -40,6 +46,19 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install .
       - run: trade-alert --mode premarket
+
+  preopen:
+    if: github.event.schedule == '55 23 * * 0-4' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'preopen')
+    runs-on: ubuntu-latest
+    environment: action-env
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install .
+      - run: trade-alert --mode preopen
 
   confirmation:
     if: github.event.schedule == '10 0 * * 1-5' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'confirmation')

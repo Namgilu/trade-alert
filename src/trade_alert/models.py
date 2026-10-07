@@ -64,6 +64,36 @@ class EventSummary:
 
 
 @dataclass(frozen=True)
+class PreopenQuote:
+    expected_price: float | None = None
+    expected_change_rate: float | None = None
+    expected_volume: float | None = None
+    total_ask_volume: float | None = None
+    total_bid_volume: float | None = None
+
+    @property
+    def expected_trade_amount(self) -> float | None:
+        if self.expected_price is None or self.expected_volume is None:
+            return None
+        return self.expected_price * self.expected_volume
+
+    @property
+    def bid_ask_ratio(self) -> float | None:
+        if self.total_bid_volume is None or not self.total_ask_volume:
+            return None
+        return self.total_bid_volume / self.total_ask_volume
+
+    @property
+    def order_imbalance(self) -> float | None:
+        if self.total_bid_volume is None or self.total_ask_volume is None:
+            return None
+        total = self.total_bid_volume + self.total_ask_volume
+        if total <= 0:
+            return None
+        return (self.total_bid_volume - self.total_ask_volume) / total
+
+
+@dataclass(frozen=True)
 class StockAnalysis:
     stock: Stock
     event_summary: EventSummary | None
@@ -71,6 +101,7 @@ class StockAnalysis:
     score: float = 0.0
     signal: str = "관망"
     error: str | None = None
+    preopen_quote: PreopenQuote | None = None
 
 
 @dataclass(frozen=True)

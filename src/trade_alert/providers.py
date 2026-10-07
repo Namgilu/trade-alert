@@ -13,7 +13,7 @@ from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
 
 from .http import HttpClient
-from .models import EventSummary, MarketEvent, Stock, Theme
+from .models import EventSummary, MarketEvent, PreopenQuote, Stock, Theme
 
 
 _TAG_RE = re.compile(r"<[^>]+>")
@@ -251,6 +251,78 @@ class OpenDartProvider:
                 )
             )
         return events
+
+
+class KisPreopenProvider:
+    token_path = "/oauth2/tokenP"
+    quote_path = "/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn"
+    quote_tr_id = "FHKST01010200"
+
+    def __init__(self, http: HttpClient, app_key: str, app_secret: str, base_url: str) -> None:
+        self.http = http
+        self.app_key = app_key
+        self.app_secret = app_secret
+        self.base_url = base_url.rstrip("/")
+        self._access_token: str | None = None
+
+    @property
+    def enabled(self) -> bool:
+        return bool(self.app_key and self.app_secret)
+
+    def _token(self) -> str:
+        if self._access_token:
+            return self._access_token
+        if not self.enabled:
+            raise RuntimeError("08:55 preopen mode requires KIS_APP_KEY and KIS_APP_SECRET")
+        payload = self.http.json(
+            f"{self.base_url}{self.token_path}",
+            method="POST",
+            body={
+                "grant_type": "client_credentials",
+                "appkey": self.app_key,
+                "appsecret": self.app_secret,
+            },
+        )
+        token = str(payload.get("access_token", "")).strip()
+        if not token:
+            raise RuntimeError(f"KIS access token error: {payload.get('error_description') or payload.get('msg1') or 'empty token'}")
+        self._access_token = token
+        return token
+
+    @staticmethod
+    def _object(value: Any) -> dict[str, Any]:
+        if isinstance(value, dict):
+            return value
+        if isinstance(value, list) and value and isinstance(value[0], dict):
+            return value[0]
+        return {}
+
+    def quote(self, stock: Stock) -> PreopenQuote:
+        params = urlencode({"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock.code})
+        payload = self.http.json(
+            f"{self.base_url}{self.quote_path}?{params}",
+            headers={
+                "authorization": f"Bearer {self._token()}",
+                "appkey": self.app_key,
+                "appsecret": self.app_secret,
+                "tr_id": self.quote_tr_id,
+                "custtype": "P",
+            },
+        )
+        if str(payload.get("rt_cd", "0")) != "0":
+            raise RuntimeError(f"KIS quote error {payload.get('msg_cd', '')}: {payload.get('msg1', '')}")
+        orderbook = self._object(payload.get("output1"))
+        expected = self._object(payload.get("output2"))
+        quote = PreopenQuote(
+            expected_price=_float(_first(expected, ("antc_cnpr", "stck_prpr"))),
+            expected_change_rate=_float(_first(expected, ("antc_cntg_prdy_ctrt", "prdy_ctrt"))),
+            expected_volume=_float(_first(expected, ("antc_vol", "antc_cnqn"))),
+            total_ask_volume=_float(orderbook.get("total_askp_rsqn")),
+            total_bid_volume=_float(orderbook.get("total_bidp_rsqn")),
+        )
+        if quote.expected_price is None and quote.expected_change_rate is None:
+            raise RuntimeError("KIS response did not include pre-open expected execution data")
+        return quote
 
 
 class JevEventProvider:
