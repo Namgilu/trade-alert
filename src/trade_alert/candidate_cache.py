@@ -8,7 +8,7 @@ from typing import Any
 from .models import Stock, Theme, ThemePattern
 
 
-CACHE_VERSION = 1
+CACHE_VERSION = 2
 
 
 def _number(value: Any, field: str) -> float:

@@ -73,8 +73,8 @@ class Settings:
             news_per_stock=min(_positive_int("NEWS_PER_STOCK", 10), 100),
             max_events_per_stock=min(_positive_int("MAX_EVENTS_PER_STOCK", 5), 10),
             news_lookback_hours=_positive_int("NEWS_LOOKBACK_HOURS", 24),
-            history_lookback_days=_positive_int("HISTORY_LOOKBACK_DAYS", 180),
-            history_min_bars=_positive_int("HISTORY_MIN_BARS", 80),
+            history_lookback_days=_positive_int("HISTORY_LOOKBACK_DAYS", 100),
+            history_min_bars=_positive_int("HISTORY_MIN_BARS", 50),
             http_timeout_seconds=_positive_int("HTTP_TIMEOUT_SECONDS", 20),
             theme_list_url=os.getenv(
                 "THEME_LIST_URL",

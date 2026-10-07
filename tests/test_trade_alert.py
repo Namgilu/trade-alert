@@ -53,14 +53,14 @@ class FakeDartHttp:
 def consolidation_bars() -> tuple[DailyBar, ...]:
     bars = []
     start = date(2026, 5, 1)
-    for index in range(100):
-        if index < 20:
-            close = 100.0 + 100.0 * index / 19.0
-        elif index < 40:
-            close = 200.0 - 20.0 * (index - 19) / 20.0
+    for index in range(65):
+        if index < 15:
+            close = 100.0 + 100.0 * index / 14.0
+        elif index < 30:
+            close = 200.0 - 20.0 * (index - 14) / 15.0
         else:
-            close = 180.0
-        volume = 400_000.0 if index >= 90 else 1_000_000.0
+            close = 181.0
+        volume = 400_000.0 if index >= 55 else 1_000_000.0
         bars.append(DailyBar(start + timedelta(days=index), close, close * 1.01, close * 0.99, close, volume))
     return tuple(bars)
 
@@ -415,7 +415,7 @@ class FormattingTest(unittest.TestCase):
         self.assertIn("08:55 장전 중간확정", message)
         self.assertIn("예상 +3.15%", message)
         self.assertIn("매수/매도 잔량비 2.50배", message)
-        self.assertIn("5개월 고점상승 +65.0%", message)
+        self.assertIn("3개월 고점상승 +65.0%", message)
         self.assertIn("하락거래량비 0.55", message)
         self.assertIn("09:10 최종 확인 전 중간 신호", message)
 
@@ -442,7 +442,8 @@ class SettingsTest(unittest.TestCase):
         self.assertEqual(settings.dart_api_key, "")
         self.assertEqual(settings.kis_app_key, "")
         self.assertEqual(settings.kis_base_url, "https://openapi.koreainvestment.com:9443")
-        self.assertEqual(settings.history_min_bars, 80)
+        self.assertEqual(settings.history_lookback_days, 100)
+        self.assertEqual(settings.history_min_bars, 50)
 
 
 if __name__ == "__main__":

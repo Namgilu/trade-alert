@@ -62,7 +62,7 @@ class _StockPattern:
 def _stock_pattern(bars: tuple[DailyBar, ...], min_bars: int) -> _StockPattern | None:
     if len(bars) < min_bars:
         return None
-    sample = bars[-110:]
+    sample = bars[-65:]
     start_close = sample[0].close
     current_close = sample[-1].close
     peak_close = max(bar.close for bar in sample)
@@ -164,8 +164,8 @@ class MarketAlertService:
         news_lookback_hours: int,
         theme_scan_limit: int = 100,
         theme_screen_stocks: int = 3,
-        history_lookback_days: int = 180,
-        history_min_bars: int = 80,
+        history_lookback_days: int = 100,
+        history_min_bars: int = 50,
     ) -> None:
         self.themes = themes
         self.news = news
@@ -185,7 +185,7 @@ class MarketAlertService:
 
     def _screen_candidates(self, now: datetime, warnings: list[str]) -> list[tuple[Theme, ThemePattern]]:
         if self.market_data is None or not self.market_data.enabled:
-            raise ValueError("5-month theme screening requires KIS_APP_KEY and KIS_APP_SECRET")
+            raise ValueError("3-month theme screening requires KIS_APP_KEY and KIS_APP_SECRET")
         end = now.date() - timedelta(days=1)
         start = end - timedelta(days=self.history_lookback_days)
         raw_patterns: list[tuple[Theme, ThemePattern]] = []
@@ -477,7 +477,7 @@ def _event_lines(summary: EventSummary | None) -> list[str]:
 
 def format_report(report: DailyReport) -> str:
     if report.mode == "premarket":
-        lines = [f"🌅 {report.generated_at:%Y-%m-%d} 07:30 5개월 조정 후보", ""]
+        lines = [f"🌅 {report.generated_at:%Y-%m-%d} 07:30 3개월 조정 후보", ""]
     elif report.mode == "preopen":
         lines = [f"⏱️ {report.generated_at:%Y-%m-%d} 08:55 장전 중간확정", ""]
     else:
@@ -493,7 +493,7 @@ def format_report(report: DailyReport) -> str:
         if analysis.pattern:
             pattern = analysis.pattern
             lines.append(
-                f"   5개월 고점상승 {pattern.peak_return:+.1f}% · 고점대비 {pattern.drawdown:+.1f}%"
+                f"   3개월 고점상승 {pattern.peak_return:+.1f}% · 고점대비 {pattern.drawdown:+.1f}%"
             )
             lines.append(
                 f"   15일 변동폭 {pattern.consolidation_range:.1f}% · 하락거래량비 {pattern.down_volume_ratio:.2f}"
@@ -533,7 +533,7 @@ def format_report(report: DailyReport) -> str:
     if report.warnings:
         lines.append(f"⚠️ 일부 데이터 처리 실패: {len(report.warnings)}건")
     if report.mode == "premarket":
-        lines.append("※ 5개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.")
+        lines.append("※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.")
     elif report.mode == "preopen":
         lines.append("※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.")
     else:

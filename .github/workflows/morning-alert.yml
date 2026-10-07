@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
 
   preopen:
     if: github.event.schedule == '55 23 * * 0-4' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'preopen')
@@ -70,14 +70,14 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
       - run: python -m pip install .
       - run: trade-alert --mode preopen --candidate-file .cache/candidates.json
       - if: always() && steps.candidate-cache.outputs.cache-hit != 'true' && hashFiles('.cache/candidates.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
 
   confirmation:
     if: github.event.schedule == '10 0 * * 1-5' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'confirmation')
@@ -95,11 +95,11 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
       - run: python -m pip install .
       - run: trade-alert --mode confirmation --candidate-file .cache/candidates.json
       - if: always() && steps.candidate-cache.outputs.cache-hit != 'true' && hashFiles('.cache/candidates.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
-          key: trade-alert-candidates-${{ steps.market-date.outputs.value }}
+          key: trade-alert-candidates-v2-${{ steps.market-date.outputs.value }}
