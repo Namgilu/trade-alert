@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
 
+from .candidate_cache import load_candidates, save_candidates
 from .config import Settings
 from .http import HttpClient
 from .providers import (
@@ -25,6 +29,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="07:30 candidate discovery, 08:55 pre-open checkpoint, or 09:10 market confirmation",
     )
     parser.add_argument("--dry-run", action="store_true", help="print the report without sending Telegram")
+    parser.add_argument(
+        "--candidate-file",
+        help="reuse the 07:30 candidate snapshot for later stages",
+    )
     return parser
 
 
@@ -56,7 +64,28 @@ def main(argv: list[str] | None = None) -> int:
             history_lookback_days=settings.history_lookback_days,
             history_min_bars=settings.history_min_bars,
         )
-        message = format_report(service.run(args.mode))
+        now = datetime.now(ZoneInfo("Asia/Seoul"))
+        candidate_path = Path(args.candidate_file) if args.candidate_file else None
+        screened = None
+        screening_warnings: tuple[str, ...] = ()
+        if candidate_path is not None and args.mode != "premarket" and candidate_path.exists():
+            try:
+                screened = load_candidates(candidate_path, now.date())
+            except (OSError, ValueError) as exc:
+                print(f"candidate cache ignored: {exc}", file=sys.stderr)
+        if screened is None:
+            screened, screening_warnings = service.screen_candidates(now)
+            if candidate_path is not None:
+                save_candidates(candidate_path, now.date(), screened)
+
+        message = format_report(
+            service.run(
+                args.mode,
+                now,
+                screened_candidates=screened,
+                screening_warnings=screening_warnings,
+            )
+        )
         print(message)
         if not args.dry_run:
             TelegramNotifier(http, settings.telegram_bot_token, settings.telegram_chat_id).send(message)

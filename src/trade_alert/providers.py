@@ -173,6 +173,10 @@ class NaverThemeProvider:
                 result.append(hydrated)
         return result
 
+    def refresh_themes(self, themes: list[Theme], universe_limit: int) -> list[Theme]:
+        current = {theme.id: theme for theme in self._list_themes(universe_limit)}
+        return [current.get(theme.id, theme) for theme in themes]
+
     def top_themes(self, theme_limit: int, stocks_per_theme: int) -> list[Theme]:
         themes = self._list_themes(theme_limit)
         themes.sort(key=lambda item: item.change_rate if item.change_rate is not None else float("-inf"), reverse=True)

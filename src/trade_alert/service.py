@@ -225,6 +225,12 @@ class MarketAlertService:
         scored.sort(key=lambda item: item[1].score, reverse=True)
         return scored[: self.theme_candidate_pool]
 
+    def screen_candidates(
+        self, now: datetime
+    ) -> tuple[list[tuple[Theme, ThemePattern]], tuple[str, ...]]:
+        warnings: list[str] = []
+        return self._screen_candidates(now, warnings), tuple(warnings)
+
     def _analyze_stock(
         self,
         stock: Stock,
@@ -269,12 +275,32 @@ class MarketAlertService:
             preopen_quote=preopen_quote,
         )
 
-    def run(self, mode: str, now: datetime | None = None) -> DailyReport:
+    def run(
+        self,
+        mode: str,
+        now: datetime | None = None,
+        *,
+        screened_candidates: list[tuple[Theme, ThemePattern]] | None = None,
+        screening_warnings: tuple[str, ...] = (),
+    ) -> DailyReport:
         if mode not in {"premarket", "preopen", "confirmation"}:
             raise ValueError("mode must be premarket, preopen, or confirmation")
         now = now or datetime.now(ZoneInfo("Asia/Seoul"))
-        warnings: list[str] = []
-        screened = self._screen_candidates(now, warnings)
+        warnings = list(screening_warnings)
+        screened = screened_candidates
+        if screened is None:
+            screened = self._screen_candidates(now, warnings)
+        elif mode == "confirmation":
+            try:
+                refreshed = self.themes.refresh_themes(
+                    [theme for theme, _ in screened], self.theme_scan_limit
+                )
+                screened = [
+                    (refreshed_theme, pattern)
+                    for refreshed_theme, (_, pattern) in zip(refreshed, screened)
+                ]
+            except Exception as exc:
+                warnings.append(f"테마 당일지표 {type(exc).__name__}: {exc}")
         raw_analyses: list[ThemeAnalysis] = []
         for screening_theme, pattern in screened:
             try:

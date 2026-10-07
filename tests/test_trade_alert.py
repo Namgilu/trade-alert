@@ -2,13 +2,16 @@ from __future__ import annotations
 
 import io
 import os
+import tempfile
 import unittest
 import zipfile
 from datetime import date, datetime, timedelta
+from pathlib import Path
 from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 from trade_alert.config import Settings
+from trade_alert.candidate_cache import load_candidates, save_candidates
 from trade_alert.models import (
     DailyReport,
     DailyBar,
@@ -211,7 +214,62 @@ class KisMarketDataProviderTest(unittest.TestCase):
         self.assertEqual(len(http.calls), 2)
 
 
+class CandidateCacheTest(unittest.TestCase):
+    def test_round_trips_candidates_and_rejects_another_market_date(self):
+        market_date = date(2026, 10, 7)
+        theme = Theme("10", "반도체", 2.5, 0.75, 1_000, (Stock("005930", "삼성전자"),))
+        pattern = ThemePattern(65, -12, 8, 0.55, 0.75, 84)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "candidates.json"
+            save_candidates(path, market_date, [(theme, pattern)])
+            loaded = load_candidates(path, market_date)
+            self.assertEqual(loaded, [(theme, pattern)])
+            with self.assertRaisesRegex(ValueError, "today's Korean market date"):
+                load_candidates(path, market_date + timedelta(days=1))
+
+
 class ServiceScoringTest(unittest.TestCase):
+    def test_preopen_reuses_screened_candidates_without_history_calls(self):
+        now = datetime(2026, 10, 7, 8, 55, tzinfo=ZoneInfo("Asia/Seoul"))
+        stock = Stock("005930", "삼성전자", 3.0)
+        theme = Theme("1", "반도체", 2.0, 0.8, 1_000, (stock,))
+        pattern = ThemePattern(65, -12, 8, 0.55, 0.75, 84)
+
+        class Themes:
+            def screening_themes(self, *_):
+                raise AssertionError("cached run must not screen all themes")
+
+            def hydrate_theme(self, value, *_):
+                return value
+
+        class News:
+            def recent(self, *_):
+                return []
+
+        class Dart:
+            enabled = False
+
+        class Model:
+            def analyze(self, *_):
+                raise AssertionError("no events means no JEV call")
+
+        class MarketData:
+            enabled = True
+
+            def history(self, *_):
+                raise AssertionError("cached run must not request history")
+
+            def quote(self, *_):
+                return PreopenQuote(72_000, 2.0, 100_000, 100_000, 200_000)
+
+        service = MarketAlertService(
+            Themes(), News(), Dart(), Model(), MarketData(), theme_limit=1, theme_candidate_pool=1,
+            stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
+        )
+        report = service.run("preopen", now, screened_candidates=[(theme, pattern)])
+        self.assertEqual(report.themes[0].pattern, pattern)
+        self.assertIsNotNone(report.themes[0].stocks[0].preopen_quote)
+
     def test_confirmation_requires_market_and_event_strength(self):
         now = datetime(2026, 10, 7, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
         stock = Stock("005930", "삼성전자", 7.0, 50_000_000_000, 200_000, 1_000_000)
