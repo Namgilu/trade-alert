@@ -1,0 +1,51 @@
+name: Korean market 07:30 premarket alert
+
+on:
+  workflow_dispatch:
+
+env:
+  NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+  NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+  JEV_API_KEY: ${{ secrets.JEV_API_KEY }}
+  JEV_API_URL: ${{ vars.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone' }}
+  JEV_MODEL: ${{ vars.JEV_MODEL || 'jev-latest' }}
+  DART_API_KEY: ${{ secrets.DART_API_KEY }}
+  KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+  KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+  KIS_BASE_URL: ${{ vars.KIS_BASE_URL || 'https://openapi.koreainvestment.com:9443' }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+permissions:
+  contents: read
+
+jobs:
+  premarket:
+    runs-on: ubuntu-latest
+    environment: action-env
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out accumulated theme data
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: .theme-data
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: market-date
+        run: echo "value=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
+      - run: python -m pip install .
+      - run: trade-alert --mode premarket --candidate-file .cache/candidates.json --history-file .theme-data/state/theme-history.json
+      - if: success() && hashFiles('.theme-data/state/theme-history.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: .theme-data/state/theme-history.json
+          key: trade-alert-history-handoff-v1-${{ steps.market-date.outputs.value }}
+      - if: always() && hashFiles('.cache/candidates.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/candidates.json
+          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}

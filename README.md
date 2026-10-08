@@ -114,12 +114,30 @@ trade-alert --mode collect --history-repository /path/to/data-branch-checkout
 
 ## 자동 실행
 
-GitHub Actions는 세 번의 알림과 한 번의 데이터 적재를 실행합니다. 07:30 후보는 한국 날짜별 Actions 캐시에 저장하고 08:55와 09:10이 재사용합니다. 첫날 중복 초기화를 막기 위한 07:30 상태도 16:10까지 당일 캐시로 전달합니다. 장기 테마 이력은 휘발될 수 있는 Actions 캐시 대신 저장소의 `data` 브랜치에 누적합니다.
+GitHub Actions는 세 번의 알림을 독립된 `workflow_dispatch` 워크플로로 실행하고, 데이터 적재는 별도 워크플로로 관리합니다. 07:30 후보는 한국 날짜별 Actions 캐시에 저장하고 08:55와 09:10이 재사용합니다. 첫날 중복 초기화를 막기 위한 07:30 상태도 16:10까지 당일 캐시로 전달합니다. 장기 테마 이력은 휘발될 수 있는 Actions 캐시 대신 저장소의 `data` 브랜치에 누적합니다.
 
-- 07:30 Asia/Seoul: 장전 후보
-- 08:55 Asia/Seoul: 동시호가 중간확정
-- 09:10 Asia/Seoul: 개장 후 최종확인
-- 16:10 Asia/Seoul: 당일 테마 거래대금·등락률·확산도 적재
+- `premarket-alert.yml`: 07:30 Asia/Seoul 장전 후보
+- `preopen-alert.yml`: 08:55 Asia/Seoul 동시호가 중간확정
+- `confirmation-alert.yml`: 09:10 Asia/Seoul 개장 후 최종확인
+- `theme-data-collect.yml`: 16:10 Asia/Seoul 당일 테마 거래대금·등락률·확산도 적재
+
+세 알림 워크플로에는 GitHub cron을 두지 않았습니다. 정시성이 필요한 외부 스케줄러가 아래 워크플로의 `workflow_dispatch`를 순서대로 호출해야 합니다. 요청 본문은 모두 `{"ref":"main"}`이며 별도 입력은 없습니다.
+
+```text
+POST /repos/Namgilu/trade-alert/actions/workflows/premarket-alert.yml/dispatches
+POST /repos/Namgilu/trade-alert/actions/workflows/preopen-alert.yml/dispatches
+POST /repos/Namgilu/trade-alert/actions/workflows/confirmation-alert.yml/dispatches
+```
+
+GitHub CLI로 직접 실행할 때는 다음과 같습니다.
+
+```bash
+gh workflow run premarket-alert.yml --ref main
+gh workflow run preopen-alert.yml --ref main
+gh workflow run confirmation-alert.yml --ref main
+```
+
+호출 순서는 반드시 07:30 → 08:55 → 09:10으로 유지합니다. 16:10 데이터 적재는 시간 지연에 민감하지 않아 GitHub cron과 수동 `workflow_dispatch`를 함께 유지합니다.
 
 첫날 07:30 적재는 네이버 테마 목록·구성 종목 최대 101회와 한국투자 토큰·대표주 일봉 최대 301회로 총 402회가 발생하고, 16:10에는 전달받은 상태에 네이버 테마 목록 1회만 추가하므로 일일 최대 403회입니다. 이후 16:10 적재는 네이버 테마 목록 1회만 사용합니다. 정상 운영 시 한국투자 API는 08:55 예상체결 조회의 최대 16회만 발생합니다. 누적 데이터가 없거나 손상된 경우에는 3개월 초기 적재를 다시 수행해 자동 복구합니다.
 
