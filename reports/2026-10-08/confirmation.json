@@ -1,7 +1,7 @@
 {
   "version": 1,
   "market_date": "2026-10-08",
-  "generated_at": "2026-10-08T12:09:18.332059+09:00",
+  "generated_at": "2026-10-08T13:35:39.527281+09:00",
   "mode": "confirmation",
   "themes": [
     {
@@ -10,7 +10,7 @@
       "change_rate": null,
       "breadth": null,
       "trading_value": null,
-      "score": 0.0,
+      "score": null,
       "pattern": {
         "peak_return": 44.19266355522804,
         "drawdown": -8.766236453201959,
@@ -22,8 +22,55 @@
         "days_since_turnover_spike": 21,
         "turnover_cooldown_ratio": 0.32425972091470795
       },
-      "stocks": [],
-      "data_error": true
+      "stocks": [
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": 0.32,
+          "trade_amount": 16345000000.0,
+          "trade_volume": 87524.0,
+          "previous_volume": 154047.0,
+          "relative_volume": 0.568164261556538,
+          "score": 56.367787400167614,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": 2.68,
+          "trade_amount": 975000000.0,
+          "trade_volume": 428394.0,
+          "previous_volume": 653767.0,
+          "relative_volume": 0.655270149762836,
+          "score": 43.692756582244485,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": -0.29,
+          "trade_amount": 57000000.0,
+          "trade_volume": 16789.0,
+          "previous_volume": 21906.0,
+          "relative_volume": 0.7664110289418424,
+          "score": 37.305030329869844,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
     },
     {
       "id": "283",
@@ -31,7 +78,7 @@
       "change_rate": null,
       "breadth": null,
       "trading_value": null,
-      "score": 0.0,
+      "score": null,
       "pattern": {
         "peak_return": 26.818181818181806,
         "drawdown": -17.844654303672524,
@@ -43,8 +90,77 @@
         "days_since_turnover_spike": 30,
         "turnover_cooldown_ratio": 0.19290704519162183
       },
-      "stocks": [],
-      "data_error": true
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": -2.85,
+          "trade_amount": 32025000000.0,
+          "trade_volume": 116807.0,
+          "previous_volume": 171805.0,
+          "relative_volume": 0.6798812607316435,
+          "score": 67.91855203619909,
+          "signal": "관심 유지",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": -2.26,
+          "trade_amount": 7839000000.0,
+          "trade_volume": 1502177.0,
+          "previous_volume": 1649470.0,
+          "relative_volume": 0.9107028318187054,
+          "score": 42.319630921414806,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -1.37,
+          "trade_amount": 1191000000.0,
+          "trade_volume": 82451.0,
+          "previous_volume": 88345.0,
+          "relative_volume": 0.9332842832078782,
+          "score": 36.48702017511418,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": -1.2871845812601936,
+            "direction": "중립",
+            "relevance": 0.44,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "short_term",
+            "confidence": 0.77,
+            "event_count": 1,
+            "primary_event": {
+              "title": "주식등의대량보유상황보고서(일반)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261007000475",
+              "published_at": "2026-10-07T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "주식등의대량보유상황보고서(일반)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261007000475",
+              "published_at": "2026-10-07T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
     },
     {
       "id": "108",
@@ -52,7 +168,7 @@
       "change_rate": null,
       "breadth": null,
       "trading_value": null,
-      "score": 0.0,
+      "score": null,
       "pattern": {
         "peak_return": 20.463784183296397,
         "drawdown": -9.900876585928497,
@@ -64,16 +180,63 @@
         "days_since_turnover_spike": 28,
         "turnover_cooldown_ratio": 0.15935956687970373
       },
-      "stocks": [],
-      "data_error": true
+      "stocks": [
+        {
+          "code": "142760",
+          "name": "모아라이프플러스",
+          "change_rate": 9.66,
+          "trade_amount": 829965000.0,
+          "trade_volume": 1538573.0,
+          "previous_volume": 143793.0,
+          "relative_volume": 10.699915851258407,
+          "score": 56.166329286924615,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "086060",
+          "name": "진바이오텍",
+          "change_rate": 2.42,
+          "trade_amount": 85470000.0,
+          "trade_volume": 17007.0,
+          "previous_volume": 13615.0,
+          "relative_volume": 1.2491369812706574,
+          "score": 42.24139791618048,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "261780",
+          "name": "아리바이오랩",
+          "change_rate": 1.5,
+          "trade_amount": 876151000.0,
+          "trade_volume": 241217.0,
+          "previous_volume": 462864.0,
+          "relative_volume": 0.5211401189118186,
+          "score": 41.44802188521999,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
     },
     {
       "id": "48",
       "name": "영화",
-      "change_rate": 0.5,
-      "breadth": 0.3333333333333333,
-      "trading_value": 6746663.0,
-      "score": 47.779499585915914,
+      "change_rate": 0.83,
+      "breadth": 0.4166666666666667,
+      "trading_value": 8809753.0,
+      "score": 49.91542466258508,
       "pattern": {
         "peak_return": 21.064814814814813,
         "drawdown": -11.048820089152011,
@@ -90,12 +253,12 @@
           "code": "086980",
           "name": "쇼박스",
           "change_rate": 14.56,
-          "trade_amount": 2534020000.0,
-          "trade_volume": 1318314.0,
+          "trade_amount": 3021385000.0,
+          "trade_volume": 1566103.0,
           "previous_volume": 43052.0,
-          "relative_volume": 30.62143454427204,
-          "score": 84.66692493788739,
-          "signal": "거래 확인",
+          "relative_volume": 36.377009198178946,
+          "score": 57.80553817656227,
+          "signal": "관망",
           "event_summary": null,
           "events": [],
           "preopen_quote": null,
@@ -104,21 +267,21 @@
         {
           "code": "035620",
           "name": "바른손이앤에이",
-          "change_rate": 4.51,
-          "trade_amount": 123644000.0,
-          "trade_volume": 197829.0,
+          "change_rate": 4.34,
+          "trade_amount": 161047000.0,
+          "trade_volume": 257114.0,
           "previous_volume": 160651.0,
-          "relative_volume": 1.2314209061879478,
-          "score": 46.55155656677629,
+          "relative_volume": 1.6004506663512832,
+          "score": 45.295412365885845,
           "signal": "관망",
           "event_summary": {
-            "score": -13.412376676612004,
+            "score": -14.956872076461424,
             "direction": "중립",
-            "relevance": 0.56,
+            "relevance": 0.57,
             "confirmed": 0.9,
             "event_type": "market_commentary",
             "horizon": "open",
-            "confidence": 0.39,
+            "confidence": 0.42,
             "event_count": 2,
             "primary_event": {
               "title": "기타시장안내              (주가 미달에 따른 상장폐지 우려 관련 안내)",
@@ -148,11 +311,11 @@
           "code": "037760",
           "name": "쎄니트",
           "change_rate": 0.8,
-          "trade_amount": 11236000.0,
-          "trade_volume": 4482.0,
+          "trade_amount": 14271000.0,
+          "trade_volume": 5686.0,
           "previous_volume": 11616.0,
-          "relative_volume": 0.38584710743801653,
-          "score": 40.513078784041234,
+          "relative_volume": 0.48949724517906334,
+          "score": 40.83346754554161,
           "signal": "신호 무효",
           "event_summary": null,
           "events": [],
@@ -160,7 +323,8 @@
           "has_error": true
         }
       ],
-      "data_error": false
+      "data_error": false,
+      "summary_unavailable": false
     },
     {
       "id": "105",
@@ -168,7 +332,7 @@
       "change_rate": null,
       "breadth": null,
       "trading_value": null,
-      "score": 0.0,
+      "score": null,
       "pattern": {
         "peak_return": 22.110264863021477,
         "drawdown": -9.47859680284191,
@@ -180,10 +344,57 @@
         "days_since_turnover_spike": 21,
         "turnover_cooldown_ratio": 0.25437786094274367
       },
-      "stocks": [],
-      "data_error": true
+      "stocks": [
+        {
+          "code": "179530",
+          "name": "애드바이오텍",
+          "change_rate": 3.17,
+          "trade_amount": 503808000.0,
+          "trade_volume": 225500.0,
+          "previous_volume": 114472.0,
+          "relative_volume": 1.9699140401146131,
+          "score": 44.06011153775337,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "368970",
+          "name": "오에스피",
+          "change_rate": 0.83,
+          "trade_amount": 35645000.0,
+          "trade_volume": 14780.0,
+          "previous_volume": 15103.0,
+          "relative_volume": 0.9786135204926174,
+          "score": 39.3086342366493,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "018620",
+          "name": "우진비앤지",
+          "change_rate": 0.74,
+          "trade_amount": 23108000.0,
+          "trade_volume": 8703.0,
+          "previous_volume": 7732.0,
+          "relative_volume": 1.1255819968960166,
+          "score": 39.13191537009032,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
     }
   ],
-  "warning_count": 8,
-  "telegram_text": "🔔 2026-10-08 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n2. 생명보험 · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n3. 백신/진단시약/방역(신종플루, AI 등) · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n4. 영화 · 강도 48/100\n   등락 +0.50% · 확산도 33%\n   3개월 고점상승 +21.1% · 고점대비 -11.0%\n   15일 변동폭 15.8% · 하락거래대금비 0.52 · 60일선 상회 100%\n   거래대금 최대 2.6배 · 폭발 후 39거래일 · 현재/고점 0.19배\n   1) 쇼박스(086980) · 거래 확인 85\n     등락 +14.56% · 거래대금 25억 · 전일거래량 대비 30.62배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 바른손이앤에이(035620) · 관망 47\n     등락 +4.51% · 거래대금 1억 · 전일거래량 대비 1.23배\n     이벤트: 중립 -13 · 시황·반복보도 · 시초가\n     핵심 공시: 기타시장안내              (주가 미달에 따른 상장폐지 우려 관련 안내)\n   3) 쎄니트(037760) · 신호 무효 41\n     등락 +0.80% · 거래대금 0억 · 전일거래량 대비 0.39배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n5. 사료 · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n⚠️ 일부 데이터 처리 실패: 8건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+  "warning_count": 16,
+  "telegram_text": "🔔 2026-10-08 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +44.2% · 고점대비 -8.8%\n   15일 변동폭 9.6% · 하락거래대금비 0.64 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 21거래일 · 현재/고점 0.32배\n   1) DB손해보험(005830) · 관망 56\n     등락 +0.32% · 거래대금 163억 · 전일거래량 대비 0.57배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 롯데손해보험(000400) · 신호 무효 44\n     등락 +2.68% · 거래대금 10억 · 전일거래량 대비 0.66배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 흥국화재(000540) · 신호 무효 37\n     등락 -0.29% · 거래대금 1억 · 전일거래량 대비 0.77배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 생명보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +26.8% · 고점대비 -17.8%\n   15일 변동폭 12.2% · 하락거래대금비 0.48 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 30거래일 · 현재/고점 0.19배\n   1) 삼성생명(032830) · 관심 유지 68\n     등락 -2.85% · 거래대금 320억 · 전일거래량 대비 0.68배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 한화생명(088350) · 신호 무효 42\n     등락 -2.26% · 거래대금 78억 · 전일거래량 대비 0.91배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 36\n     등락 -1.37% · 거래대금 12억 · 전일거래량 대비 0.93배\n     이벤트: 중립 -1 · 지분·경영권 · 단기\n     핵심 공시: 주식등의대량보유상황보고서(일반)\n\n3. 백신/진단시약/방역(신종플루, AI 등) · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +20.5% · 고점대비 -9.9%\n   15일 변동폭 13.2% · 하락거래대금비 0.39 · 60일선 상회 100%\n   거래대금 최대 6.6배 · 폭발 후 28거래일 · 현재/고점 0.16배\n   1) 모아라이프플러스(142760) · 관망 56\n     등락 +9.66% · 거래대금 8억 · 전일거래량 대비 10.70배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 진바이오텍(086060) · 신호 무효 42\n     등락 +2.42% · 거래대금 1억 · 전일거래량 대비 1.25배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 아리바이오랩(261780) · 신호 무효 41\n     등락 +1.50% · 거래대금 9억 · 전일거래량 대비 0.52배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n4. 영화 · 강도 50/100\n   등락 +0.83% · 확산도 42%\n   3개월 고점상승 +21.1% · 고점대비 -11.0%\n   15일 변동폭 15.8% · 하락거래대금비 0.52 · 60일선 상회 100%\n   거래대금 최대 2.6배 · 폭발 후 39거래일 · 현재/고점 0.19배\n   1) 쇼박스(086980) · 관망 58\n     등락 +14.56% · 거래대금 30억 · 전일거래량 대비 36.38배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 바른손이앤에이(035620) · 관망 45\n     등락 +4.34% · 거래대금 2억 · 전일거래량 대비 1.60배\n     이벤트: 중립 -15 · 시황·반복보도 · 시초가\n     핵심 공시: 기타시장안내              (주가 미달에 따른 상장폐지 우려 관련 안내)\n   3) 쎄니트(037760) · 신호 무효 41\n     등락 +0.80% · 거래대금 0억 · 전일거래량 대비 0.49배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n5. 사료 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +22.1% · 고점대비 -9.5%\n   15일 변동폭 9.2% · 하락거래대금비 0.97 · 60일선 상회 100%\n   거래대금 최대 2.5배 · 폭발 후 21거래일 · 현재/고점 0.25배\n   1) 애드바이오텍(179530) · 신호 무효 44\n     등락 +3.17% · 거래대금 5억 · 전일거래량 대비 1.97배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 오에스피(368970) · 신호 무효 39\n     등락 +0.83% · 거래대금 0억 · 전일거래량 대비 0.98배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 우진비앤지(018620) · 신호 무효 39\n     등락 +0.74% · 거래대금 0억 · 전일거래량 대비 1.13배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 16건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
 }
