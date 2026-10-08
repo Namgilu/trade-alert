@@ -1,0 +1,189 @@
+{
+  "version": 1,
+  "market_date": "2026-10-08",
+  "generated_at": "2026-10-08T12:09:18.332059+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": 0.0,
+      "pattern": {
+        "peak_return": 44.19266355522804,
+        "drawdown": -8.766236453201959,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.643574272949907,
+        "trend_breadth": 1.0,
+        "score": 65.77292885024592,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 21,
+        "turnover_cooldown_ratio": 0.32425972091470795
+      },
+      "stocks": [],
+      "data_error": true
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": 0.0,
+      "pattern": {
+        "peak_return": 26.818181818181806,
+        "drawdown": -17.844654303672524,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.477049429032393,
+        "trend_breadth": 1.0,
+        "score": 62.30149617639377,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      },
+      "stocks": [],
+      "data_error": true
+    },
+    {
+      "id": "108",
+      "name": "백신/진단시약/방역(신종플루, AI 등)",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": 0.0,
+      "pattern": {
+        "peak_return": 20.463784183296397,
+        "drawdown": -9.900876585928497,
+        "consolidation_range": 13.194444444444464,
+        "down_volume_ratio": 0.3943957895676562,
+        "trend_breadth": 1.0,
+        "score": 61.60730872741253,
+        "turnover_spike_ratio": 6.643257107021263,
+        "days_since_turnover_spike": 28,
+        "turnover_cooldown_ratio": 0.15935956687970373
+      },
+      "stocks": [],
+      "data_error": true
+    },
+    {
+      "id": "48",
+      "name": "영화",
+      "change_rate": 0.5,
+      "breadth": 0.3333333333333333,
+      "trading_value": 6746663.0,
+      "score": 47.779499585915914,
+      "pattern": {
+        "peak_return": 21.064814814814813,
+        "drawdown": -11.048820089152011,
+        "consolidation_range": 15.835777126099714,
+        "down_volume_ratio": 0.517505315171856,
+        "trend_breadth": 1.0,
+        "score": 50.28790843508703,
+        "turnover_spike_ratio": 2.604168481723275,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.19294092307736324
+      },
+      "stocks": [
+        {
+          "code": "086980",
+          "name": "쇼박스",
+          "change_rate": 14.56,
+          "trade_amount": 2534020000.0,
+          "trade_volume": 1318314.0,
+          "previous_volume": 43052.0,
+          "relative_volume": 30.62143454427204,
+          "score": 84.66692493788739,
+          "signal": "거래 확인",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "035620",
+          "name": "바른손이앤에이",
+          "change_rate": 4.51,
+          "trade_amount": 123644000.0,
+          "trade_volume": 197829.0,
+          "previous_volume": 160651.0,
+          "relative_volume": 1.2314209061879478,
+          "score": 46.55155656677629,
+          "signal": "관망",
+          "event_summary": {
+            "score": -13.412376676612004,
+            "direction": "중립",
+            "relevance": 0.56,
+            "confirmed": 0.9,
+            "event_type": "market_commentary",
+            "horizon": "open",
+            "confidence": 0.39,
+            "event_count": 2,
+            "primary_event": {
+              "title": "기타시장안내              (주가 미달에 따른 상장폐지 우려 관련 안내)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261007900727",
+              "published_at": "2026-10-07T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "기타시장안내",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261007900754",
+              "published_at": "2026-10-07T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "기타시장안내              (주가 미달에 따른 상장폐지 우려 관련 안내)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261007900727",
+              "published_at": "2026-10-07T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "037760",
+          "name": "쎄니트",
+          "change_rate": 0.8,
+          "trade_amount": 11236000.0,
+          "trade_volume": 4482.0,
+          "previous_volume": 11616.0,
+          "relative_volume": 0.38584710743801653,
+          "score": 40.513078784041234,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false
+    },
+    {
+      "id": "105",
+      "name": "사료",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": 0.0,
+      "pattern": {
+        "peak_return": 22.110264863021477,
+        "drawdown": -9.47859680284191,
+        "consolidation_range": 9.201213346814985,
+        "down_volume_ratio": 0.9734106081038747,
+        "trend_breadth": 1.0,
+        "score": 46.899327127603215,
+        "turnover_spike_ratio": 2.5306472716332964,
+        "days_since_turnover_spike": 21,
+        "turnover_cooldown_ratio": 0.25437786094274367
+      },
+      "stocks": [],
+      "data_error": true
+    }
+  ],
+  "warning_count": 8,
+  "telegram_text": "🔔 2026-10-08 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n2. 생명보험 · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n3. 백신/진단시약/방역(신종플루, AI 등) · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n4. 영화 · 강도 48/100\n   등락 +0.50% · 확산도 33%\n   3개월 고점상승 +21.1% · 고점대비 -11.0%\n   15일 변동폭 15.8% · 하락거래대금비 0.52 · 60일선 상회 100%\n   거래대금 최대 2.6배 · 폭발 후 39거래일 · 현재/고점 0.19배\n   1) 쇼박스(086980) · 거래 확인 85\n     등락 +14.56% · 거래대금 25억 · 전일거래량 대비 30.62배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 바른손이앤에이(035620) · 관망 47\n     등락 +4.51% · 거래대금 1억 · 전일거래량 대비 1.23배\n     이벤트: 중립 -13 · 시황·반복보도 · 시초가\n     핵심 공시: 기타시장안내              (주가 미달에 따른 상장폐지 우려 관련 안내)\n   3) 쎄니트(037760) · 신호 무효 41\n     등락 +0.80% · 거래대금 0억 · 전일거래량 대비 0.39배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n5. 사료 · 데이터 확인 실패\n   당일 추적 테마 유지 · 이번 단계 평가 불가\n\n⚠️ 일부 데이터 처리 실패: 8건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
