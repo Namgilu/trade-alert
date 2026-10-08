@@ -158,7 +158,7 @@ function renderStage(stage, report) {
   header.append(
     node("time", "stage-time", stage.time),
     title,
-    node("span", "status-pill", report ? "실시간 아님" : "결과 대기"),
+    node("span", "status-pill", report ? "분석 스냅샷" : "결과 대기"),
     toggleControl,
   );
   section.append(header);
