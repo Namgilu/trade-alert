@@ -1,0 +1,176 @@
+{
+  "version": 4,
+  "market_date": "2026-10-08",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 1.26,
+        "breadth": 0.75,
+        "trading_value": 90362000.0,
+        "stocks": [
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          },
+          {
+            "code": "005830",
+            "name": "DB손해보험"
+          },
+          {
+            "code": "000540",
+            "name": "흥국화재"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 44.19266355522804,
+        "drawdown": -8.766236453201959,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.643574272949907,
+        "trend_breadth": 1.0,
+        "score": 65.77292885024592,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 21,
+        "turnover_cooldown_ratio": 0.32425972091470795
+      }
+    },
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": 2.46,
+        "breadth": 0.75,
+        "trading_value": 72614000.0,
+        "stocks": [
+          {
+            "code": "003690",
+            "name": "코리안리"
+          },
+          {
+            "code": "088350",
+            "name": "한화생명"
+          },
+          {
+            "code": "032830",
+            "name": "삼성생명"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 26.818181818181806,
+        "drawdown": -17.844654303672524,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.477049429032393,
+        "trend_breadth": 1.0,
+        "score": 62.30149617639377,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      }
+    },
+    {
+      "theme": {
+        "id": "108",
+        "name": "백신/진단시약/방역(신종플루, AI 등)",
+        "change_rate": 2.38,
+        "breadth": 0.7380952380952381,
+        "trading_value": 263158464.0,
+        "stocks": [
+          {
+            "code": "142760",
+            "name": "모아라이프플러스"
+          },
+          {
+            "code": "086060",
+            "name": "진바이오텍"
+          },
+          {
+            "code": "206650",
+            "name": "유바이오로직스"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 20.463784183296397,
+        "drawdown": -9.900876585928497,
+        "consolidation_range": 13.194444444444464,
+        "down_volume_ratio": 0.3943957895676562,
+        "trend_breadth": 1.0,
+        "score": 61.60730872741253,
+        "turnover_spike_ratio": 6.643257107021263,
+        "days_since_turnover_spike": 28,
+        "turnover_cooldown_ratio": 0.15935956687970373
+      }
+    },
+    {
+      "theme": {
+        "id": "48",
+        "name": "영화",
+        "change_rate": 0.85,
+        "breadth": 0.5833333333333334,
+        "trading_value": 20422919.0,
+        "stocks": [
+          {
+            "code": "086980",
+            "name": "쇼박스"
+          },
+          {
+            "code": "035620",
+            "name": "바른손이앤에이"
+          },
+          {
+            "code": "037760",
+            "name": "쎄니트"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.064814814814813,
+        "drawdown": -11.048820089152011,
+        "consolidation_range": 15.835777126099714,
+        "down_volume_ratio": 0.517505315171856,
+        "trend_breadth": 1.0,
+        "score": 50.28790843508703,
+        "turnover_spike_ratio": 2.604168481723275,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.19294092307736324
+      }
+    },
+    {
+      "theme": {
+        "id": "105",
+        "name": "사료",
+        "change_rate": 1.42,
+        "breadth": 0.6666666666666666,
+        "trading_value": 4769245.0,
+        "stocks": [
+          {
+            "code": "368970",
+            "name": "오에스피"
+          },
+          {
+            "code": "025880",
+            "name": "케이씨피드"
+          },
+          {
+            "code": "060590",
+            "name": "씨티씨바이오"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 22.110264863021477,
+        "drawdown": -9.47859680284191,
+        "consolidation_range": 9.201213346814985,
+        "down_volume_ratio": 0.9734106081038747,
+        "trend_breadth": 1.0,
+        "score": 46.899327127603215,
+        "turnover_spike_ratio": 2.5306472716332964,
+        "days_since_turnover_spike": 21,
+        "turnover_cooldown_ratio": 0.25437786094274367
+      }
+    }
+  ]
+}
