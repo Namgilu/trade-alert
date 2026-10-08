@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import base64
 import json
 import os
 import tempfile
@@ -13,6 +14,7 @@ from zoneinfo import ZoneInfo
 
 from trade_alert.config import Settings
 from trade_alert.candidate_cache import load_candidates, save_candidates
+from trade_alert.github_repository import GitHubRepository
 from trade_alert.models import (
     DailyReport,
     DailyBar,
@@ -26,6 +28,8 @@ from trade_alert.models import (
     ThemePattern,
 )
 from trade_alert.providers import KisMarketDataProvider, JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
+from trade_alert.report_store import save_report
+from trade_alert.scheduler import WORKFLOW_SCHEDULES
 from trade_alert.service import MarketAlertService, format_report
 from trade_alert.theme_history import ThemeDailyPoint, ThemeHistoryStore, ThemeSeries
 
@@ -537,6 +541,82 @@ class FormattingTest(unittest.TestCase):
         self.assertIn("거래대금 최대 3.2배", message)
         self.assertIn("폭발 후 20거래일", message)
         self.assertIn("09:10 최종 확인 전 중간 신호", message)
+
+
+class ReportStoreTest(unittest.TestCase):
+    def test_saves_web_report_without_detailed_provider_errors(self):
+        now = datetime(2026, 10, 7, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        event = MarketEvent("공급계약", "not persisted", "https://example.com/news", now, "news")
+        summary = EventSummary(72, 0.9, 1.0, "contract", "open", 0.9, 1, event)
+        stock = StockAnalysis(
+            Stock("005930", "삼성전자", 4.2, 42_000_000_000, 150_000, 1_000_000),
+            summary,
+            (event,),
+            81,
+            "거래 확인",
+            "DART request contained secret-key",
+        )
+        report = DailyReport(
+            now,
+            "confirmation",
+            (ThemeAnalysis(Theme("1", "반도체", 3.2, 0.8, 1000), (stock,), 84),),
+            ("provider URL contained secret-key",),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "reports" / "2026-10-07" / "confirmation.json"
+            save_report(path, report, "telegram output")
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(payload["warning_count"], 1)
+        self.assertNotIn("warnings", payload)
+        self.assertTrue(payload["themes"][0]["stocks"][0]["has_error"])
+        self.assertNotIn("error", payload["themes"][0]["stocks"][0])
+        self.assertEqual(payload["themes"][0]["stocks"][0]["events"][0]["title"], "공급계약")
+        self.assertNotIn("description", payload["themes"][0]["stocks"][0]["events"][0])
+
+
+class GitHubRepositoryTest(unittest.TestCase):
+    class Http:
+        def __init__(self, responses=()):
+            self.responses = iter(responses)
+            self.calls = []
+
+        def json(self, url, **kwargs):
+            self.calls.append(("json", url, kwargs))
+            return next(self.responses)
+
+        def bytes(self, url, **kwargs):
+            self.calls.append(("bytes", url, kwargs))
+            return b""
+
+    def test_dispatches_named_workflow(self):
+        http = self.Http()
+        repository = GitHubRepository(http, "Namgilu/trade-alert", "token")
+        repository.dispatch("preopen")
+        kind, url, kwargs = http.calls[0]
+        self.assertEqual(kind, "bytes")
+        self.assertTrue(url.endswith("/actions/workflows/preopen-alert.yml/dispatches"))
+        self.assertEqual(kwargs["body"], {"ref": "main"})
+
+    def test_loads_reports_from_data_branch(self):
+        report = {"market_date": "2026-10-07", "generated_at": "2026-10-07T09:10:00+09:00", "mode": "confirmation"}
+        blob = base64.b64encode(json.dumps(report).encode()).decode()
+        http = self.Http(
+            [
+                {"truncated": False, "tree": [{"type": "blob", "path": "reports/2026-10-07/confirmation.json", "sha": "abc"}]},
+                {"encoding": "base64", "content": blob},
+            ]
+        )
+        repository = GitHubRepository(http, "Namgilu/trade-alert", "token")
+        self.assertEqual(repository.reports(5), [report])
+        self.assertIn("/git/trees/data?recursive=1", http.calls[0][1])
+
+
+class SchedulerTest(unittest.TestCase):
+    def test_has_three_korean_market_dispatches(self):
+        self.assertEqual(
+            [(item.mode, item.hour, item.minute) for item in WORKFLOW_SCHEDULES],
+            [("premarket", 7, 30), ("preopen", 8, 55), ("confirmation", 9, 10)],
+        )
 
 
 class SettingsTest(unittest.TestCase):

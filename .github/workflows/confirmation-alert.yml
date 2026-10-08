@@ -17,15 +17,24 @@ env:
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   confirmation:
     runs-on: ubuntu-latest
     environment: action-env
     timeout-minutes: 15
+    concurrency:
+      group: trade-alert-data-branch
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
+      - name: Check out accumulated theme data
+        id: theme-data
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: .theme-data
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -37,9 +46,31 @@ jobs:
           path: .cache/candidates.json
           key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
       - run: python -m pip install .
-      - run: trade-alert --mode confirmation --candidate-file .cache/candidates.json
+      - name: Analyze and notify
+        env:
+          MARKET_DATE: ${{ steps.market-date.outputs.value }}
+        run: trade-alert --mode confirmation --candidate-file .cache/candidates.json --report-file ".theme-data/reports/${MARKET_DATE}/confirmation.json"
       - if: always() && steps.candidate-cache.outputs.cache-hit != 'true' && hashFiles('.cache/candidates.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .cache/candidates.json
           key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
+      - name: Commit web report
+        if: always() && steps.theme-data.outcome == 'success'
+        working-directory: .theme-data
+        env:
+          REPORT_PATH: reports/${{ steps.market-date.outputs.value }}/confirmation.json
+        run: |
+          if [ ! -f "$REPORT_PATH" ]; then
+            echo "No report generated"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$REPORT_PATH"
+          if git diff --cached --quiet; then
+            echo "No report changes"
+          else
+            git commit -m "report: save ${REPORT_PATH}"
+            git push origin HEAD:data
+          fi

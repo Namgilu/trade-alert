@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env.server
+    ports:
+      - "8000:8000"

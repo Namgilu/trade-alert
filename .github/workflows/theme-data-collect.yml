@@ -30,7 +30,7 @@ jobs:
     permissions:
       contents: write
     concurrency:
-      group: theme-history-data
+      group: trade-alert-data-branch
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4

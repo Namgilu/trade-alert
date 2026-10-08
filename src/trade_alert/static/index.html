@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#07110f">
+    <title>국장 테마 레이더</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="shell topbar">
+      <a class="brand" href="/" aria-label="국장 테마 레이더 홈">
+        <span class="brand-mark">T</span>
+        <span><strong>THEME RADAR</strong><small>KOREA MARKET SIGNAL</small></span>
+      </a>
+      <div id="scheduler-state" class="market-state"><span></span> 일정 확인 중</div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">3개월 조정 테마 · 뉴스/공시 · 장초 수급</p>
+          <h1>오늘의 테마 흐름을<br><em>세 번 확인합니다.</em></h1>
+          <p class="hero-copy">장전 후보부터 동시호가, 장초 최종확인까지 같은 후보의 변화를 한 화면에서 비교합니다.</p>
+        </div>
+        <aside class="schedule-panel" aria-label="분석 일정">
+          <div class="panel-heading"><span>자동 실행 일정</span><small>Asia/Seoul</small></div>
+          <div id="schedule-list" class="schedule-list">
+            <div class="skeleton line"></div><div class="skeleton line"></div><div class="skeleton line"></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="toolbar">
+        <div>
+          <label for="market-date">조회일</label>
+          <select id="market-date" disabled><option>불러오는 중</option></select>
+        </div>
+        <button id="refresh" type="button" aria-label="최신 결과 새로고침">새로고침 <span>↻</span></button>
+      </section>
+
+      <div id="notice" class="notice" hidden></div>
+      <section id="reports" class="reports" aria-live="polite">
+        <div class="loading-card"><div class="spinner"></div><p>GitHub에서 분석 결과를 불러오고 있습니다.</p></div>
+      </section>
+    </main>
+
+    <footer class="shell">
+      <span>THEME RADAR</span>
+      <p>본 정보는 뉴스·공시·시장 데이터 기반 참고 지표이며 투자 권유가 아닙니다.</p>
+    </footer>
+    <script src="/assets/app.js" defer></script>
+  </body>
+</html>

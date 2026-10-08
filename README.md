@@ -2,6 +2,8 @@
 
 국내 주식의 뉴스·공시 이벤트와 실제 장 초반 수급을 분리해 분석하고 텔레그램으로 전송합니다.
 
+분석 결과는 텔레그램 전송과 동시에 `data` 브랜치의 날짜별 JSON으로 보관합니다. 함께 제공되는 서버가 평일 07:30, 08:55, 09:10(한국시간)에 각 GitHub Actions를 호출하고, 브라우저용 대시보드와 조회 API를 제공합니다.
+
 - **07:30 장전 후보:** 최근 3개월간 강하게 상승한 뒤 고점 대비 조정·횡보 중인 테마를 찾고 뉴스·공시를 검증합니다.
 - **08:55 장전 중간확정:** 동시호가 예상체결가·예상거래량·매수/매도 잔량으로 후보를 걸러냅니다.
 - **09:10 장초 최종확인:** 실제 테마 확산도, 거래대금, 전일 대비 거래량, 가격 강도로 다시 평가합니다.
@@ -139,6 +141,8 @@ gh workflow run confirmation-alert.yml --ref main
 
 호출 순서는 반드시 07:30 → 08:55 → 09:10으로 유지합니다. 16:10 데이터 적재는 시간 지연에 민감하지 않아 GitHub cron과 수동 `workflow_dispatch`를 함께 유지합니다.
 
+서버 스케줄러를 켜면 위 세 호출은 서버가 담당하므로 별도 cron은 필요하지 않습니다. 서버의 시간대와 무관하게 `Asia/Seoul` 기준 평일에 실행됩니다. 스케줄러 서버를 여러 대 실행하면 중복 호출되므로 `SCHEDULER_ENABLED=true`인 인스턴스는 반드시 한 대만 운영합니다.
+
 첫날 07:30 적재는 네이버 테마 목록·구성 종목 최대 101회와 한국투자 토큰·대표주 일봉 최대 301회로 총 402회가 발생하고, 16:10에는 전달받은 상태에 네이버 테마 목록 1회만 추가하므로 일일 최대 403회입니다. 이후 16:10 적재는 네이버 테마 목록 1회만 사용합니다. 정상 운영 시 한국투자 API는 08:55 예상체결 조회의 최대 16회만 발생합니다. 누적 데이터가 없거나 손상된 경우에는 3개월 초기 적재를 다시 수행해 자동 복구합니다.
 
 `data` 브랜치는 다음 구조로 관리됩니다.
@@ -148,9 +152,49 @@ state/theme-history.json            실행 시 바로 읽는 전체 상태
 catalog/themes.json                 현재 테마·대표 종목 목록
 memberships/YYYY-MM-DD.json         구성 종목이 바뀐 날짜의 스냅샷
 daily/YYYY/MM/YYYY-MM-DD.json       거래일별 지수·거래대금 스냅샷
+reports/YYYY-MM-DD/premarket.json   07:30 웹·API용 결과
+reports/YYYY-MM-DD/preopen.json     08:55 웹·API용 결과
+reports/YYYY-MM-DD/confirmation.json 09:10 웹·API용 결과
 ```
 
-16:10 작업만 `data` 브랜치에 커밋하며 변경이 없는 휴장일에는 커밋하지 않습니다. 저장소가 공개라면 이 데이터도 공개됩니다. API 키, 텔레그램 토큰, 뉴스 전문은 이 브랜치에 저장하지 않습니다. 워크플로에는 `contents: write`를 16:10 작업에만 부여했습니다. 조직 정책이 쓰기를 막는 경우에는 저장소 `Settings → Actions → General → Workflow permissions`에서 쓰기 권한을 허용해야 합니다.
+16:10 작업은 테마 이력을 `data` 브랜치에 커밋하며 변경이 없는 휴장일에는 커밋하지 않습니다. 저장소가 공개라면 이 데이터도 공개됩니다. API 키, 텔레그램 토큰, 뉴스 전문과 상세 오류 문구는 이 브랜치에 저장하지 않습니다. 조직 정책이 쓰기를 막는 경우에는 저장소 `Settings → Actions → General → Workflow permissions`에서 쓰기 권한을 허용해야 합니다.
+
+세 알림 작업도 웹 결과 JSON만 `data` 브랜치에 커밋합니다. 네 작업은 같은 동시성 그룹을 사용해 브랜치 쓰기 충돌을 방지합니다. 저장소가 공개라면 종목·점수·뉴스 제목과 링크도 공개되지만 비밀값과 뉴스 본문은 저장하지 않습니다. 따라서 알림 및 데이터 적재 워크플로 모두 `contents: write` 권한이 필요합니다.
+
+## 웹 서버와 스케줄러
+
+서버는 다음 기능을 한 프로세스에서 제공합니다.
+
+- 반응형 웹 대시보드: `/`
+- 최신 결과 목록: `GET /api/reports`
+- 특정 결과: `GET /api/reports/{YYYY-MM-DD}/{mode}`
+- 스케줄 확인: `GET /api/schedules`
+- 상태 확인: `GET /api/health`
+- 선택적 수동 실행: `POST /api/dispatch/{mode}` (`X-Admin-Token` 필요)
+
+로컬 실행은 다음과 같습니다.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[server]'
+cp .env.server.example .env.server
+set -a
+source .env.server
+set +a
+trade-alert-web
+```
+
+브라우저에서 `http://localhost:8000`을 엽니다. Docker로 상시 실행하려면 `.env.server`를 채운 뒤 다음 명령을 사용합니다.
+
+```bash
+cp .env.server.example .env.server
+docker compose up -d --build
+```
+
+`GITHUB_TOKEN`에는 대상 저장소의 Actions 쓰기 권한이 필요합니다. 비공개 저장소라면 웹 결과를 읽기 위한 Contents 읽기 권한도 추가합니다. 수동 실행 API가 필요 없으면 `WEB_ADMIN_TOKEN`은 비워 두면 됩니다. 방화벽이나 프록시에서는 대시보드용 `8000` 포트만 공개하고, HTTPS는 Caddy·Nginx 또는 배포 플랫폼에서 종료하는 구성을 권장합니다.
+
+서버 자체는 네이버·JEV·한국투자·텔레그램 키를 사용하지 않습니다. 이 키들은 기존처럼 GitHub Actions의 `action-env`에만 두며, 서버는 GitHub 토큰만 보유합니다.
 
 `action-env` 환경의 Actions secrets에 필수 키를 등록하십시오. 저장소 secrets를 사용해도 됩니다. `DART_API_KEY`만 선택 사항입니다. Actions 화면의 수동 실행에서는 세 단계 중 하나를 선택할 수 있습니다.
 

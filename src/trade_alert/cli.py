@@ -17,6 +17,7 @@ from .providers import (
     OpenDartProvider,
     TelegramNotifier,
 )
+from .report_store import save_report
 from .service import MarketAlertService, format_report
 from .theme_history import ThemeHistoryStore
 
@@ -41,6 +42,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--history-repository",
         help="also export catalog and dated snapshots into a checked-out data branch",
+    )
+    parser.add_argument(
+        "--report-file",
+        help="write the complete alert result as JSON for the web dashboard",
     )
     return parser
 
@@ -124,14 +129,15 @@ def main(argv: list[str] | None = None) -> int:
             if candidate_path is not None:
                 save_candidates(candidate_path, now.date(), screened)
 
-        message = format_report(
-            service.run(
-                args.mode,
-                now,
-                screened_candidates=screened,
-                screening_warnings=screening_warnings,
-            )
+        report = service.run(
+            args.mode,
+            now,
+            screened_candidates=screened,
+            screening_warnings=screening_warnings,
         )
+        message = format_report(report)
+        if args.report_file:
+            save_report(Path(args.report_file), report, message)
         print(message)
         if not args.dry_run:
             TelegramNotifier(http, settings.telegram_bot_token, settings.telegram_chat_id).send(message)
