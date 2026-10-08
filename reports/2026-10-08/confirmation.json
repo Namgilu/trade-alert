@@ -1,0 +1,230 @@
+{
+  "version": 1,
+  "market_date": "2026-10-08",
+  "generated_at": "2026-10-08T10:45:54.095085+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "108",
+      "name": "백신/진단시약/방역(신종플루, AI 등)",
+      "change_rate": 2.38,
+      "breadth": 0.7380952380952381,
+      "trading_value": 263158464.0,
+      "score": 69.81409738012852,
+      "pattern": {
+        "peak_return": 20.463784183296397,
+        "drawdown": -9.900876585928497,
+        "consolidation_range": 13.194444444444464,
+        "down_volume_ratio": 0.3943957895676562,
+        "trend_breadth": 1.0,
+        "score": 61.60730872741253,
+        "turnover_spike_ratio": 6.643257107021263,
+        "days_since_turnover_spike": 28,
+        "turnover_cooldown_ratio": 0.15935956687970373
+      },
+      "stocks": [
+        {
+          "code": "142760",
+          "name": "모아라이프플러스",
+          "change_rate": 14.92,
+          "trade_amount": 569960000.0,
+          "trade_volume": 1056025.0,
+          "previous_volume": 143793.0,
+          "relative_volume": 7.344064036496909,
+          "score": 59.24168764072714,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "206650",
+          "name": "유바이오로직스",
+          "change_rate": 1.41,
+          "trade_amount": 1842893000.0,
+          "trade_volume": 210407.0,
+          "previous_volume": 75024.0,
+          "relative_volume": 2.8045292173171252,
+          "score": 48.88682662084815,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "303360",
+          "name": "프로티아",
+          "change_rate": 1.36,
+          "trade_amount": 85413000.0,
+          "trade_volume": 14382.0,
+          "previous_volume": 31369.0,
+          "relative_volume": 0.4584781153367975,
+          "score": 44.86051028549811,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ]
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 1.26,
+      "breadth": 0.75,
+      "trading_value": 90362000.0,
+      "score": 53.31268831738336,
+      "pattern": {
+        "peak_return": 44.19266355522804,
+        "drawdown": -8.766236453201959,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.643574272949907,
+        "trend_breadth": 1.0,
+        "score": 65.77292885024592,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 21,
+        "turnover_cooldown_ratio": 0.32425972091470795
+      },
+      "stocks": [
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": -0.11,
+          "trade_amount": 7136000000.0,
+          "trade_volume": 38332.0,
+          "previous_volume": 154047.0,
+          "relative_volume": 0.2488331483248619,
+          "score": 55.96777619488495,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": 3.13,
+          "trade_amount": 496000000.0,
+          "trade_volume": 219959.0,
+          "previous_volume": 653767.0,
+          "relative_volume": 0.3364486124261396,
+          "score": 46.03104326489359,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 1.02,
+          "trade_amount": 9000000.0,
+          "trade_volume": 2809.0,
+          "previous_volume": 21906.0,
+          "relative_volume": 0.1282297087555921,
+          "score": 38.787801897013445,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ]
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": 2.46,
+      "breadth": 0.75,
+      "trading_value": 72614000.0,
+      "score": 50.01977756505613,
+      "pattern": {
+        "peak_return": 26.818181818181806,
+        "drawdown": -17.844654303672524,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.477049429032393,
+        "trend_breadth": 1.0,
+        "score": 62.30149617639377,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      },
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": -1.78,
+          "trade_amount": 13355000000.0,
+          "trade_volume": 48424.0,
+          "previous_volume": 171805.0,
+          "relative_volume": 0.2818544279852158,
+          "score": 66.8798897116815,
+          "signal": "관심 유지",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": -1.32,
+          "trade_amount": 2758000000.0,
+          "trade_volume": 524459.0,
+          "previous_volume": 1649470.0,
+          "relative_volume": 0.31795607073787335,
+          "score": 43.774098873306386,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -1.09,
+          "trade_amount": 429000000.0,
+          "trade_volume": 29629.0,
+          "previous_volume": 88345.0,
+          "relative_volume": 0.33537834625615487,
+          "score": 38.83656889160124,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": -0.7689102717701813,
+            "direction": "중립",
+            "relevance": 0.47,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "short_term",
+            "confidence": 0.77,
+            "event_count": 1,
+            "primary_event": {
+              "title": "주식등의대량보유상황보고서(일반)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261007000475",
+              "published_at": "2026-10-07T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "주식등의대량보유상황보고서(일반)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261007000475",
+              "published_at": "2026-10-07T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ]
+    }
+  ],
+  "warning_count": 15,
+  "telegram_text": "🔔 2026-10-08 09:10 장초 최종확인\n\n1. 백신/진단시약/방역(신종플루, AI 등) · 강도 70/100\n   등락 +2.38% · 확산도 74%\n   3개월 고점상승 +20.5% · 고점대비 -9.9%\n   15일 변동폭 13.2% · 하락거래대금비 0.39 · 60일선 상회 100%\n   거래대금 최대 6.6배 · 폭발 후 28거래일 · 현재/고점 0.16배\n   1) 모아라이프플러스(142760) · 관망 59\n     등락 +14.92% · 거래대금 6억 · 전일거래량 대비 7.34배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 유바이오로직스(206650) · 관망 49\n     등락 +1.41% · 거래대금 18억 · 전일거래량 대비 2.80배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 프로티아(303360) · 신호 무효 45\n     등락 +1.36% · 거래대금 1억 · 전일거래량 대비 0.46배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 손해보험 · 강도 53/100\n   등락 +1.26% · 확산도 75%\n   3개월 고점상승 +44.2% · 고점대비 -8.8%\n   15일 변동폭 9.6% · 하락거래대금비 0.64 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 21거래일 · 현재/고점 0.32배\n   1) DB손해보험(005830) · 관망 56\n     등락 -0.11% · 거래대금 71억 · 전일거래량 대비 0.25배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 롯데손해보험(000400) · 관망 46\n     등락 +3.13% · 거래대금 5억 · 전일거래량 대비 0.34배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 흥국화재(000540) · 신호 무효 39\n     등락 +1.02% · 거래대금 0억 · 전일거래량 대비 0.13배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 생명보험 · 강도 50/100\n   등락 +2.46% · 확산도 75%\n   3개월 고점상승 +26.8% · 고점대비 -17.8%\n   15일 변동폭 12.2% · 하락거래대금비 0.48 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 30거래일 · 현재/고점 0.19배\n   1) 삼성생명(032830) · 관심 유지 67\n     등락 -1.78% · 거래대금 134억 · 전일거래량 대비 0.28배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 한화생명(088350) · 신호 무효 44\n     등락 -1.32% · 거래대금 28억 · 전일거래량 대비 0.32배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 39\n     등락 -1.09% · 거래대금 4억 · 전일거래량 대비 0.34배\n     이벤트: 중립 -1 · 지분·경영권 · 단기\n     핵심 공시: 주식등의대량보유상황보고서(일반)\n\n⚠️ 일부 데이터 처리 실패: 15건\n※ 뉴스·공시·초기 수급 기반 참고 지표이며 투자 권유가 아닙니다."
+}
