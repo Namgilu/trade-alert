@@ -111,11 +111,14 @@ function renderTheme(theme, rank, mode) {
   const card = node("article", "theme-card");
   card.append(node("div", "theme-rank", `추적 ${String(rank).padStart(2, "0")}`));
   const nameRow = node("div", "theme-name-row");
-  nameRow.append(node("div", "theme-name", theme.name), node("div", "theme-score", theme.data_error ? "—" : `${number(theme.score, 0)} / 100`));
+  nameRow.append(node("div", "theme-name", theme.name), node("div", "theme-score", theme.data_error || theme.score == null ? "—" : `${number(theme.score, 0)} / 100`));
   card.append(nameRow);
   if (theme.data_error) {
     card.append(node("p", "stage-warning", "데이터 확인 실패 · 당일 추적 테마는 유지되며 이번 단계 평가는 제공되지 않습니다."));
     return card;
+  }
+  if (theme.summary_unavailable) {
+    card.append(node("p", "stage-warning", "테마 전체 지표 미확보 · 종합점수는 제공하지 않습니다. 종목 점수는 테마 가중치를 제외한 참고 평가입니다."));
   }
 
   const metrics = node("div", "metric-grid");

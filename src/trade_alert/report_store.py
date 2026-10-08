@@ -109,6 +109,7 @@ def _theme_payload(analysis: ThemeAnalysis) -> dict[str, Any]:
         ),
         "stocks": [_stock_payload(stock) for stock in analysis.stocks],
         "data_error": analysis.data_error,
+        "summary_unavailable": analysis.summary_unavailable,
     }
 
 

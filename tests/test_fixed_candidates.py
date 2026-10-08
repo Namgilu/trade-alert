@@ -4,6 +4,7 @@ import io
 import json
 import tempfile
 import unittest
+from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
 from unittest.mock import Mock, patch
@@ -31,7 +32,9 @@ class FixedCandidatesTest(unittest.TestCase):
         self.provider = Mock()
         # The provider's response order must not determine display order.
         self.provider.refresh_themes.return_value = self.themes[::-1]
-        self.provider.hydrate_theme.side_effect = lambda theme, _: theme
+        self.provider.hydrate_theme.side_effect = lambda theme, _: replace(
+            theme, stocks=self.themes[int(theme.id) - 1].stocks
+        )
         news = Mock()
         news.recent.return_value = []
         market = Mock()
@@ -88,11 +91,45 @@ class FixedCandidatesTest(unittest.TestCase):
     def test_refresh_missing_theme_or_failure_never_reuses_stale_market_data(self):
         self.provider.refresh_themes.return_value = [self.themes[0], self.themes[2]]
         report = self.service.run("confirmation", NOW, screened_candidates=self.candidates)
-        self.assertTrue(report.themes[1].data_error)
+        self.assertFalse(report.themes[1].data_error)
+        self.assertFalse(report.themes[0].summary_unavailable)
+        self.assertIsNotNone(report.themes[0].score)
+        self.assertTrue(report.themes[1].summary_unavailable)
         self.assertEqual(len(report.themes), 5)
+        self.assertEqual(self.provider.hydrate_theme.call_count, 5)
+        for index in (1, 3, 4):
+            item = report.themes[index]
+            self.assertIsNone(item.score)
+            self.assertIsNone(item.theme.change_rate)
+            self.assertIsNone(item.theme.breadth)
+            self.assertIsNone(item.theme.trading_value)
+            self.assertTrue(item.stocks)
+        payload = report_payload(report, format_report(report))
+        self.assertTrue(payload["themes"][1]["summary_unavailable"])
+        self.assertIsNone(payload["themes"][1]["score"])
+        self.assertIn("테마 전체 지표 미확보", format_report(report))
+        self.assertNotIn("데이터 확인 실패", format_report(report))
         self.provider.refresh_themes.side_effect = RuntimeError("offline")
         report = self.service.run("confirmation", NOW, screened_candidates=self.candidates)
-        self.assertTrue(all(item.data_error for item in report.themes))
+        self.assertTrue(all(not item.data_error and item.summary_unavailable and item.stocks for item in report.themes))
+        self.assertTrue(all(item.theme.change_rate is None for item in report.themes))
+
+    def test_partial_summary_uses_stock_only_score_without_fabricated_theme_score(self):
+        self.provider.refresh_themes.return_value = [replace(self.themes[0], breadth=None)]
+        report = self.service.run("confirmation", NOW, screened_candidates=[self.candidates[0]])
+        item = report.themes[0]
+        self.assertTrue(item.summary_unavailable)
+        self.assertIsNone(item.score)
+        # Amount: 50 (one stock); price: (3 + 3) / 13 * 100;
+        # volume: 100 / 1000 / .15 * 100; event: neutral 50.
+        expected = (0.30 * 50 + 0.20 * (6 / 13 * 100) + 0.20 * (0.1 / 0.15 * 100) + 0.15 * 50) / 0.85
+        self.assertAlmostEqual(item.stocks[0].score, expected)
+
+    def test_missing_summary_does_not_mask_real_stock_failure(self):
+        self.provider.refresh_themes.return_value = []
+        self.provider.hydrate_theme.side_effect = RuntimeError("offline")
+        report = self.service.run("confirmation", NOW, screened_candidates=self.candidates)
+        self.assertTrue(all(item.data_error and not item.stocks for item in report.themes))
 
     def test_followups_without_selection_fail_without_screening(self):
         for mode in ("preopen", "confirmation"):

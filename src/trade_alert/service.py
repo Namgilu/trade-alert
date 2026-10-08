@@ -483,9 +483,17 @@ class MarketAlertService:
                 refresh_failed = {theme.id for theme, _ in screened}
         raw_analyses: list[ThemeAnalysis] = []
         for screening_theme, pattern in screened:
+            summary_unavailable = mode == "confirmation" and (
+                screening_theme.id in refresh_failed
+                or any(value is None for value in (
+                    screening_theme.change_rate, screening_theme.breadth, screening_theme.trading_value
+                ))
+            )
+            if screening_theme.id in refresh_failed:
+                # The ranking endpoint is not a complete theme directory. Keep
+                # the fixed ID, discard stale aggregates, and fetch its stocks.
+                screening_theme = Theme(screening_theme.id, screening_theme.name)
             try:
-                if screening_theme.id in refresh_failed:
-                    raise RuntimeError("theme market data unavailable")
                 theme = self.themes.hydrate_theme(screening_theme, self.stocks_per_theme)
                 if not theme.stocks:
                     raise RuntimeError("theme constituents unavailable")
@@ -508,7 +516,9 @@ class MarketAlertService:
                     pattern=pattern, data_error=True,
                 ))
                 continue
-            raw_analyses.append(ThemeAnalysis(theme=theme, stocks=stocks, pattern=pattern))
+            raw_analyses.append(ThemeAnalysis(
+                theme=theme, stocks=stocks, pattern=pattern, summary_unavailable=summary_unavailable,
+            ))
 
         theme_values = [theme.theme.trading_value for theme in raw_analyses if theme.theme.trading_value is not None]
         stock_values = [
@@ -600,7 +610,10 @@ class MarketAlertService:
                     amount = _relative(stock.trade_amount, stock_values)
                     price = _scale(stock.change_rate, -3.0, 10.0)
                     volume = _scale(stock.relative_volume, 0.0, 0.15, default=0.0)
-                    score = 0.30 * amount + 0.20 * price + 0.20 * volume + 0.15 * event + 0.15 * theme_score
+                    stock_score = 0.30 * amount + 0.20 * price + 0.20 * volume + 0.15 * event
+                    # Normalize the available stock components instead of
+                    # awarding points for unknown theme aggregates.
+                    score = stock_score / 0.85 if analysis.summary_unavailable else stock_score + 0.15 * theme_score
                     signal = _confirmation_signal(score)
                 else:
                     quote = stock_result.preopen_quote
@@ -623,13 +636,14 @@ class MarketAlertService:
                 ThemeAnalysis(
                     theme=theme,
                     stocks=tuple(scored_stocks),
-                    score=_clamp(theme_score),
+                    score=None if analysis.summary_unavailable else _clamp(theme_score),
                     pattern=analysis.pattern,
+                    summary_unavailable=analysis.summary_unavailable,
                 )
             )
 
         if not fixed_selection:
-            scored_themes.sort(key=lambda item: item.score, reverse=True)
+            scored_themes.sort(key=lambda item: item.score if item.score is not None else -1.0, reverse=True)
             scored_themes = scored_themes[: self.theme_limit]
         return DailyReport(now, mode, tuple(scored_themes), tuple(warnings))
 
@@ -693,7 +707,10 @@ def format_report(report: DailyReport) -> str:
             continue
         rate = f"{theme.change_rate:+.2f}%" if theme.change_rate is not None else "-"
         breadth = f"{theme.breadth:.0%}" if theme.breadth is not None else "-"
-        lines.append(f"{theme_rank}. {theme.name} · 강도 {analysis.score:.0f}/100")
+        strength = "종합점수 미제공" if analysis.score is None else f"강도 {analysis.score:.0f}/100"
+        lines.append(f"{theme_rank}. {theme.name} · {strength}")
+        if analysis.summary_unavailable:
+            lines.append("   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가")
         lines.append(f"   등락 {rate} · 확산도 {breadth}")
         if analysis.pattern:
             pattern = analysis.pattern

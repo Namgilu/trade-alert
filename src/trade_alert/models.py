@@ -131,9 +131,10 @@ class StockAnalysis:
 class ThemeAnalysis:
     theme: Theme
     stocks: tuple[StockAnalysis, ...] = ()
-    score: float = 0.0
+    score: float | None = 0.0
     pattern: ThemePattern | None = None
     data_error: bool = False
+    summary_unavailable: bool = False
 
 
 @dataclass(frozen=True)
