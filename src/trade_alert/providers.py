@@ -178,7 +178,7 @@ class NaverThemeProvider:
 
     def refresh_themes(self, themes: list[Theme], universe_limit: int) -> list[Theme]:
         current = {theme.id: theme for theme in self._list_themes(universe_limit)}
-        return [current.get(theme.id, theme) for theme in themes]
+        return [current[theme.id] for theme in themes if theme.id in current]
 
     def top_themes(self, theme_limit: int, stocks_per_theme: int) -> list[Theme]:
         themes = self._list_themes(theme_limit)

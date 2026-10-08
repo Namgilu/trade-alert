@@ -109,10 +109,14 @@ function renderStock(stock, mode) {
 
 function renderTheme(theme, rank, mode) {
   const card = node("article", "theme-card");
-  card.append(node("div", "theme-rank", `RANK ${String(rank).padStart(2, "0")}`));
+  card.append(node("div", "theme-rank", `추적 ${String(rank).padStart(2, "0")}`));
   const nameRow = node("div", "theme-name-row");
-  nameRow.append(node("div", "theme-name", theme.name), node("div", "theme-score", `${number(theme.score, 0)} / 100`));
+  nameRow.append(node("div", "theme-name", theme.name), node("div", "theme-score", theme.data_error ? "—" : `${number(theme.score, 0)} / 100`));
   card.append(nameRow);
+  if (theme.data_error) {
+    card.append(node("p", "stage-warning", "데이터 확인 실패 · 당일 추적 테마는 유지되며 이번 단계 평가는 제공되지 않습니다."));
+    return card;
+  }
 
   const metrics = node("div", "metric-grid");
   metrics.append(metric("테마 등락", signed(theme.change_rate), theme.change_rate));

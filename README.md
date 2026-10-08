@@ -8,6 +8,8 @@
 - **08:55 장전 중간확정:** 동시호가 예상체결가·예상거래량·매수/매도 잔량으로 후보를 걸러냅니다.
 - **09:10 장초 최종확인:** 실제 테마 확산도, 거래대금, 전일 대비 거래량, 가격 강도로 다시 평가합니다.
 
+07:30에 뉴스·공시 평가까지 마친 최종 테마 최대 5개를 당일 추적 대상으로 고정합니다. 08:55·09:10은 같은 5개 테마와 장전 표시 순서를 유지하고 점수·판정만 갱신합니다. 조건을 통과한 테마가 적으면 그 개수만 추적합니다. 테마 내 상위 종목은 해당 시각의 데이터에 따라 달라질 수 있습니다. 테마 조회 실패는 `데이터 확인 실패`로 남기며 다른 테마로 대체하지 않습니다. 당일 후보 파일이 없거나 손상되면 후속 실행은 실패하고, 장전 작업부터 정상 실행해야 합니다. 장전 재실행도 이미 저장된 당일 후보를 유지합니다.
+
 > 현재 점수 가중치는 운영 초기 휴리스틱입니다. 실제 매매 신호로 사용하려면 결과와 이후 수익률을 저장해 워크포워드 백테스트로 보정해야 합니다.
 
 ## 분석 방식
@@ -93,12 +95,14 @@ set -a
 source .env
 set +a
 
-trade-alert --mode premarket --dry-run
-trade-alert --mode preopen --dry-run
-trade-alert --mode confirmation --dry-run
+trade-alert --mode premarket --candidate-file .cache/YYYY-MM-DD-candidates.json --dry-run
+trade-alert --mode preopen --candidate-file .cache/YYYY-MM-DD-candidates.json --dry-run
+trade-alert --mode confirmation --candidate-file .cache/YYYY-MM-DD-candidates.json --dry-run
 trade-alert --mode collect --history-file .cache/theme-history.json
 trade-alert --mode collect --history-repository /path/to/data-branch-checkout
 ```
+
+위 후보 파일의 `YYYY-MM-DD`는 실행일의 한국 날짜로 바꿉니다. 같은 날 세 단계에서 동일한 경로를 사용합니다.
 
 `--dry-run`을 제거하면 텔레그램으로 전송합니다.
 
@@ -116,7 +120,7 @@ trade-alert --mode collect --history-repository /path/to/data-branch-checkout
 
 ## 자동 실행
 
-GitHub Actions는 세 번의 알림을 독립된 `workflow_dispatch` 워크플로로 실행하고, 데이터 적재는 별도 워크플로로 관리합니다. 07:30 후보는 한국 날짜별 Actions 캐시에 저장하고 08:55와 09:10이 재사용합니다. 첫날 중복 초기화를 막기 위한 07:30 상태도 16:10까지 당일 캐시로 전달합니다. 장기 테마 이력은 휘발될 수 있는 Actions 캐시 대신 저장소의 `data` 브랜치에 누적합니다.
+GitHub Actions는 세 번의 알림을 독립된 `workflow_dispatch` 워크플로로 실행하고, 데이터 적재는 별도 워크플로로 관리합니다. 07:30에 최종 선정된 후보 5개는 한국 날짜별 파일로 `data` 브랜치에 저장하고 08:55와 09:10이 재사용합니다. 첫날 중복 초기화를 막기 위한 07:30 상태도 16:10까지 당일 캐시로 전달합니다. 장기 테마 이력은 휘발될 수 있는 Actions 캐시 대신 저장소의 `data` 브랜치에 누적합니다.
 
 - `premarket-alert.yml`: 07:30 Asia/Seoul 장전 후보
 - `preopen-alert.yml`: 08:55 Asia/Seoul 동시호가 중간확정
@@ -152,6 +156,7 @@ state/theme-history.json            실행 시 바로 읽는 전체 상태
 catalog/themes.json                 현재 테마·대표 종목 목록
 memberships/YYYY-MM-DD.json         구성 종목이 바뀐 날짜의 스냅샷
 daily/YYYY/MM/YYYY-MM-DD.json       거래일별 지수·거래대금 스냅샷
+candidates/YYYY-MM-DD.json          당일 장전 최종 선정 테마·패턴·표시 순서
 reports/YYYY-MM-DD/premarket.json     07:30 웹·API용 결과
 reports/YYYY-MM-DD/preopen.json       08:55 웹·API용 결과
 reports/YYYY-MM-DD/confirmation.json  09:10 웹·API용 결과
@@ -160,7 +165,7 @@ reports/index.json                    최근 270개 결과 위치 인덱스
 
 16:10 작업은 테마 이력을 `data` 브랜치에 커밋하며 변경이 없는 휴장일에는 커밋하지 않습니다. 저장소가 공개라면 이 데이터도 공개됩니다. API 키, 텔레그램 토큰, 뉴스 전문과 상세 오류 문구는 이 브랜치에 저장하지 않습니다. 조직 정책이 쓰기를 막는 경우에는 저장소 `Settings → Actions → General → Workflow permissions`에서 쓰기 권한을 허용해야 합니다.
 
-세 알림 작업도 웹 결과 JSON만 `data` 브랜치에 커밋합니다. 네 작업은 같은 동시성 그룹을 사용해 브랜치 쓰기 충돌을 방지합니다. 저장소가 공개라면 종목·점수·뉴스 제목과 링크도 공개되지만 비밀값과 뉴스 본문은 저장하지 않습니다. 따라서 알림 및 데이터 적재 워크플로 모두 `contents: write` 권한이 필요합니다.
+세 알림 작업도 웹 결과 JSON을 `data` 브랜치에 커밋합니다. 장전 작업은 당일 후보 파일도 결과와 함께 커밋하고 후속 작업은 이 파일만 읽습니다. 기존 v3 후보 캐시는 더 이상 사용하지 않습니다. 네 작업은 같은 동시성 그룹을 사용해 브랜치 쓰기 충돌을 방지합니다. 저장소가 공개라면 종목·점수·뉴스 제목과 링크도 공개되지만 비밀값과 뉴스 본문은 저장하지 않습니다. 따라서 알림 및 데이터 적재 워크플로 모두 `contents: write` 권한이 필요합니다.
 
 정적 대시보드는 GitHub REST API나 별도 서버를 거치지 않고 공개 `data` 브랜치의 `reports/index.json`과 선택한 날짜의 결과 JSON을 `raw.githubusercontent.com`에서 직접 읽습니다. 브라우저에 GitHub 토큰을 넣지 않으므로 저장소가 비공개라면 이 방식은 사용할 수 없습니다. 새 분석 결과를 다시 실행한 경우에도 즉시 확인할 수 있도록 인덱스와 결과 요청에 버전 값을 붙여 캐시를 갱신합니다.
 
@@ -225,7 +230,7 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 - 최초 대표주 거래대금 합계는 네이버의 최신 테마 전체 거래대금에 맞춰 비율 보정합니다. 같은 대표 종목이 여러 테마에 겹치면 조회 결과를 재사용합니다.
 - 테마 이력은 날짜별로 계속 누적하고 GitHub Actions 캐시로 다음 실행에 전달합니다. 선별 계산에는 가장 최근 65거래일을 사용합니다.
 - 07:30 후보 파일은 당일에만 유효합니다. 09:10에는 후보 선정은 재사용하되 네이버 테마 등락률·확산도·거래대금은 다시 읽어 장초 점수에 반영합니다.
-- 08:55에는 한국투자 `FHKST01010200`의 예상체결가·수량과 총매수·총매도 잔량을 결합합니다. 예상체결 데이터가 한 종목도 없으면 잘못된 중간확정 알림 대신 실행을 실패시킵니다.
+- 08:55에는 한국투자 `FHKST01010200`의 예상체결가·수량과 총매수·총매도 잔량을 결합합니다. 테마 내 예상체결 데이터가 한 종목도 없으면 해당 테마를 `데이터 확인 실패`로 표시하며 점수나 유효 판정을 제공하지 않습니다.
 - 테마와 구성 종목은 네이버 증권 웹 화면의 미문서화된 읽기 전용 응답이므로 변경될 수 있습니다.
 - 종목별 데이터 오류는 다른 종목 분석을 중단시키지 않고 텔레그램 하단에 실패 건수로 표시합니다.
 - GitHub Actions 예약 실행은 혼잡 시 몇 분 지연될 수 있습니다.

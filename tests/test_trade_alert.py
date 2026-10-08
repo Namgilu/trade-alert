@@ -399,6 +399,9 @@ class ServiceScoringTest(unittest.TestCase):
         summary = EventSummary(80, 1, 1, "contract", "open", 0.9, 1, event)
 
         class Themes:
+            def refresh_themes(self, values, *_):
+                return values
+
             def screening_themes(self, *_):
                 return [theme]
 
@@ -426,7 +429,7 @@ class ServiceScoringTest(unittest.TestCase):
             Themes(), News(), Dart(), Model(), MarketData(), theme_limit=1, theme_candidate_pool=1,
             stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
         )
-        report = service.run("confirmation", now)
+        report = service.run("confirmation", now, screened_candidates=[(theme, ThemePattern(65, -12, 8, 0.55, 0.75, 84))])
         self.assertEqual(report.themes[0].stocks[0].signal, "거래 확인")
         self.assertGreaterEqual(report.themes[0].stocks[0].score, 75)
 
@@ -468,7 +471,7 @@ class ServiceScoringTest(unittest.TestCase):
             Themes(), News(), Dart(), Model(), MarketData(), theme_limit=1, theme_candidate_pool=1,
             stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
         )
-        report = service.run("preopen", now)
+        report = service.run("preopen", now, screened_candidates=[(theme, ThemePattern(65, -12, 8, 0.55, 0.75, 84))])
         self.assertEqual(report.themes[0].stocks[0].signal, "장전 유효")
         self.assertGreaterEqual(report.themes[0].stocks[0].score, 72)
 
@@ -497,7 +500,7 @@ class ServiceScoringTest(unittest.TestCase):
         report = service.run("premarket", now)
         self.assertEqual(report.themes, ())
 
-    def test_preopen_requires_kis_credentials(self):
+    def test_preopen_requires_saved_morning_candidates(self):
         class DisabledMarketData:
             enabled = False
 
@@ -505,7 +508,7 @@ class ServiceScoringTest(unittest.TestCase):
             None, None, None, None, DisabledMarketData(), theme_limit=1, theme_candidate_pool=1,
             stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3, news_lookback_hours=24,
         )
-        with self.assertRaisesRegex(ValueError, "KIS_APP_KEY"):
+        with self.assertRaisesRegex(ValueError, "당일 장전 후보"):
             service.run("preopen")
 
 
@@ -666,7 +669,7 @@ class SettingsTest(unittest.TestCase):
         }
         with patch.dict(os.environ, env, clear=True):
             settings = Settings.from_env(require_telegram=False)
-        self.assertEqual(settings.theme_limit, 3)
+        self.assertEqual(settings.theme_limit, 5)
         self.assertEqual(settings.theme_candidate_pool, 10)
         self.assertEqual(settings.theme_scan_limit, 100)
         self.assertEqual(settings.theme_screen_stocks, 3)

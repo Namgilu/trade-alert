@@ -65,7 +65,7 @@ class Settings:
             kis_base_url=os.getenv("KIS_BASE_URL", "https://openapi.koreainvestment.com:9443").strip(),
             telegram_bot_token=token,
             telegram_chat_id=chat_id,
-            theme_limit=min(_positive_int("THEME_LIMIT", 3), 3),
+            theme_limit=min(_positive_int("THEME_LIMIT", 5), 5),
             theme_candidate_pool=min(_positive_int("THEME_CANDIDATE_POOL", 5), 10),
             theme_scan_limit=min(_positive_int("THEME_SCAN_LIMIT", 100), 100),
             theme_screen_stocks=min(_positive_int("THEME_SCREEN_STOCKS", 3), 5),

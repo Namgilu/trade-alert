@@ -133,6 +133,7 @@ class ThemeAnalysis:
     stocks: tuple[StockAnalysis, ...] = ()
     score: float = 0.0
     pattern: ThemePattern | None = None
+    data_error: bool = False
 
 
 @dataclass(frozen=True)

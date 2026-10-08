@@ -8,7 +8,8 @@ from typing import Any
 from .models import Stock, Theme, ThemePattern
 
 
-CACHE_VERSION = 3
+# v4 stores the final morning selection, in display order (not the screening pool).
+CACHE_VERSION = 4
 
 
 def _number(value: Any, field: str) -> float:
@@ -81,6 +82,9 @@ def load_candidates(path: Path, market_date: date) -> list[tuple[Theme, ThemePat
     if not isinstance(rows, list):
         raise ValueError("candidate cache candidates must be a list")
     candidates: list[tuple[Theme, ThemePattern]] = []
+    seen_ids: set[str] = set()
+    if len(rows) > 5:
+        raise ValueError("daily selection must contain at most five themes")
     for row in rows:
         if not isinstance(row, dict):
             raise ValueError("candidate cache row must be an object")
@@ -92,6 +96,9 @@ def load_candidates(path: Path, market_date: date) -> list[tuple[Theme, ThemePat
         theme_name = str(theme_data.get("name", "")).strip()
         if not theme_id or not theme_name:
             raise ValueError("candidate cache contains a theme without an id or name")
+        if theme_id in seen_ids:
+            raise ValueError("daily selection contains duplicate theme ids")
+        seen_ids.add(theme_id)
         stock_rows = theme_data.get("stocks", [])
         if not isinstance(stock_rows, list):
             raise ValueError("candidate cache stocks must be a list")

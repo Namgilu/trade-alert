@@ -44,22 +44,18 @@ jobs:
       - name: Analyze and notify
         env:
           MARKET_DATE: ${{ steps.market-date.outputs.value }}
-        run: trade-alert --mode premarket --candidate-file .cache/candidates.json --history-file .theme-data/state/theme-history.json --report-file ".theme-data/reports/${MARKET_DATE}/premarket.json"
+        run: trade-alert --mode premarket --candidate-file ".theme-data/candidates/${MARKET_DATE}.json" --history-file .theme-data/state/theme-history.json --report-file ".theme-data/reports/${MARKET_DATE}/premarket.json"
       - if: success() && hashFiles('.theme-data/state/theme-history.json') != ''
         uses: actions/cache/save@v4
         with:
           path: .theme-data/state/theme-history.json
           key: trade-alert-history-handoff-v1-${{ steps.market-date.outputs.value }}
-      - if: always() && hashFiles('.cache/candidates.json') != ''
-        uses: actions/cache/save@v4
-        with:
-          path: .cache/candidates.json
-          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
       - name: Commit web report
         if: always() && steps.theme-data.outcome == 'success'
         working-directory: .theme-data
         env:
           REPORT_PATH: reports/${{ steps.market-date.outputs.value }}/premarket.json
+          CANDIDATE_PATH: candidates/${{ steps.market-date.outputs.value }}.json
         run: |
           if [ ! -f "$REPORT_PATH" ]; then
             echo "No report generated"
@@ -67,7 +63,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$REPORT_PATH" reports/index.json
+          git add "$REPORT_PATH" reports/index.json "$CANDIDATE_PATH"
           if git diff --cached --quiet; then
             echo "No report changes"
           else

@@ -452,42 +452,63 @@ class MarketAlertService:
         *,
         screened_candidates: list[tuple[Theme, ThemePattern]] | None = None,
         screening_warnings: tuple[str, ...] = (),
+        fixed_selection: bool = False,
     ) -> DailyReport:
         if mode not in {"premarket", "preopen", "confirmation"}:
             raise ValueError("mode must be premarket, preopen, or confirmation")
         now = now or datetime.now(ZoneInfo("Asia/Seoul"))
         warnings = list(screening_warnings)
         screened = screened_candidates
+        if mode != "premarket":
+            if screened is None:
+                raise ValueError("당일 장전 후보가 필요합니다. premarket 작업을 먼저 실행하세요.")
+            fixed_selection = True
+        if fixed_selection and screened is None:
+            raise ValueError("fixed selection requires saved morning candidates")
+        refresh_failed: set[str] = set()
         if screened is None:
             screened = self._screen_candidates(now, warnings)
-        elif mode == "confirmation":
+        elif mode == "confirmation" and screened:
             try:
                 refreshed = self.themes.refresh_themes(
                     [theme for theme, _ in screened], self.theme_scan_limit
                 )
-                screened = [
-                    (refreshed_theme, pattern)
-                    for refreshed_theme, (_, pattern) in zip(refreshed, screened)
-                ]
+                by_id = {theme.id: theme for theme in refreshed}
+                refresh_failed = {theme.id for theme, _ in screened if theme.id not in by_id}
+                screened = [(by_id.get(theme.id, theme), pattern) for theme, pattern in screened]
+                if refresh_failed:
+                    warnings.append(f"테마 당일지표 누락: {len(refresh_failed)}건")
             except Exception as exc:
                 warnings.append(f"테마 당일지표 {type(exc).__name__}: {exc}")
+                refresh_failed = {theme.id for theme, _ in screened}
         raw_analyses: list[ThemeAnalysis] = []
         for screening_theme, pattern in screened:
             try:
+                if screening_theme.id in refresh_failed:
+                    raise RuntimeError("theme market data unavailable")
                 theme = self.themes.hydrate_theme(screening_theme, self.stocks_per_theme)
+                if not theme.stocks:
+                    raise RuntimeError("theme constituents unavailable")
             except Exception as exc:
                 warnings.append(f"{screening_theme.name} 구성종목 {type(exc).__name__}: {exc}")
+                if fixed_selection:
+                    raw_analyses.append(ThemeAnalysis(
+                        theme=Theme(screening_theme.id, screening_theme.name),
+                        pattern=pattern, data_error=True,
+                    ))
                 continue
             stocks = tuple(
                 self._analyze_stock(stock, now, warnings, include_preopen=mode == "preopen")
                 for stock in theme.stocks
             )
+            if mode == "preopen" and not any(stock.preopen_quote is not None for stock in stocks):
+                warnings.append(f"{theme.name}: 예상체결 데이터 확인 실패")
+                raw_analyses.append(ThemeAnalysis(
+                    theme=Theme(screening_theme.id, screening_theme.name),
+                    pattern=pattern, data_error=True,
+                ))
+                continue
             raw_analyses.append(ThemeAnalysis(theme=theme, stocks=stocks, pattern=pattern))
-
-        if mode == "preopen" and raw_analyses and not any(
-            result.preopen_quote is not None for analysis in raw_analyses for result in analysis.stocks
-        ):
-            raise RuntimeError("KIS did not return pre-open expected execution data for any candidate stock")
 
         theme_values = [theme.theme.trading_value for theme in raw_analyses if theme.theme.trading_value is not None]
         stock_values = [
@@ -512,6 +533,9 @@ class MarketAlertService:
         ]
         scored_themes: list[ThemeAnalysis] = []
         for theme_index, analysis in enumerate(raw_analyses):
+            if analysis.data_error:
+                scored_themes.append(analysis)
+                continue
             theme = analysis.theme
             technical_score = analysis.pattern.score if analysis.pattern else 0.0
             breadth_score = (theme.breadth if theme.breadth is not None else 0.5) * 100.0
@@ -604,8 +628,10 @@ class MarketAlertService:
                 )
             )
 
-        scored_themes.sort(key=lambda item: item.score, reverse=True)
-        return DailyReport(now, mode, tuple(scored_themes[: self.theme_limit]), tuple(warnings))
+        if not fixed_selection:
+            scored_themes.sort(key=lambda item: item.score, reverse=True)
+            scored_themes = scored_themes[: self.theme_limit]
+        return DailyReport(now, mode, tuple(scored_themes), tuple(warnings))
 
 
 _EVENT_TYPE_LABELS = {
@@ -658,8 +684,13 @@ def format_report(report: DailyReport) -> str:
         lines = [f"🔔 {report.generated_at:%Y-%m-%d} 09:10 장초 최종확인", ""]
     if not report.themes:
         lines.append("조회된 테마가 없습니다.")
+    else:
+        lines.extend(["당일 추적 테마 · 장전 선정 순서", ""])
     for theme_rank, analysis in enumerate(report.themes, 1):
         theme = analysis.theme
+        if analysis.data_error:
+            lines.extend([f"{theme_rank}. {theme.name} · 데이터 확인 실패", "   당일 추적 테마 유지 · 이번 단계 평가 불가", ""])
+            continue
         rate = f"{theme.change_rate:+.2f}%" if theme.change_rate is not None else "-"
         breadth = f"{theme.breadth:.0%}" if theme.breadth is not None else "-"
         lines.append(f"{theme_rank}. {theme.name} · 강도 {analysis.score:.0f}/100")

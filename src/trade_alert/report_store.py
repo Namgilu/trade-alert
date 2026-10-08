@@ -108,6 +108,7 @@ def _theme_payload(analysis: ThemeAnalysis) -> dict[str, Any]:
             else None
         ),
         "stocks": [_stock_payload(stock) for stock in analysis.stocks],
+        "data_error": analysis.data_error,
     }
 
 

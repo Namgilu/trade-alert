@@ -40,21 +40,11 @@ jobs:
           python-version: "3.12"
       - id: market-date
         run: echo "value=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
-      - id: candidate-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: .cache/candidates.json
-          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
       - run: python -m pip install .
       - name: Analyze and notify
         env:
           MARKET_DATE: ${{ steps.market-date.outputs.value }}
-        run: trade-alert --mode confirmation --candidate-file .cache/candidates.json --report-file ".theme-data/reports/${MARKET_DATE}/confirmation.json"
-      - if: always() && steps.candidate-cache.outputs.cache-hit != 'true' && hashFiles('.cache/candidates.json') != ''
-        uses: actions/cache/save@v4
-        with:
-          path: .cache/candidates.json
-          key: trade-alert-candidates-v3-${{ steps.market-date.outputs.value }}
+        run: trade-alert --mode confirmation --candidate-file ".theme-data/candidates/${MARKET_DATE}.json" --report-file ".theme-data/reports/${MARKET_DATE}/confirmation.json"
       - name: Commit web report
         if: always() && steps.theme-data.outcome == 'success'
         working-directory: .theme-data

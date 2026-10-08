@@ -117,24 +117,33 @@ def main(argv: list[str] | None = None) -> int:
         candidate_path = Path(args.candidate_file) if args.candidate_file else None
         screened = None
         screening_warnings: tuple[str, ...] = ()
-        if candidate_path is not None and args.mode != "premarket" and candidate_path.exists():
+        fixed_selection = False
+        if candidate_path is not None and candidate_path.exists():
             try:
                 screened = load_candidates(candidate_path, now.date())
+                fixed_selection = True
             except (OSError, ValueError) as exc:
-                print(f"candidate cache ignored: {exc}", file=sys.stderr)
+                raise RuntimeError(f"당일 장전 후보 파일을 읽을 수 없습니다: {exc}") from exc
+        if args.mode != "premarket" and not fixed_selection:
+            raise RuntimeError("당일 장전 후보 파일이 없습니다. 07:30 premarket 작업을 먼저 실행하세요.")
         if screened is None:
             screened, screening_warnings, history = service.prepare_candidates(now, history)
             if history_path is not None:
                 history.save(history_path)
-            if candidate_path is not None:
-                save_candidates(candidate_path, now.date(), screened)
 
         report = service.run(
             args.mode,
             now,
             screened_candidates=screened,
             screening_warnings=screening_warnings,
+            fixed_selection=fixed_selection,
         )
+        if args.mode == "premarket" and candidate_path is not None and not fixed_selection:
+            # Persist exactly the themes shown in the morning report, after scoring.
+            save_candidates(
+                candidate_path, now.date(),
+                [(item.theme, item.pattern) for item in report.themes],
+            )
         message = format_report(report)
         if args.report_file:
             save_report(Path(args.report_file), report, message)
