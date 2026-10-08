@@ -619,6 +619,10 @@ _EVENT_TYPE_LABELS = {
     "market_commentary": "시황·반복보도",
 }
 _HORIZON_LABELS = {"open": "시초가", "intraday": "당일", "short_term": "단기", "long_term": "중장기"}
+_INVESTMENT_DISCLAIMER = (
+    "※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. "
+    "모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+)
 
 
 def _format_amount(value: float | None) -> str:
@@ -713,5 +717,6 @@ def format_report(report: DailyReport) -> str:
     elif report.mode == "preopen":
         lines.append("※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.")
     else:
-        lines.append("※ 뉴스·공시·초기 수급 기반 참고 지표이며 투자 권유가 아닙니다.")
+        lines.append("※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.")
+    lines.extend(["", _INVESTMENT_DISCLAIMER])
     return "\n".join(lines).strip()

@@ -523,6 +523,8 @@ class FormattingTest(unittest.TestCase):
         self.assertIn("거래 확인", message)
         self.assertIn("전일거래량 대비 0.15배", message)
         self.assertIn("핵심 공시", message)
+        self.assertIn("모든 투자 판단과 손익의 책임은 이용자 본인", message)
+        self.assertIn("서비스 제공자는 투자 결과에 책임지지 않습니다", message)
 
     def test_formats_preopen_report_as_intermediate_signal(self):
         now = datetime(2026, 10, 7, 8, 55, tzinfo=ZoneInfo("Asia/Seoul"))
@@ -541,6 +543,7 @@ class FormattingTest(unittest.TestCase):
         self.assertIn("거래대금 최대 3.2배", message)
         self.assertIn("폭발 후 20거래일", message)
         self.assertIn("09:10 최종 확인 전 중간 신호", message)
+        self.assertIn("모든 투자 판단과 손익의 책임은 이용자 본인", message)
 
 
 class ReportStoreTest(unittest.TestCase):

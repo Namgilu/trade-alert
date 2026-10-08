@@ -8,7 +8,7 @@ const DATA_ROOT = "https://raw.githubusercontent.com/Namgilu/trade-alert/data";
 const INDEX_PATH = "reports/index.json";
 const REPORT_PATH_PATTERN = /^reports\/\d{4}-\d{2}-\d{2}\/(premarket|preopen|confirmation)\.json$/;
 
-const state = { index: [], reports: [], selectedDate: null };
+const state = { index: [], reports: [], selectedDate: null, collapsedStages: new Set() };
 const reportsRoot = document.querySelector("#reports");
 const dateSelect = document.querySelector("#market-date");
 const notice = document.querySelector("#notice");
@@ -128,26 +128,52 @@ function renderTheme(theme, rank, mode) {
 
 function renderStage(stage, report) {
   const section = node("section", "stage");
-  const header = node("header", "stage-header");
+  const bodyId = `stage-body-${stage.mode}`;
+  const collapsed = state.collapsedStages.has(stage.mode);
+  const header = node("button", "stage-header");
+  header.type = "button";
+  header.setAttribute("aria-expanded", String(!collapsed));
+  header.setAttribute("aria-controls", bodyId);
+  header.setAttribute("aria-label", `${stage.title} ${collapsed ? "펼치기" : "접기"}`);
   const generated = report ? new Date(report.generated_at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" }) : null;
   const title = node("div", "stage-title");
   title.append(node("b", "", stage.title), node("small", "", report ? `${stage.detail} · 생성 ${generated}` : stage.detail));
-  header.append(node("time", "stage-time", stage.time), title, node("span", "status-pill", report ? "분석 완료" : "결과 대기"));
+  header.append(
+    node("time", "stage-time", stage.time),
+    title,
+    node("span", "status-pill", report ? "분석 완료" : "결과 대기"),
+    node("span", "stage-toggle-icon", "⌄"),
+  );
   section.append(header);
+  const body = node("div", "stage-body");
+  body.id = bodyId;
+  body.hidden = collapsed;
+  section.classList.toggle("is-collapsed", collapsed);
+  header.addEventListener("click", () => {
+    const shouldCollapse = !body.hidden;
+    body.hidden = shouldCollapse;
+    section.classList.toggle("is-collapsed", shouldCollapse);
+    header.setAttribute("aria-expanded", String(!shouldCollapse));
+    header.setAttribute("aria-label", `${stage.title} ${shouldCollapse ? "펼치기" : "접기"}`);
+    if (shouldCollapse) state.collapsedStages.add(stage.mode);
+    else state.collapsedStages.delete(stage.mode);
+  });
   if (!report) {
-    section.append(node("div", "stage-empty", "아직 저장된 결과가 없습니다. 워크플로 실행이 완료되면 자동으로 표시됩니다."));
+    body.append(node("div", "stage-empty", "아직 저장된 결과가 없습니다. 워크플로 실행이 완료되면 자동으로 표시됩니다."));
+    section.append(body);
     return section;
   }
   if (!report.themes || report.themes.length === 0) {
-    section.append(node("div", "stage-empty", "조건을 통과한 테마가 없습니다."));
+    body.append(node("div", "stage-empty", "조건을 통과한 테마가 없습니다."));
   } else {
     const grid = node("div", "theme-grid");
     report.themes.forEach((theme, index) => grid.append(renderTheme(theme, index + 1, stage.mode)));
-    section.append(grid);
+    body.append(grid);
   }
   if (report.warning_count) {
-    section.append(node("div", "stage-warning", `일부 데이터 처리 실패 ${report.warning_count}건`));
+    body.append(node("div", "stage-warning", `일부 데이터 처리 실패 ${report.warning_count}건`));
   }
+  section.append(body);
   return section;
 }
 
