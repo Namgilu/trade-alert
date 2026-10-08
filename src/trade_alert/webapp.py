@@ -135,6 +135,10 @@ def create_app(repository: GitHubRepository | None = None):
     def index():
         return FileResponse(static_root / "index.html")
 
+    # Keep the same asset URLs when the dashboard is served by Firebase Hosting
+    # or by this optional FastAPI server.
+    app.mount("/", StaticFiles(directory=static_root), name="static")
+
     return app
 
 
