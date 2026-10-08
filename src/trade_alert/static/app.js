@@ -8,7 +8,12 @@ const DATA_ROOT = "https://raw.githubusercontent.com/Namgilu/trade-alert/data";
 const INDEX_PATH = "reports/index.json";
 const REPORT_PATH_PATTERN = /^reports\/\d{4}-\d{2}-\d{2}\/(premarket|preopen|confirmation)\.json$/;
 
-const state = { index: [], reports: [], selectedDate: null, collapsedStages: new Set() };
+const state = {
+  index: [],
+  reports: [],
+  selectedDate: null,
+  collapsedStages: new Set(STAGES.map((stage) => stage.mode)),
+};
 const reportsRoot = document.querySelector("#reports");
 const dateSelect = document.querySelector("#market-date");
 const notice = document.querySelector("#notice");
@@ -135,14 +140,26 @@ function renderStage(stage, report) {
   header.setAttribute("aria-expanded", String(!collapsed));
   header.setAttribute("aria-controls", bodyId);
   header.setAttribute("aria-label", `${stage.title} ${collapsed ? "펼치기" : "접기"}`);
-  const generated = report ? new Date(report.generated_at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" }) : null;
+  const generated = report ? new Date(report.generated_at).toLocaleTimeString("ko-KR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Seoul",
+  }) : null;
   const title = node("div", "stage-title");
-  title.append(node("b", "", stage.title), node("small", "", report ? `${stage.detail} · 생성 ${generated}` : stage.detail));
+  title.append(
+    node("b", "", stage.title),
+    node("small", report ? "snapshot-time" : "", report ? `${stage.detail} · ${generated} 기준 스냅샷` : stage.detail),
+  );
+  const toggleControl = node("span", "stage-toggle-control");
+  const toggleLabel = node("span", "stage-toggle-label", collapsed ? "눌러서 내용 보기" : "내용 접기");
+  const toggleIcon = node("span", "stage-toggle-icon", collapsed ? "+" : "−");
+  toggleControl.append(toggleLabel, toggleIcon);
   header.append(
     node("time", "stage-time", stage.time),
     title,
-    node("span", "status-pill", report ? "분석 완료" : "결과 대기"),
-    node("span", "stage-toggle-icon", "⌄"),
+    node("span", "status-pill", report ? "실시간 아님" : "결과 대기"),
+    toggleControl,
   );
   section.append(header);
   const body = node("div", "stage-body");
@@ -155,6 +172,8 @@ function renderStage(stage, report) {
     section.classList.toggle("is-collapsed", shouldCollapse);
     header.setAttribute("aria-expanded", String(!shouldCollapse));
     header.setAttribute("aria-label", `${stage.title} ${shouldCollapse ? "펼치기" : "접기"}`);
+    toggleLabel.textContent = shouldCollapse ? "눌러서 내용 보기" : "내용 접기";
+    toggleIcon.textContent = shouldCollapse ? "+" : "−";
     if (shouldCollapse) state.collapsedStages.add(stage.mode);
     else state.collapsedStages.delete(stage.mode);
   });
