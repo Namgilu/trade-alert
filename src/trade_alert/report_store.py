@@ -8,6 +8,19 @@ from .models import DailyReport, EventSummary, MarketEvent, PreopenQuote, StockA
 
 
 REPORT_VERSION = 1
+REPORT_INDEX_VERSION = 1
+REPORT_INDEX_LIMIT = 270
+REPORT_MODES = {"premarket", "preopen", "confirmation"}
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(f"{path.suffix}.tmp")
+    temporary.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
 
 
 def _event_payload(event: MarketEvent) -> dict[str, Any]:
@@ -112,11 +125,45 @@ def report_payload(report: DailyReport, rendered_text: str) -> dict[str, Any]:
     }
 
 
-def save_report(path: Path, report: DailyReport, rendered_text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(f"{path.suffix}.tmp")
-    temporary.write_text(
-        json.dumps(report_payload(report, rendered_text), ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
+def _update_report_index(report_path: Path) -> None:
+    reports_root = report_path.parent.parent
+    if reports_root.name != "reports":
+        return
+
+    entries: list[dict[str, str]] = []
+    for candidate in reports_root.glob("????-??-??/*.json"):
+        try:
+            payload = json.loads(candidate.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(payload, dict):
+            continue
+        market_date = str(payload.get("market_date", ""))
+        generated_at = str(payload.get("generated_at", ""))
+        mode = str(payload.get("mode", ""))
+        if candidate.parent.name != market_date or mode not in REPORT_MODES or not generated_at:
+            continue
+        entries.append(
+            {
+                "market_date": market_date,
+                "mode": mode,
+                "generated_at": generated_at,
+                "path": candidate.relative_to(reports_root.parent).as_posix(),
+            }
+        )
+
+    entries.sort(key=lambda item: item["generated_at"], reverse=True)
+    entries = entries[:REPORT_INDEX_LIMIT]
+    _write_json(
+        reports_root / "index.json",
+        {
+            "version": REPORT_INDEX_VERSION,
+            "updated_at": entries[0]["generated_at"] if entries else None,
+            "reports": entries,
+        },
     )
-    temporary.replace(path)
+
+
+def save_report(path: Path, report: DailyReport, rendered_text: str) -> None:
+    _write_json(path, report_payload(report, rendered_text))
+    _update_report_index(path)

@@ -4,7 +4,11 @@ const STAGES = [
   { mode: "confirmation", time: "09:10", title: "장초 최종확인", detail: "실제 거래대금 + 확산도" },
 ];
 
-const state = { reports: [], selectedDate: null };
+const DATA_ROOT = "https://raw.githubusercontent.com/Namgilu/trade-alert/data";
+const INDEX_PATH = "reports/index.json";
+const REPORT_PATH_PATTERN = /^reports\/\d{4}-\d{2}-\d{2}\/(premarket|preopen|confirmation)\.json$/;
+
+const state = { index: [], reports: [], selectedDate: null };
 const reportsRoot = document.querySelector("#reports");
 const dateSelect = document.querySelector("#market-date");
 const notice = document.querySelector("#notice");
@@ -149,14 +153,13 @@ function renderStage(stage, report) {
 
 function renderReports() {
   reportsRoot.replaceChildren();
-  const dayReports = state.reports.filter((report) => report.market_date === state.selectedDate);
   STAGES.forEach((stage) => {
-    reportsRoot.append(renderStage(stage, dayReports.find((report) => report.mode === stage.mode)));
+    reportsRoot.append(renderStage(stage, state.reports.find((report) => report.mode === stage.mode)));
   });
 }
 
 function updateDates() {
-  const dates = [...new Set(state.reports.map((report) => report.market_date))].sort().reverse();
+  const dates = [...new Set(state.index.map((report) => report.market_date))].sort().reverse();
   dateSelect.replaceChildren();
   if (!dates.length) {
     dateSelect.append(new Option("저장된 결과 없음", ""));
@@ -173,20 +176,54 @@ function updateDates() {
 async function loadSchedules() {
   const root = document.querySelector("#schedule-list");
   const status = document.querySelector("#scheduler-state");
-  try {
-    const response = await fetch("/api/schedules");
-    if (!response.ok) throw new Error();
-    const payload = await response.json();
-    status.lastChild.textContent = payload.enabled ? " 자동 분석 운영 중" : " 자동 분석 꺼짐";
-    root.replaceChildren();
-    payload.items.forEach((item) => {
-      const row = node("div", "schedule-item");
-      row.append(node("time", "", item.time), node("b", "", item.label), node("i"));
-      root.append(row);
-    });
-  } catch (_) {
-    status.lastChild.textContent = " 일정 확인 실패";
-    root.replaceChildren(node("div", "stage-empty", "일정을 불러오지 못했습니다."));
+  status.lastChild.textContent = " 외부 예약 호출 설정됨";
+  root.replaceChildren();
+  STAGES.forEach((item) => {
+    const row = node("div", "schedule-item");
+    row.append(node("time", "", item.time), node("b", "", item.title), node("i"));
+    root.append(row);
+  });
+}
+
+function dataUrl(path, version) {
+  const encodedPath = path.split("/").map(encodeURIComponent).join("/");
+  return `${DATA_ROOT}/${encodedPath}?v=${encodeURIComponent(version)}`;
+}
+
+async function fetchJson(path, version) {
+  const response = await fetch(dataUrl(path, version), { cache: "no-store" });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
+
+function validIndexEntry(entry) {
+  return entry
+    && typeof entry.market_date === "string"
+    && typeof entry.mode === "string"
+    && typeof entry.generated_at === "string"
+    && typeof entry.path === "string"
+    && REPORT_PATH_PATTERN.test(entry.path);
+}
+
+async function loadSelectedDate(force = false) {
+  if (!state.selectedDate) {
+    state.reports = [];
+    renderReports();
+    return;
+  }
+  const entries = state.index.filter((entry) => entry.market_date === state.selectedDate);
+  const settled = await Promise.allSettled(
+    entries.map((entry) => fetchJson(entry.path, force ? Date.now() : entry.generated_at)),
+  );
+  state.reports = settled
+    .filter((result) => result.status === "fulfilled")
+    .map((result) => result.value)
+    .filter((report) => report && report.market_date === state.selectedDate);
+  renderReports();
+  const failures = settled.filter((result) => result.status === "rejected").length;
+  if (failures) {
+    notice.textContent = `일부 결과 파일을 불러오지 못했습니다. 잠시 후 새로고침해 주세요. (${failures}건)`;
+    notice.hidden = false;
   }
 }
 
@@ -194,28 +231,40 @@ async function loadReports(force = false) {
   refreshButton.disabled = true;
   notice.hidden = true;
   try {
-    const response = await fetch(`/api/reports?limit=30${force ? "&refresh=true" : ""}`);
-    const payload = await response.json();
-    if (!response.ok) throw new Error(payload.detail || "결과 조회에 실패했습니다.");
-    state.reports = payload.reports || [];
+    const payload = await fetchJson(INDEX_PATH, Date.now());
+    if (!payload || payload.version !== 1 || !Array.isArray(payload.reports)) {
+      throw new Error("결과 인덱스 형식이 올바르지 않습니다.");
+    }
+    state.index = payload.reports.filter(validIndexEntry);
     updateDates();
-    if (!state.reports.length) {
+    if (!state.index.length) {
       notice.textContent = "data 브랜치에 저장된 분석 결과가 아직 없습니다.";
       notice.hidden = false;
     }
-    renderReports();
+    await loadSelectedDate(force);
   } catch (error) {
+    state.index = [];
+    state.reports = [];
+    updateDates();
     reportsRoot.replaceChildren();
-    notice.textContent = error.message;
+    notice.textContent = error.message === "HTTP 404"
+      ? "결과 인덱스가 아직 없습니다. 다음 분석 워크플로가 완료되면 자동으로 생성됩니다."
+      : "GitHub data 브랜치에서 결과를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
     notice.hidden = false;
   } finally {
     refreshButton.disabled = false;
   }
 }
 
-dateSelect.addEventListener("change", () => {
+dateSelect.addEventListener("change", async () => {
   state.selectedDate = dateSelect.value;
-  renderReports();
+  notice.hidden = true;
+  refreshButton.disabled = true;
+  try {
+    await loadSelectedDate();
+  } finally {
+    refreshButton.disabled = false;
+  }
 });
 refreshButton.addEventListener("click", () => loadReports(true));
 loadSchedules();

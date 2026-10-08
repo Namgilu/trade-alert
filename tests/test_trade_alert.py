@@ -566,12 +566,43 @@ class ReportStoreTest(unittest.TestCase):
             path = Path(directory) / "reports" / "2026-10-07" / "confirmation.json"
             save_report(path, report, "telegram output")
             payload = json.loads(path.read_text(encoding="utf-8"))
+            index = json.loads((path.parent.parent / "index.json").read_text(encoding="utf-8"))
         self.assertEqual(payload["warning_count"], 1)
         self.assertNotIn("warnings", payload)
         self.assertTrue(payload["themes"][0]["stocks"][0]["has_error"])
         self.assertNotIn("error", payload["themes"][0]["stocks"][0])
         self.assertEqual(payload["themes"][0]["stocks"][0]["events"][0]["title"], "공급계약")
         self.assertNotIn("description", payload["themes"][0]["stocks"][0]["events"][0])
+        self.assertEqual(index["version"], 1)
+        self.assertEqual(
+            index["reports"],
+            [
+                {
+                    "market_date": "2026-10-07",
+                    "mode": "confirmation",
+                    "generated_at": "2026-10-07T09:10:00+09:00",
+                    "path": "reports/2026-10-07/confirmation.json",
+                }
+            ],
+        )
+
+    def test_report_index_keeps_existing_reports_in_latest_first_order(self):
+        morning = datetime(2026, 10, 7, 7, 30, tzinfo=ZoneInfo("Asia/Seoul"))
+        confirmation = datetime(2026, 10, 7, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "reports" / "2026-10-07"
+            save_report(root / "premarket.json", DailyReport(morning, "premarket"), "morning")
+            save_report(
+                root / "confirmation.json",
+                DailyReport(confirmation, "confirmation"),
+                "confirmation",
+            )
+            index = json.loads((root.parent / "index.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            [item["mode"] for item in index["reports"]],
+            ["confirmation", "premarket"],
+        )
+        self.assertEqual(index["updated_at"], confirmation.isoformat())
 
 
 class GitHubRepositoryTest(unittest.TestCase):
