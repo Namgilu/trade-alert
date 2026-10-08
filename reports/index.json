@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-08T10:45:54.095085+09:00",
+  "reports": [
+    {
+      "market_date": "2026-10-08",
+      "mode": "confirmation",
+      "generated_at": "2026-10-08T10:45:54.095085+09:00",
+      "path": "reports/2026-10-08/confirmation.json"
+    },
+    {
+      "market_date": "2026-10-08",
+      "mode": "preopen",
+      "generated_at": "2026-10-08T10:40:53.979210+09:00",
+      "path": "reports/2026-10-08/preopen.json"
+    },
+    {
+      "market_date": "2026-10-08",
+      "mode": "premarket",
+      "generated_at": "2026-10-08T10:39:25.637777+09:00",
+      "path": "reports/2026-10-08/premarket.json"
+    }
+  ]
+}
