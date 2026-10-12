@@ -1,0 +1,237 @@
+{
+  "version": 2,
+  "market_date": "2026-10-13",
+  "generated_at": "2026-10-13T07:30:30.445347+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.81,
+      "breadth": 0.75,
+      "trading_value": 127618000.0,
+      "score": 62.01893533904503,
+      "pattern": {
+        "peak_return": 41.4423947680711,
+        "drawdown": -8.02724296847288,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.6544255296248717,
+        "trend_breadth": 1.0,
+        "score": 64.13992392828827,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.32425972091470795
+      },
+      "stocks": [
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": 3.38,
+          "trade_amount": 38481000000.0,
+          "trade_volume": 199112.0,
+          "previous_volume": 220819.0,
+          "relative_volume": 0.9016977705722786,
+          "score": 52.82011845014588,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": 2.84,
+          "trade_amount": 2239000000.0,
+          "trade_volume": 964486.0,
+          "previous_volume": 606008.0,
+          "relative_volume": 1.5915400456759647,
+          "score": 51.98934921937665,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": 0.89,
+          "trade_amount": 3071000000.0,
+          "trade_volume": 209244.0,
+          "previous_volume": 241198.0,
+          "relative_volume": 0.8675196311743878,
+          "score": 48.98934921937665,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": -1.94,
+      "breadth": 0.25,
+      "trading_value": 97403000.0,
+      "score": 56.337736580641895,
+      "pattern": {
+        "peak_return": 24.83221476510069,
+        "drawdown": -19.438468010181275,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5464019047140994,
+        "trend_breadth": 1.0,
+        "score": 57.456160683108116,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 31,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      },
+      "stocks": [
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": 0.89,
+          "trade_amount": 3071000000.0,
+          "trade_volume": 209244.0,
+          "previous_volume": 241198.0,
+          "relative_volume": 0.8675196311743878,
+          "score": 47.56904952977587,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": -1.86,
+          "trade_amount": 80516000000.0,
+          "trade_volume": 299964.0,
+          "previous_volume": 335818.0,
+          "relative_volume": 0.893233834993955,
+          "score": 43.338280299006634,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": -2.12,
+          "trade_amount": 11632000000.0,
+          "trade_volume": 2278051.0,
+          "previous_volume": 2379529.0,
+          "relative_volume": 0.9573537452159651,
+          "score": 42.938280299006635,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "415",
+      "name": "그래핀",
+      "change_rate": -2.21,
+      "breadth": 0.23076923076923078,
+      "trading_value": 13506000.0,
+      "score": 32.056597749767974,
+      "pattern": {
+        "peak_return": 21.551787866613093,
+        "drawdown": -9.170855447121385,
+        "consolidation_range": 19.283276450511934,
+        "down_volume_ratio": 1.2641346614277489,
+        "trend_breadth": 1.0,
+        "score": 28.907315048287046,
+        "turnover_spike_ratio": 3.162270833126685,
+        "days_since_turnover_spike": 37,
+        "turnover_cooldown_ratio": 0.5922058355435075
+      },
+      "stocks": [
+        {
+          "code": "073110",
+          "name": "엘엠에스",
+          "change_rate": 0.39,
+          "trade_amount": 32473000.0,
+          "trade_volume": 6249.0,
+          "previous_volume": 4817.0,
+          "relative_volume": 1.2972804650197218,
+          "score": 40.729534052826615,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "078130",
+          "name": "에스엠국일",
+          "change_rate": 0.27,
+          "trade_amount": 223876000.0,
+          "trade_volume": 59961.0,
+          "previous_volume": 84334.0,
+          "relative_volume": 0.7109943794910712,
+          "score": 40.54491866821123,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "024900",
+          "name": "디와이덕양",
+          "change_rate": 0.23,
+          "trade_amount": 132000000.0,
+          "trade_volume": 61830.0,
+          "previous_volume": 67207.0,
+          "relative_volume": 0.919993453062925,
+          "score": 40.322559752636586,
+          "signal": "낮은 우선순위",
+          "event_summary": {
+            "score": -0.5848016510406622,
+            "direction": "중립",
+            "relevance": 0.3,
+            "confirmed": 0.9,
+            "event_type": "earnings",
+            "horizon": "open",
+            "confidence": 0.91,
+            "event_count": 1,
+            "primary_event": {
+              "title": "[기재정정]반기보고서 (2026.06)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261012000127",
+              "published_at": "2026-10-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "[기재정정]반기보고서 (2026.06)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261012000127",
+              "published_at": "2026-10-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 9,
+  "telegram_text": "🌅 2026-10-13 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 62/100\n   등락 +0.81% · 확산도 75%\n   3개월 고점상승 +41.4% · 고점대비 -8.0%\n   15일 변동폭 9.6% · 하락거래대금비 0.65 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 22거래일 · 현재/고점 0.32배\n   1) DB손해보험(005830) · 낮은 우선순위 53 · 전일 +3.38%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 롯데손해보험(000400) · 낮은 우선순위 52 · 전일 +2.84%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 낮은 우선순위 49 · 전일 +0.89%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 생명보험 · 강도 56/100\n   등락 -1.94% · 확산도 25%\n   3개월 고점상승 +24.8% · 고점대비 -19.4%\n   15일 변동폭 12.2% · 하락거래대금비 0.55 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 31거래일 · 현재/고점 0.19배\n   1) 코리안리(003690) · 낮은 우선순위 48 · 전일 +0.89%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 삼성생명(032830) · 낮은 우선순위 43 · 전일 -1.86%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화생명(088350) · 낮은 우선순위 43 · 전일 -2.12%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 그래핀 · 강도 32/100\n   등락 -2.21% · 확산도 23%\n   3개월 고점상승 +21.6% · 고점대비 -9.2%\n   15일 변동폭 19.3% · 하락거래대금비 1.26 · 60일선 상회 100%\n   거래대금 최대 3.2배 · 폭발 후 37거래일 · 현재/고점 0.59배\n   1) 엘엠에스(073110) · 낮은 우선순위 41 · 전일 +0.39%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 에스엠국일(078130) · 낮은 우선순위 41 · 전일 +0.27%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 디와이덕양(024900) · 낮은 우선순위 40 · 전일 +0.23%\n     이벤트: 중립 -1 · 실적 · 시초가\n     핵심 공시: [기재정정]반기보고서 (2026.06)\n\n⚠️ 일부 데이터 처리 실패: 9건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}

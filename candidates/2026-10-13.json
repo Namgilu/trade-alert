@@ -1,0 +1,108 @@
+{
+  "version": 4,
+  "market_date": "2026-10-13",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 0.81,
+        "breadth": 0.75,
+        "trading_value": 127618000.0,
+        "stocks": [
+          {
+            "code": "005830",
+            "name": "DB손해보험"
+          },
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 41.4423947680711,
+        "drawdown": -8.02724296847288,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.6544255296248717,
+        "trend_breadth": 1.0,
+        "score": 64.13992392828827,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.32425972091470795
+      }
+    },
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": -1.94,
+        "breadth": 0.25,
+        "trading_value": 97403000.0,
+        "stocks": [
+          {
+            "code": "003690",
+            "name": "코리안리"
+          },
+          {
+            "code": "032830",
+            "name": "삼성생명"
+          },
+          {
+            "code": "088350",
+            "name": "한화생명"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 24.83221476510069,
+        "drawdown": -19.438468010181275,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5464019047140994,
+        "trend_breadth": 1.0,
+        "score": 57.456160683108116,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 31,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      }
+    },
+    {
+      "theme": {
+        "id": "415",
+        "name": "그래핀",
+        "change_rate": -2.21,
+        "breadth": 0.23076923076923078,
+        "trading_value": 13506000.0,
+        "stocks": [
+          {
+            "code": "073110",
+            "name": "엘엠에스"
+          },
+          {
+            "code": "078130",
+            "name": "에스엠국일"
+          },
+          {
+            "code": "024900",
+            "name": "디와이덕양"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.551787866613093,
+        "drawdown": -9.170855447121385,
+        "consolidation_range": 19.283276450511934,
+        "down_volume_ratio": 1.2641346614277489,
+        "trend_breadth": 1.0,
+        "score": 28.907315048287046,
+        "turnover_spike_ratio": 3.162270833126685,
+        "days_since_turnover_spike": 37,
+        "turnover_cooldown_ratio": 0.5922058355435075
+      }
+    }
+  ]
+}
