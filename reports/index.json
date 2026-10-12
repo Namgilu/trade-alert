@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "updated_at": "2026-10-12T09:10:25.150345+09:00",
+  "updated_at": "2026-10-12T10:35:35.749559+09:00",
   "reports": [
     {
       "market_date": "2026-10-12",
       "mode": "confirmation",
-      "generated_at": "2026-10-12T09:10:25.150345+09:00",
+      "generated_at": "2026-10-12T10:35:35.749559+09:00",
       "path": "reports/2026-10-12/confirmation.json"
     },
     {
