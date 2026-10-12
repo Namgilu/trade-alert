@@ -138,6 +138,42 @@ function renderTheme(theme, rank, mode) {
   return card;
 }
 
+function renderEmergingTheme(theme, rank) {
+  const card = node("article", "theme-card emerging-card");
+  card.append(node("div", "theme-rank emerging-rank", `신규 ${String(rank).padStart(2, "0")}`));
+  const nameRow = node("div", "theme-name-row");
+  nameRow.append(
+    node("div", "theme-name", theme.name),
+    node("div", "theme-score", `${number(theme.score, 0)} / 100`),
+  );
+  card.append(nameRow);
+  const metrics = node("div", "metric-grid");
+  metrics.append(
+    metric("중앙 등락", signed(theme.change_rate), theme.change_rate),
+    metric("합산 거래대금", amount(theme.trading_value), theme.trading_value),
+    metric("동반 종목", `${(theme.stocks || []).length}개`, (theme.stocks || []).length),
+    metric("공통 키워드", (theme.keywords || []).join(" · ") || "-", null),
+  );
+  card.append(metrics);
+  if (theme.catalyst) {
+    const catalyst = node("div", "emerging-catalyst");
+    catalyst.append(node("small", "", "공통 재료"));
+    const href = validLink(theme.catalyst.url);
+    const headline = node(href ? "a" : "div", "", theme.catalyst.title);
+    if (href) {
+      headline.href = href;
+      headline.target = "_blank";
+      headline.rel = "noopener noreferrer";
+    }
+    catalyst.append(headline);
+    card.append(catalyst);
+  }
+  const stocks = node("div", "stocks");
+  (theme.stocks || []).forEach((stock) => stocks.append(renderStock(stock, "confirmation")));
+  card.append(stocks);
+  return card;
+}
+
 function renderStage(stage, report) {
   const section = node("section", "stage");
   const bodyId = `stage-body-${stage.mode}`;
@@ -194,6 +230,17 @@ function renderStage(stage, report) {
   } else {
     const grid = node("div", "theme-grid");
     report.themes.forEach((theme, index) => grid.append(renderTheme(theme, index + 1, stage.mode)));
+    body.append(grid);
+  }
+  if (report.emerging_themes && report.emerging_themes.length) {
+    const heading = node("div", "emerging-heading");
+    heading.append(
+      node("b", "", "오늘의 신규·재점화 테마"),
+      node("small", "", "시장 급등주와 공통 뉴스 재료를 별도로 묶은 관찰 트랙"),
+    );
+    body.append(heading);
+    const grid = node("div", "theme-grid emerging-grid");
+    report.emerging_themes.forEach((theme, index) => grid.append(renderEmergingTheme(theme, index + 1)));
     body.append(grid);
   }
   if (report.warning_count) {

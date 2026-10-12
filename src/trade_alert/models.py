@@ -138,8 +138,21 @@ class ThemeAnalysis:
 
 
 @dataclass(frozen=True)
+class EmergingThemeAnalysis:
+    id: str
+    name: str
+    stocks: tuple[StockAnalysis, ...] = ()
+    score: float = 0.0
+    change_rate: float | None = None
+    trading_value: float | None = None
+    keywords: tuple[str, ...] = ()
+    catalyst: MarketEvent | None = None
+
+
+@dataclass(frozen=True)
 class DailyReport:
     generated_at: datetime
     mode: str
     themes: tuple[ThemeAnalysis, ...] = ()
     warnings: tuple[str, ...] = field(default_factory=tuple)
+    emerging_themes: tuple[EmergingThemeAnalysis, ...] = ()

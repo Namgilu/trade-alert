@@ -4,10 +4,18 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .models import DailyReport, EventSummary, MarketEvent, PreopenQuote, StockAnalysis, ThemeAnalysis
+from .models import (
+    DailyReport,
+    EmergingThemeAnalysis,
+    EventSummary,
+    MarketEvent,
+    PreopenQuote,
+    StockAnalysis,
+    ThemeAnalysis,
+)
 
 
-REPORT_VERSION = 1
+REPORT_VERSION = 2
 REPORT_INDEX_VERSION = 1
 REPORT_INDEX_LIMIT = 270
 REPORT_MODES = {"premarket", "preopen", "confirmation"}
@@ -113,6 +121,19 @@ def _theme_payload(analysis: ThemeAnalysis) -> dict[str, Any]:
     }
 
 
+def _emerging_theme_payload(analysis: EmergingThemeAnalysis) -> dict[str, Any]:
+    return {
+        "id": analysis.id,
+        "name": analysis.name,
+        "score": analysis.score,
+        "change_rate": analysis.change_rate,
+        "trading_value": analysis.trading_value,
+        "keywords": list(analysis.keywords),
+        "catalyst": _event_payload(analysis.catalyst) if analysis.catalyst else None,
+        "stocks": [_stock_payload(stock) for stock in analysis.stocks],
+    }
+
+
 def report_payload(report: DailyReport, rendered_text: str) -> dict[str, Any]:
     return {
         "version": REPORT_VERSION,
@@ -120,6 +141,9 @@ def report_payload(report: DailyReport, rendered_text: str) -> dict[str, Any]:
         "generated_at": report.generated_at.isoformat(),
         "mode": report.mode,
         "themes": [_theme_payload(theme) for theme in report.themes],
+        "emerging_themes": [
+            _emerging_theme_payload(theme) for theme in report.emerging_themes
+        ],
         # Provider errors can contain request URLs. Store only the count so an
         # API key embedded in a third-party query string can never reach Git.
         "warning_count": len(report.warnings),

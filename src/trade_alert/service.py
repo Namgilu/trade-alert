@@ -1,11 +1,26 @@
 from __future__ import annotations
 
+import hashlib
+import math
+import re
+from collections import Counter
 from dataclasses import dataclass, replace
 from datetime import datetime, timedelta
 from statistics import median
 from zoneinfo import ZoneInfo
 
-from .models import DailyBar, DailyReport, EventSummary, Stock, StockAnalysis, Theme, ThemeAnalysis, ThemePattern
+from .models import (
+    DailyBar,
+    DailyReport,
+    EmergingThemeAnalysis,
+    EventSummary,
+    MarketEvent,
+    Stock,
+    StockAnalysis,
+    Theme,
+    ThemeAnalysis,
+    ThemePattern,
+)
 from .providers import (
     JevEventProvider,
     KisMarketDataProvider,
@@ -212,6 +227,98 @@ def _preopen_signal(score: float) -> str:
     if score >= 55:
         return "장전 주의"
     return "장전 제외"
+
+
+_TOPIC_WORD_RE = re.compile(r"[0-9A-Za-z가-힣]{2,}")
+_TOPIC_STOPWORDS = {
+    "관련주", "거래", "급등", "기대", "뉴스", "다시", "단독", "대비", "랠리", "매수",
+    "매일경제", "머니투데이", "부각", "상승", "상한가", "서울경제", "소식", "수혜", "시장",
+    "아시아경제", "오늘", "이데일리", "이슈", "장중", "재개", "전망", "정부", "정책", "종목",
+    "주가", "주식", "증시", "코스닥", "코스피", "특징주", "투자", "파이낸셜뉴스", "한국경제",
+    "확대", "뉴스핌",
+}
+_BROAD_TOPIC_WORDS = {"건설", "공장", "반도체", "바이오", "전력", "클러스터"}
+_TOPIC_ALIASES = {"호남권": "호남", "수도권": "수도권", "충청권": "충청"}
+
+
+def _topic_tokens(events: list[MarketEvent], stock: Stock) -> Counter[str]:
+    excluded = {stock.name.lower(), re.sub(r"(?:\d*우B?|우선주)$", "", stock.name, flags=re.IGNORECASE).lower()}
+    tokens: Counter[str] = Counter()
+    for event in events:
+        for raw in _TOPIC_WORD_RE.findall(event.title):
+            value = _TOPIC_ALIASES.get(raw.lower(), raw.lower())
+            if value in _TOPIC_STOPWORDS or value in excluded or len(value) < 2:
+                continue
+            tokens[value] += 1
+    return tokens
+
+
+def _event_theme_clusters(
+    rows: list[tuple[Stock, list[MarketEvent]]], minimum_stocks: int = 3
+) -> list[tuple[list[int], tuple[str, ...]]]:
+    """Cluster moving stocks when their recent headlines share a concrete catalyst."""
+    topics = [_topic_tokens(events, stock) for stock, events in rows]
+    company_names = {
+        value.lower()
+        for stock, _ in rows
+        for value in (
+            stock.name,
+            re.sub(r"(?:\d*우B?|우선주)$", "", stock.name, flags=re.IGNORECASE),
+        )
+        if value
+    }
+    for row in topics:
+        for company_name in company_names:
+            row.pop(company_name, None)
+    document_frequency = Counter(token for row in topics for token in row)
+    parents = list(range(len(rows)))
+
+    def find(index: int) -> int:
+        while parents[index] != index:
+            parents[index] = parents[parents[index]]
+            index = parents[index]
+        return index
+
+    def union(left: int, right: int) -> None:
+        left_root, right_root = find(left), find(right)
+        if left_root != right_root:
+            parents[right_root] = left_root
+
+    for left in range(len(rows)):
+        for right in range(left + 1, len(rows)):
+            shared = set(topics[left]) & set(topics[right])
+            concrete = {token for token in shared if token not in _BROAD_TOPIC_WORDS}
+            if len(shared) >= 2 or any(document_frequency[token] >= minimum_stocks for token in concrete):
+                union(left, right)
+
+    components: dict[int, list[int]] = {}
+    for index in range(len(rows)):
+        components.setdefault(find(index), []).append(index)
+
+    result: list[tuple[list[int], tuple[str, ...]]] = []
+    for indices in components.values():
+        if len(indices) < minimum_stocks:
+            continue
+        frequency = Counter()
+        for index in indices:
+            frequency.update(topics[index])
+        shared_tokens = [
+            token for token, count in frequency.items()
+            if sum(token in topics[index] for index in indices) >= 2
+        ]
+        shared_tokens.sort(
+            key=lambda token: (
+                token not in _BROAD_TOPIC_WORDS,
+                document_frequency[token],
+                frequency[token],
+                len(token),
+            ),
+            reverse=True,
+        )
+        if not shared_tokens:
+            continue
+        result.append((indices, tuple(shared_tokens[:3])))
+    return result
 
 
 class MarketAlertService:
@@ -445,6 +552,144 @@ class MarketAlertService:
             preopen_quote=preopen_quote,
         )
 
+    def _discover_emerging_themes(
+        self,
+        now: datetime,
+        tracked: list[ThemeAnalysis],
+        warnings: list[str],
+        *,
+        stock_limit: int = 30,
+        theme_limit: int = 3,
+    ) -> tuple[EmergingThemeAnalysis, ...]:
+        """Discover event-driven themes without changing the fixed morning selection."""
+        market_movers = getattr(self.themes, "market_movers", None)
+        if not callable(market_movers) or self.news is None:
+            return ()
+        try:
+            raw_movers = market_movers(stock_limit)
+        except Exception as exc:
+            warnings.append(f"신규테마 시장상위 {type(exc).__name__}: {exc}")
+            return ()
+        if not isinstance(raw_movers, (list, tuple)):
+            return ()
+        movers = [
+            stock for stock in raw_movers
+            if (stock.change_rate or 0.0) >= 5.0 and (stock.trade_amount or 0.0) >= 300_000_000
+        ][:stock_limit]
+        rows: list[tuple[Stock, list[MarketEvent]]] = []
+        news_failures = 0
+        for stock in movers:
+            try:
+                events = deduplicate_events(
+                    self.news.recent(
+                        stock,
+                        min(self.news_per_stock, 5),
+                        min(self.news_lookback_hours, 24),
+                        now,
+                    ),
+                    min(self.max_events_per_stock, 5),
+                )
+            except Exception:
+                news_failures += 1
+                continue
+            if events:
+                rows.append((stock, events))
+        if news_failures:
+            warnings.append(f"신규테마 뉴스 조회 실패: {news_failures}건")
+
+        tracked_codes = {
+            result.stock.code for analysis in tracked for result in analysis.stocks
+        }
+        tracked_names = [analysis.theme.name.lower() for analysis in tracked]
+        discovered: list[EmergingThemeAnalysis] = []
+        for indices, keywords in _event_theme_clusters(rows):
+            cluster_rows = [rows[index] for index in indices]
+            cluster_codes = {stock.code for stock, _ in cluster_rows}
+            if len(cluster_codes & tracked_codes) >= 2:
+                continue
+            if any(sum(keyword in name for keyword in keywords) >= 2 for name in tracked_names):
+                continue
+
+            cluster_rows.sort(
+                key=lambda row: (row[0].change_rate or 0.0, row[0].trade_amount or 0.0),
+                reverse=True,
+            )
+            stock_analyses: list[StockAnalysis] = []
+            all_events: list[MarketEvent] = []
+            for stock, events in cluster_rows[:5]:
+                summary = None
+                if self.event_model is not None:
+                    try:
+                        summary = self.event_model.analyze(stock, events, now)
+                    except Exception as exc:
+                        warnings.append(f"{stock.name} 신규테마 JEV {type(exc).__name__}: {exc}")
+                price_score = _scale(stock.change_rate, 5.0, 30.0, default=0.0)
+                volume_score = _scale(stock.relative_volume, 1.5, 10.0, default=0.0)
+                amount_score = _scale(
+                    math.log10(max(stock.trade_amount or 1.0, 1.0)), 8.5, 11.0, default=0.0
+                )
+                event_score = _event_score(summary)
+                score = (
+                    0.45 * price_score
+                    + 0.25 * volume_score
+                    + 0.15 * amount_score
+                    + 0.15 * event_score
+                )
+                signal = "신규 주도" if score >= 75 else "신규 확산" if score >= 55 else "신규 관찰"
+                stock_analyses.append(
+                    StockAnalysis(stock, summary, tuple(events), _clamp(score), signal)
+                )
+                all_events.extend(events)
+
+            if len(stock_analyses) < 3:
+                continue
+            stock_analyses.sort(key=lambda item: item.score, reverse=True)
+            changes = [item.stock.change_rate or 0.0 for item in stock_analyses]
+            total_trading_value = sum(item.stock.trade_amount or 0.0 for item in stock_analyses)
+            breadth_score = min(100.0, 40.0 + len(cluster_rows) * 10.0)
+            strength_score = sum(_scale(value, 5.0, 30.0) for value in changes) / len(changes)
+            trading_score = _scale(math.log10(max(total_trading_value, 1.0)), 9.0, 11.5)
+            event_score = sum(_event_score(item.event_summary) for item in stock_analyses) / len(stock_analyses)
+            latest_event = max(all_events, key=lambda event: event.published_at)
+            age_hours = max(
+                0.0,
+                (now.astimezone(ZoneInfo("UTC")) - latest_event.published_at.astimezone(ZoneInfo("UTC"))).total_seconds() / 3600,
+            )
+            freshness_score = math.exp(-age_hours / 24.0) * 100.0
+            score = _clamp(
+                0.30 * breadth_score
+                + 0.25 * strength_score
+                + 0.20 * trading_score
+                + 0.15 * event_score
+                + 0.10 * freshness_score
+            )
+            if score < 55.0:
+                continue
+            catalyst = max(
+                all_events,
+                key=lambda event: (
+                    sum(keyword in event.title.lower() for keyword in keywords),
+                    event.published_at,
+                ),
+            )
+            identity = hashlib.sha1(
+                f"{now.date().isoformat()}|{'|'.join(keywords)}".encode("utf-8")
+            ).hexdigest()[:10]
+            discovered.append(
+                EmergingThemeAnalysis(
+                    id=f"emerging:{now.date().isoformat()}:{identity}",
+                    name=" · ".join(keywords),
+                    stocks=tuple(stock_analyses),
+                    score=score,
+                    change_rate=median(changes),
+                    trading_value=total_trading_value,
+                    keywords=keywords,
+                    catalyst=catalyst,
+                )
+            )
+        discovered.sort(key=lambda item: item.score, reverse=True)
+        return tuple(discovered[:theme_limit])
+
     def run(
         self,
         mode: str,
@@ -645,7 +890,18 @@ class MarketAlertService:
         if not fixed_selection:
             scored_themes.sort(key=lambda item: item.score if item.score is not None else -1.0, reverse=True)
             scored_themes = scored_themes[: self.theme_limit]
-        return DailyReport(now, mode, tuple(scored_themes), tuple(warnings))
+        emerging_themes = (
+            self._discover_emerging_themes(now, scored_themes, warnings)
+            if mode == "confirmation"
+            else ()
+        )
+        return DailyReport(
+            now,
+            mode,
+            tuple(scored_themes),
+            tuple(warnings),
+            emerging_themes,
+        )
 
 
 _EVENT_TYPE_LABELS = {
@@ -758,6 +1014,27 @@ def format_report(report: DailyReport) -> str:
                     lines.append("     예상체결 데이터 없음")
             lines.extend(_event_lines(result.event_summary))
         lines.append("")
+    if report.emerging_themes:
+        lines.extend(["⚡ 오늘의 신규·재점화 테마", ""])
+        for theme_rank, analysis in enumerate(report.emerging_themes, 1):
+            rate = f"{analysis.change_rate:+.2f}%" if analysis.change_rate is not None else "-"
+            lines.append(
+                f"{theme_rank}. {analysis.name} · 신규강도 {analysis.score:.0f}/100"
+            )
+            lines.append(
+                f"   동반종목 {len(analysis.stocks)}개 · 중앙등락 {rate}"
+                f" · 거래대금 {_format_amount(analysis.trading_value)}"
+            )
+            if analysis.catalyst:
+                lines.append(f"   공통 재료: {analysis.catalyst.title[:72]}")
+            for stock_rank, result in enumerate(analysis.stocks, 1):
+                stock = result.stock
+                stock_rate = f"{stock.change_rate:+.2f}%" if stock.change_rate is not None else "-"
+                lines.append(
+                    f"   {stock_rank}) {stock.name}({stock.code}) · {result.signal} {result.score:.0f}"
+                    f" · {stock_rate} · {_format_amount(stock.trade_amount)}"
+                )
+            lines.append("")
     if report.warnings:
         lines.append(f"⚠️ 일부 데이터 처리 실패: {len(report.warnings)}건")
     if report.mode == "premarket":

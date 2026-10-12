@@ -18,6 +18,7 @@ from trade_alert.github_repository import GitHubRepository
 from trade_alert.models import (
     DailyReport,
     DailyBar,
+    EmergingThemeAnalysis,
     EventSummary,
     MarketEvent,
     PreopenQuote,
@@ -28,7 +29,7 @@ from trade_alert.models import (
     ThemePattern,
 )
 from trade_alert.providers import KisMarketDataProvider, JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
-from trade_alert.report_store import save_report
+from trade_alert.report_store import report_payload, save_report
 from trade_alert.scheduler import WORKFLOW_SCHEDULES
 from trade_alert.service import MarketAlertService, format_report
 from trade_alert.theme_history import ThemeDailyPoint, ThemeHistoryStore, ThemeSeries
@@ -107,6 +108,19 @@ class ThemeProviderTest(unittest.TestCase):
         self.assertIn("pageSize=100", http.calls[0][0])
         self.assertIn("orderType=marketSum", http.calls[1][0])
         self.assertEqual(len(http.calls), 2)
+
+    def test_market_movers_exclude_managed_stocks_and_collapse_preferred_shares(self):
+        http = FakeHttp(
+            [[
+                {"itemcode": "1", "itemname": "금호건설우", "prevChangeRate": "29", "tradeAmount": "100", "type": "ST"},
+                {"itemcode": "2", "itemname": "금호건설", "prevChangeRate": "20", "tradeAmount": "1000", "type": "ST"},
+                {"itemcode": "3", "itemname": "남화토건", "prevChangeRate": "18", "tradeAmount": "900", "type": "ST"},
+                {"itemcode": "4", "itemname": "관리종목", "prevChangeRate": "30", "tradeAmount": "5000", "type": "ST", "manageStatusGb": "1"},
+            ]]
+        )
+        result = NaverThemeProvider(http, "themes", "theme/{theme_id}").market_movers(10)
+        self.assertEqual([stock.name for stock in result], ["금호건설", "남화토건"])
+        self.assertIn("orderType=up", http.calls[0][0])
 
 
 class EventProviderTest(unittest.TestCase):
@@ -350,6 +364,68 @@ class ThemeHistoryTest(unittest.TestCase):
 
 
 class ServiceScoringTest(unittest.TestCase):
+    def test_confirmation_discovers_news_cluster_without_changing_fixed_track(self):
+        now = datetime(2026, 10, 12, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        fixed_stock = Stock("005930", "삼성전자", 1.0, 10_000_000_000, 100, 100)
+        fixed_theme = Theme("1", "기존 반도체", 1.0, 0.6, 10_000_000_000, (fixed_stock,))
+        movers = [
+            Stock("100001", "금호건설", 20.0, 30_000_000_000, 1_000, 100),
+            Stock("100002", "남화토건", 15.0, 20_000_000_000, 900, 100),
+            Stock("100003", "대원전선", 10.0, 10_000_000_000, 800, 100),
+        ]
+
+        class Themes:
+            def refresh_themes(self, values, *_):
+                return values
+
+            def hydrate_theme(self, value, *_):
+                return value
+
+            def market_movers(self, *_):
+                return movers
+
+        class News:
+            def recent(self, stock, *_):
+                if stock.code == fixed_stock.code:
+                    return []
+                return [MarketEvent(
+                    f"호남권 반도체 클러스터 {stock.name} 수혜",
+                    "",
+                    f"https://example.com/{stock.code}",
+                    now - timedelta(minutes=10),
+                )]
+
+        class Dart:
+            enabled = False
+
+        class Model:
+            def analyze(self, stock, events, *_):
+                return EventSummary(80, 0.95, 0.8, "policy", "intraday", 0.9, len(events), events[0])
+
+        service = MarketAlertService(
+            Themes(), News(), Dart(), Model(), None,
+            theme_limit=5, theme_candidate_pool=5, stocks_per_theme=3,
+            news_per_stock=5, max_events_per_stock=5, news_lookback_hours=24,
+        )
+        report = service.run(
+            "confirmation",
+            now,
+            screened_candidates=[(fixed_theme, ThemePattern(30, -10, 10, 0.5, 1.0, 70))],
+        )
+        self.assertEqual([item.theme.name for item in report.themes], ["기존 반도체"])
+        self.assertEqual(len(report.emerging_themes), 1)
+        emerging = report.emerging_themes[0]
+        self.assertIn("호남", emerging.keywords)
+        self.assertEqual({item.stock.name for item in emerging.stocks}, {"금호건설", "남화토건", "대원전선"})
+        self.assertIn("오늘의 신규·재점화 테마", format_report(report))
+
+        preopen = service.run(
+            "preopen",
+            now,
+            screened_candidates=[(fixed_theme, ThemePattern(30, -10, 10, 0.5, 1.0, 70))],
+        )
+        self.assertEqual(preopen.emerging_themes, ())
+
     def test_preopen_reuses_screened_candidates_without_history_calls(self):
         now = datetime(2026, 10, 7, 8, 55, tzinfo=ZoneInfo("Asia/Seoul"))
         stock = Stock("005930", "삼성전자", 3.0)
@@ -609,6 +685,19 @@ class ReportStoreTest(unittest.TestCase):
             ["confirmation", "premarket"],
         )
         self.assertEqual(index["updated_at"], confirmation.isoformat())
+
+    def test_serializes_emerging_themes_as_separate_track(self):
+        now = datetime(2026, 10, 12, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        event = MarketEvent("호남 반도체 클러스터", "not persisted", "https://example.com", now)
+        stock = StockAnalysis(Stock("1", "금호건설", 20, 1_000_000_000), None, (event,), 80, "신규 주도")
+        emerging = EmergingThemeAnalysis(
+            "emerging:1", "호남 · 반도체", (stock,), 75, 20, 1_000_000_000,
+            ("호남", "반도체"), event,
+        )
+        payload = report_payload(DailyReport(now, "confirmation", emerging_themes=(emerging,)), "text")
+        self.assertEqual(payload["version"], 2)
+        self.assertEqual(payload["emerging_themes"][0]["name"], "호남 · 반도체")
+        self.assertNotIn("description", payload["emerging_themes"][0]["catalyst"])
 
 
 class GitHubRepositoryTest(unittest.TestCase):

@@ -90,6 +90,16 @@ button:disabled { opacity: .5; cursor: wait; }
 .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 .theme-card { padding: 25px; min-width: 0; border-right: 1px solid var(--line); }
 .theme-card:last-child { border-right: 0; }
+.emerging-heading { display: flex; align-items: baseline; gap: 12px; padding: 18px 25px; border-top: 1px solid rgba(255,181,102,.25); border-bottom: 1px solid var(--line); background: rgba(255,181,102,.055); }
+.emerging-heading b { color: var(--orange); font-size: 14px; }
+.emerging-heading small { color: var(--muted); font-size: 10px; }
+.emerging-grid { background: rgba(255,181,102,.025); }
+.emerging-card { border-top: 2px solid rgba(255,181,102,.35); }
+.emerging-rank { color: var(--orange); }
+.emerging-catalyst { margin: -5px 0 18px; padding: 11px 12px; border: 1px solid rgba(255,181,102,.18); border-radius: 10px; background: rgba(255,181,102,.055); }
+.emerging-catalyst small { display: block; margin-bottom: 5px; color: var(--orange); font-size: 9px; }
+.emerging-catalyst a, .emerging-catalyst div { color: #d8ddd9; font-size: 11px; line-height: 1.5; text-decoration: none; }
+.emerging-catalyst a:hover { color: var(--lime); }
 .theme-rank { color: var(--muted); font: 500 11px/1 ui-monospace, monospace; letter-spacing: .1em; }
 .theme-name-row { display: flex; justify-content: space-between; gap: 10px; margin: 9px 0 17px; align-items: baseline; }
 .theme-name { font: 600 23px/1.2 Georgia, "Noto Serif KR", serif; word-break: keep-all; }

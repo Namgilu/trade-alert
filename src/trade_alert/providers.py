@@ -89,6 +89,8 @@ def deduplicate_events(events: list[MarketEvent], limit: int) -> list[MarketEven
 
 
 class NaverThemeProvider:
+    market_stocks_url = "https://stock.naver.com/api/domestic/market/stock/default"
+
     def __init__(self, http: HttpClient, list_url: str, stocks_url_template: str) -> None:
         self.http = http
         self.list_url = list_url
@@ -184,6 +186,50 @@ class NaverThemeProvider:
         themes = self._list_themes(theme_limit)
         themes.sort(key=lambda item: item.change_rate if item.change_rate is not None else float("-inf"), reverse=True)
         return [self.hydrate_theme(theme, stocks_per_theme) for theme in themes[:theme_limit]]
+
+    def market_movers(self, limit: int) -> list[Stock]:
+        """Return liquid common-stock leaders for event-first theme discovery."""
+        url = _query_url(
+            self.market_stocks_url,
+            tradeType="KRX",
+            marketType="ALL",
+            orderType="up",
+            startIdx=0,
+            pageSize=min(max(limit * 2, limit), 100),
+        )
+        grouped: dict[str, Stock] = {}
+        for raw in _items(self.http.json(url)):
+            if str(raw.get("type", "ST")) != "ST":
+                continue
+            if str(raw.get("manageStatusGb", "0")) != "0" or str(raw.get("tradeStopYn", "N")) == "Y":
+                continue
+            code = str(_first(raw, ("itemcode", "itemCode", "stockCode", "code"), "")).strip()
+            name = str(_first(raw, ("itemname", "itemName", "stockName", "name"), "")).strip()
+            if not code or not name:
+                continue
+            stock = Stock(
+                code=code,
+                name=name,
+                change_rate=_float(_first(raw, ("prevChangeRate", "changeRate", "rate"))),
+                trade_amount=_float(_first(raw, ("tradeAmount", "accumulatedTradingValue"))),
+                trade_volume=_float(_first(raw, ("tradeVolume", "accumulatedTradingVolume"))),
+                previous_volume=_float(_first(raw, ("prevQuant", "previousTradingVolume"))),
+            )
+            # Treat common/preferred shares as one company and keep the more
+            # liquid representative so one issuer cannot fabricate breadth.
+            family = re.sub(r"(?:\d*우B?|우선주)$", "", name, flags=re.IGNORECASE)
+            existing = grouped.get(family)
+            if existing is None or (stock.trade_amount or 0.0) > (existing.trade_amount or 0.0):
+                grouped[family] = stock
+        stocks = sorted(
+            grouped.values(),
+            key=lambda item: (
+                item.change_rate if item.change_rate is not None else float("-inf"),
+                item.trade_amount or 0.0,
+            ),
+            reverse=True,
+        )
+        return stocks[:limit]
 
 
 class NaverNewsProvider:
