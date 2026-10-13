@@ -1,0 +1,108 @@
+{
+  "version": 4,
+  "market_date": "2026-10-14",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 0.75,
+        "breadth": 0.375,
+        "trading_value": 204280000.0,
+        "stocks": [
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          },
+          {
+            "code": "031210",
+            "name": "서울보증보험"
+          },
+          {
+            "code": "005830",
+            "name": "DB손해보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 41.4423947680711,
+        "drawdown": -8.081983226600965,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.6544255296248717,
+        "trend_breadth": 1.0,
+        "score": 64.24940444454444,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.32425972091470795
+      }
+    },
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": -1.94,
+        "breadth": 0.25,
+        "trading_value": 97403000.0,
+        "stocks": [
+          {
+            "code": "003690",
+            "name": "코리안리"
+          },
+          {
+            "code": "088350",
+            "name": "한화생명"
+          },
+          {
+            "code": "085620",
+            "name": "미래에셋생명"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 24.83221476510069,
+        "drawdown": -19.438468010181275,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5464019047140994,
+        "trend_breadth": 1.0,
+        "score": 57.456160683108116,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 31,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      }
+    },
+    {
+      "theme": {
+        "id": "415",
+        "name": "그래핀",
+        "change_rate": -0.31,
+        "breadth": 0.3076923076923077,
+        "trading_value": 14518521.0,
+        "stocks": [
+          {
+            "code": "154040",
+            "name": "다산솔루에타"
+          },
+          {
+            "code": "119830",
+            "name": "아이텍"
+          },
+          {
+            "code": "027580",
+            "name": "상보"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.551787866613093,
+        "drawdown": -7.406100618913292,
+        "consolidation_range": 19.283276450511934,
+        "down_volume_ratio": 1.2769196756383911,
+        "trend_breadth": 1.0,
+        "score": 25.095295719023746,
+        "turnover_spike_ratio": 3.162270833126685,
+        "days_since_turnover_spike": 37,
+        "turnover_cooldown_ratio": 0.6091564159143343
+      }
+    }
+  ]
+}
