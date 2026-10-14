@@ -1,7 +1,13 @@
 {
   "version": 1,
-  "updated_at": "2026-10-14T09:10:24.399514+09:00",
+  "updated_at": "2026-10-15T07:30:32.816610+09:00",
   "reports": [
+    {
+      "market_date": "2026-10-15",
+      "mode": "premarket",
+      "generated_at": "2026-10-15T07:30:32.816610+09:00",
+      "path": "reports/2026-10-15/premarket.json"
+    },
     {
       "market_date": "2026-10-14",
       "mode": "confirmation",
