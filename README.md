@@ -111,13 +111,14 @@ source .env
 set +a
 
 trade-alert --mode premarket --candidate-file .cache/YYYY-MM-DD-candidates.json --dry-run
+trade-alert --mode premarket --candidate-file .cache/YYYY-MM-DD-candidates.json --force-rescreen --dry-run
 trade-alert --mode preopen --candidate-file .cache/YYYY-MM-DD-candidates.json --dry-run
 trade-alert --mode confirmation --candidate-file .cache/YYYY-MM-DD-candidates.json --dry-run
 trade-alert --mode collect --history-file .cache/theme-history.json
 trade-alert --mode collect --history-repository /path/to/data-branch-checkout
 ```
 
-위 후보 파일의 `YYYY-MM-DD`는 실행일의 한국 날짜로 바꿉니다. 같은 날 세 단계에서 동일한 경로를 사용합니다.
+위 후보 파일의 `YYYY-MM-DD`는 실행일의 한국 날짜로 바꿉니다. 같은 날 세 단계에서 동일한 경로를 사용합니다. 07:30 재실행에서 기존 후보를 유지하지 않고 다시 선별해야 할 때만 `--force-rescreen`을 사용합니다.
 
 `--dry-run`을 제거하면 텔레그램으로 전송합니다.
 
@@ -154,11 +155,14 @@ GitHub CLI로 직접 실행할 때는 다음과 같습니다.
 
 ```bash
 gh workflow run premarket-alert.yml --ref main
+gh workflow run premarket-alert.yml --ref main -f force_rescreen=true
 gh workflow run preopen-alert.yml --ref main
 gh workflow run confirmation-alert.yml --ref main
 ```
 
 호출 순서는 반드시 07:30 → 08:55 → 09:10으로 유지합니다. 16:10 데이터 적재는 시간 지연에 민감하지 않아 GitHub cron과 수동 `workflow_dispatch`를 함께 유지합니다.
+
+당일 07:30 후보 파일이 조회 장애 등으로 잘못 저장된 경우에는 GitHub Actions의 `Run workflow`에서 `Force rescreen`을 선택하거나 `force_rescreen=true`로 호출합니다. 기본값은 `false`이므로 일반 재실행은 기존 후보를 그대로 유지합니다.
 
 선택적으로 내장 서버 스케줄러를 켜면 위 세 호출을 서버가 담당할 수도 있습니다. cron-job.org처럼 별도 외부 스케줄러를 사용한다면 내장 스케줄러는 켜지 않습니다. 내장 스케줄러를 여러 대 실행하면 중복 호출되므로 `SCHEDULER_ENABLED=true`인 인스턴스는 반드시 한 대만 운영합니다.
 

@@ -36,6 +36,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="reuse the 07:30 candidate snapshot for later stages",
     )
     parser.add_argument(
+        "--force-rescreen",
+        action="store_true",
+        help="ignore an existing candidate snapshot and rerun 07:30 screening",
+    )
+    parser.add_argument(
         "--history-file",
         help="persist the rolling theme catalog and daily turnover history",
     )
@@ -53,6 +58,8 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
+        if args.force_rescreen and args.mode != "premarket":
+            raise ValueError("--force-rescreen is only available in premarket mode")
         settings = Settings.from_env(require_telegram=not args.dry_run and args.mode != "collect")
         http = HttpClient(settings.http_timeout_seconds)
         service = MarketAlertService(
@@ -118,7 +125,11 @@ def main(argv: list[str] | None = None) -> int:
         screened = None
         screening_warnings: tuple[str, ...] = ()
         fixed_selection = False
-        if candidate_path is not None and candidate_path.exists():
+        if (
+            candidate_path is not None
+            and candidate_path.exists()
+            and not args.force_rescreen
+        ):
             try:
                 screened = load_candidates(candidate_path, now.date())
                 fixed_selection = True

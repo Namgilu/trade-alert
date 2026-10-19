@@ -2,6 +2,12 @@ name: Korean market 07:30 premarket alert
 
 on:
   workflow_dispatch:
+    inputs:
+      force_rescreen:
+        description: Ignore today's saved candidates and screen again
+        required: false
+        type: boolean
+        default: false
 
 env:
   NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
@@ -44,7 +50,17 @@ jobs:
       - name: Analyze and notify
         env:
           MARKET_DATE: ${{ steps.market-date.outputs.value }}
-        run: trade-alert --mode premarket --candidate-file ".theme-data/candidates/${MARKET_DATE}.json" --history-file .theme-data/state/theme-history.json --report-file ".theme-data/reports/${MARKET_DATE}/premarket.json"
+        run: |
+          args=(
+            --mode premarket
+            --candidate-file ".theme-data/candidates/${MARKET_DATE}.json"
+            --history-file .theme-data/state/theme-history.json
+            --report-file ".theme-data/reports/${MARKET_DATE}/premarket.json"
+          )
+          if [ "${{ inputs.force_rescreen }}" = "true" ]; then
+            args+=(--force-rescreen)
+          fi
+          trade-alert "${args[@]}"
       - if: success() && hashFiles('.theme-data/state/theme-history.json') != ''
         uses: actions/cache/save@v4
         with:

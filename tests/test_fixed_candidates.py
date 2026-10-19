@@ -200,6 +200,44 @@ class FixedCandidatesTest(unittest.TestCase):
             self.assertTrue(service.run.call_args.kwargs["fixed_selection"])
             self.assertEqual(path.read_bytes(), original_bytes)
 
+    def test_cli_force_rescreen_replaces_existing_morning_selection(self):
+        selected = [self.candidates[2], self.candidates[0]]
+        report = DailyReport(NOW, "premarket", tuple(
+            ThemeAnalysis(theme, pattern=pattern) for theme, pattern in selected
+        ))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch("trade_alert.cli.Settings.from_env"), \
+                patch("trade_alert.cli.HttpClient"), \
+                patch("trade_alert.cli.MarketAlertService") as factory, \
+                patch("trade_alert.cli.datetime") as clock, \
+                patch("sys.stdout", new_callable=io.StringIO):
+            clock.now.return_value = NOW
+            service = factory.return_value
+            service.prepare_candidates.return_value = (self.candidates, (), None)
+            service.run.return_value = report
+            path = Path(directory) / "candidates.json"
+            save_candidates(path, NOW.date(), [self.candidates[4]])
+
+            args = [
+                "--mode", "premarket",
+                "--candidate-file", str(path),
+                "--force-rescreen",
+                "--dry-run",
+            ]
+            self.assertEqual(main(args), 0)
+            service.prepare_candidates.assert_called_once()
+            self.assertFalse(service.run.call_args.kwargs["fixed_selection"])
+            self.assertEqual(
+                [theme.id for theme, _ in load_candidates(path, NOW.date())],
+                ["3", "1"],
+            )
+
+    def test_cli_rejects_force_rescreen_outside_premarket(self):
+        with patch("trade_alert.cli.Settings.from_env") as settings, \
+                patch("sys.stderr", new_callable=io.StringIO):
+            self.assertEqual(main(["--mode", "preopen", "--force-rescreen"]), 1)
+        settings.assert_not_called()
+
     def test_cli_missing_invalid_or_wrong_date_selection_fails_before_analysis(self):
         with tempfile.TemporaryDirectory() as directory, \
                 patch("trade_alert.cli.Settings.from_env"), \
