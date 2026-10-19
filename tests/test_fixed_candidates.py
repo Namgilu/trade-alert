@@ -131,6 +131,17 @@ class FixedCandidatesTest(unittest.TestCase):
         report = self.service.run("confirmation", NOW, screened_candidates=self.candidates)
         self.assertTrue(all(item.data_error and not item.stocks for item in report.themes))
 
+    def test_premarket_lookup_outage_preserves_selection_for_later_retry(self):
+        self.service.theme_limit = 5
+        self.provider.hydrate_theme.side_effect = RuntimeError("offline")
+        report = self.service.run("premarket", NOW, screened_candidates=self.candidates)
+        self.assertEqual(
+            [item.theme.id for item in report.themes],
+            [theme.id for theme, _ in self.candidates],
+        )
+        self.assertTrue(all(item.data_error for item in report.themes))
+        self.assertEqual(len(report.warnings), len(self.candidates))
+
     def test_followups_without_selection_fail_without_screening(self):
         for mode in ("preopen", "confirmation"):
             with self.assertRaisesRegex(ValueError, "당일 장전 후보"):

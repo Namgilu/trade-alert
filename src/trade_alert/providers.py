@@ -132,28 +132,53 @@ class NaverThemeProvider:
         return themes[:theme_limit]
 
     def hydrate_theme(self, theme: Theme, stocks_per_theme: int, *, order_type: str = "up") -> Theme:
-        url = _query_url(
-            self.stocks_url_template.format(theme_id=quote(theme.id, safe="")),
-            orderType=order_type,
-            startIdx=0,
-            pageSize=max(stocks_per_theme, 3),
-        )
-        stocks: list[Stock] = []
-        for raw in _items(self.http.json(url)):
-            code = str(_first(raw, ("itemCode", "itemcode", "stockCode", "symbol", "code"), "")).strip()
-            name = str(_first(raw, ("stockName", "itemName", "itemname", "name", "korName"), "")).strip()
-            if not code or not name:
-                continue
-            stocks.append(
-                Stock(
-                    code=code,
-                    name=name,
-                    change_rate=_float(_first(raw, ("changeRate", "prevChangeRate", "fluctuationsRatio", "rate"))),
-                    trade_amount=_float(_first(raw, ("tradeAmount", "accumulatedTradingValue"))),
-                    trade_volume=_float(_first(raw, ("tradeVolume", "accumulatedTradingVolume"))),
-                    previous_volume=_float(_first(raw, ("prevQuant", "previousTradingVolume"))),
-                )
+        stocks_by_code: dict[str, Stock] = {}
+        for market_type in ("KOSPI", "KOSDAQ"):
+            # Naver no longer accepts marketType=ALL on this endpoint. Override
+            # the query value as well as supporting a {market_type} template so
+            # existing environment overrides continue to work.
+            url = _query_url(
+                self.stocks_url_template.format(
+                    theme_id=quote(theme.id, safe=""), market_type=market_type
+                ),
+                marketType=market_type,
+                orderType=order_type,
+                startIdx=0,
+                pageSize=max(stocks_per_theme, 3),
             )
+            for raw in _items(self.http.json(url)):
+                code = str(_first(raw, ("itemCode", "itemcode", "stockCode", "symbol", "code"), "")).strip()
+                name = str(_first(raw, ("stockName", "itemName", "itemname", "name", "korName"), "")).strip()
+                if not code or not name:
+                    continue
+                krx = raw.get("krx") if isinstance(raw.get("krx"), dict) else {}
+                stocks_by_code.setdefault(
+                    code,
+                    Stock(
+                        code=code,
+                        name=name,
+                        change_rate=_float(_first(
+                            raw,
+                            ("changeRate", "prevChangeRate", "fluctuationsRatio", "rate"),
+                            _first(krx, ("changeRate",)),
+                        )),
+                        trade_amount=_float(_first(
+                            raw,
+                            ("tradeAmount", "accumulatedTradingValue"),
+                            _first(krx, ("tradingValue", "tradeAmount")),
+                        )),
+                        trade_volume=_float(_first(
+                            raw,
+                            ("tradeVolume", "accumulatedTradingVolume"),
+                            _first(krx, ("tradingVolume", "tradeVolume")),
+                        )),
+                        previous_volume=_float(_first(
+                            raw,
+                            ("prevQuant", "prevTradingVolume", "previousTradingVolume"),
+                        )),
+                    ),
+                )
+        stocks = list(stocks_by_code.values())
         stocks.sort(key=lambda item: item.change_rate if item.change_rate is not None else float("-inf"), reverse=True)
         return Theme(
             id=theme.id,

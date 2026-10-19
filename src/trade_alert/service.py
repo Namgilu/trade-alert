@@ -744,9 +744,17 @@ class MarketAlertService:
                     raise RuntimeError("theme constituents unavailable")
             except Exception as exc:
                 warnings.append(f"{screening_theme.name} 구성종목 {type(exc).__name__}: {exc}")
-                if fixed_selection:
+                # Keep the morning selection as a retryable data-error entry.
+                # Otherwise one provider outage turns a valid selection into a
+                # permanently empty candidate file for every later stage.
+                if fixed_selection or mode == "premarket":
+                    fallback_theme = (
+                        screening_theme
+                        if mode == "premarket"
+                        else Theme(screening_theme.id, screening_theme.name)
+                    )
                     raw_analyses.append(ThemeAnalysis(
-                        theme=Theme(screening_theme.id, screening_theme.name),
+                        theme=fallback_theme,
                         pattern=pattern, data_error=True,
                     ))
                 continue

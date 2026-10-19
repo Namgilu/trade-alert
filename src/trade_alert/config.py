@@ -82,6 +82,6 @@ class Settings:
             ),
             theme_stocks_url_template=os.getenv(
                 "THEME_STOCKS_URL_TEMPLATE",
-                "https://stock.naver.com/api/domestic/market/theme/{theme_id}/stocklist?marketType=ALL&orderType=up&startIdx=0&pageSize=20",
+                "https://stock.naver.com/api/domestic/market/theme/{theme_id}/stocklist?marketType={market_type}&orderType=up&startIdx=0&pageSize=20",
             ),
         )

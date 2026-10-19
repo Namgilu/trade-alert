@@ -7,14 +7,16 @@ import os
 import tempfile
 import unittest
 import zipfile
+from http.client import RemoteDisconnected
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from zoneinfo import ZoneInfo
 
 from trade_alert.config import Settings
 from trade_alert.candidate_cache import load_candidates, save_candidates
 from trade_alert.github_repository import GitHubRepository
+from trade_alert.http import HttpClient
 from trade_alert.models import (
     DailyReport,
     DailyBar,
@@ -84,7 +86,9 @@ class ThemeProviderTest(unittest.TestCase):
                     {"itemcode": "2", "itemname": "둘", "prevChangeRate": "2", "tradeAmount": "1000", "tradeVolume": "50", "prevQuant": "100"},
                     {"itemcode": "1", "itemname": "하나", "prevChangeRate": "5", "tradeAmount": "2000", "tradeVolume": "80", "prevQuant": "100"},
                 ],
+                [],
                 [{"itemcode": "3", "itemname": "셋", "prevChangeRate": "1"}],
+                [],
             ]
         )
         result = NaverThemeProvider(http, "themes", "theme/{theme_id}").top_themes(2, 1)
@@ -99,15 +103,49 @@ class ThemeProviderTest(unittest.TestCase):
                 [{"no": "10", "name": "반도체"}],
                 [
                     {"itemcode": "005930", "itemname": "삼성전자", "marketSum": "500"},
-                    {"itemcode": "000660", "itemname": "SK하이닉스", "marketSum": "400"},
                 ],
+                [{"itemcode": "000660", "itemname": "SK하이닉스", "marketSum": "400"}],
             ]
         )
         result = NaverThemeProvider(http, "https://themes?startIdx=0&pageSize=20", "theme/{theme_id}").screening_themes(100, 2)
         self.assertEqual([stock.code for stock in result[0].stocks], ["005930", "000660"])
         self.assertIn("pageSize=100", http.calls[0][0])
         self.assertIn("orderType=marketSum", http.calls[1][0])
-        self.assertEqual(len(http.calls), 2)
+        self.assertIn("marketType=KOSPI", http.calls[1][0])
+        self.assertIn("marketType=KOSDAQ", http.calls[2][0])
+        self.assertEqual(len(http.calls), 3)
+
+    def test_theme_constituents_override_legacy_all_and_merge_markets(self):
+        http = FakeHttp(
+            [
+                [{
+                    "itemCode": "005930",
+                    "itemName": "삼성전자",
+                    "prevTradingVolume": "100",
+                    "krx": {
+                        "changeRate": "1",
+                        "tradingValue": "2000",
+                        "tradingVolume": "80",
+                    },
+                }],
+                [
+                    {"itemcode": "247540", "itemname": "에코프로비엠", "prevChangeRate": "3"},
+                    {"itemcode": "005930", "itemname": "삼성전자", "prevChangeRate": "1"},
+                ],
+            ]
+        )
+        provider = NaverThemeProvider(
+            http,
+            "themes",
+            "theme/{theme_id}?marketType=ALL",
+        )
+        result = provider.hydrate_theme(Theme("10", "혼합테마"), 3)
+        self.assertEqual([stock.code for stock in result.stocks], ["247540", "005930"])
+        self.assertEqual(result.stocks[1].change_rate, 1)
+        self.assertEqual(result.stocks[1].trade_amount, 2000)
+        self.assertEqual(result.stocks[1].relative_volume, 0.8)
+        self.assertIn("marketType=KOSPI", http.calls[0][0])
+        self.assertIn("marketType=KOSDAQ", http.calls[1][0])
 
     def test_market_movers_exclude_managed_stocks_and_collapse_preferred_shares(self):
         http = FakeHttp(
@@ -121,6 +159,21 @@ class ThemeProviderTest(unittest.TestCase):
         result = NaverThemeProvider(http, "themes", "theme/{theme_id}").market_movers(10)
         self.assertEqual([stock.name for stock in result], ["금호건설", "남화토건"])
         self.assertIn("orderType=up", http.calls[0][0])
+
+
+class HttpClientTest(unittest.TestCase):
+    def test_retries_remote_disconnect(self):
+        response = MagicMock()
+        response.__enter__.return_value.read.return_value = b'{"ok": true}'
+        with patch(
+            "trade_alert.http.urlopen",
+            side_effect=[RemoteDisconnected("closed"), response],
+        ) as request:
+            result = HttpClient(max_attempts=2, retry_delay_seconds=0).json(
+                "https://example.com"
+            )
+        self.assertEqual(result, {"ok": True})
+        self.assertEqual(request.call_count, 2)
 
 
 class EventProviderTest(unittest.TestCase):
@@ -769,6 +822,7 @@ class SettingsTest(unittest.TestCase):
         self.assertEqual(settings.kis_base_url, "https://openapi.koreainvestment.com:9443")
         self.assertEqual(settings.history_lookback_days, 100)
         self.assertEqual(settings.history_min_bars, 50)
+        self.assertIn("marketType={market_type}", settings.theme_stocks_url_template)
 
 
 if __name__ == "__main__":
