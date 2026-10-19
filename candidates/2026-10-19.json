@@ -1,5 +1,108 @@
 {
   "version": 4,
   "market_date": "2026-10-19",
-  "candidates": []
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": -0.93,
+        "breadth": 0.375,
+        "trading_value": 153461000.0,
+        "stocks": [
+          {
+            "code": "005830",
+            "name": "DB손해보험"
+          },
+          {
+            "code": "000810",
+            "name": "삼성화재"
+          },
+          {
+            "code": "000370",
+            "name": "한화손해보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 39.1363947909527,
+        "drawdown": -8.936820782593568,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.7031076890537484,
+        "trend_breadth": 1.0,
+        "score": 64.98728619558479,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 23,
+        "turnover_cooldown_ratio": 0.34083975734664773
+      }
+    },
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": -1.94,
+        "breadth": 0.25,
+        "trading_value": 97403000.0,
+        "stocks": [
+          {
+            "code": "085620",
+            "name": "미래에셋생명"
+          },
+          {
+            "code": "032830",
+            "name": "삼성생명"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 24.83221476510069,
+        "drawdown": -19.438468010181275,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5464019047140994,
+        "trend_breadth": 1.0,
+        "score": 54.15769230078124,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 31,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      }
+    },
+    {
+      "theme": {
+        "id": "415",
+        "name": "그래핀",
+        "change_rate": -4.1,
+        "breadth": 0.15384615384615385,
+        "trading_value": 15400488.0,
+        "stocks": [
+          {
+            "code": "079980",
+            "name": "휴비스"
+          },
+          {
+            "code": "065500",
+            "name": "오리엔트정공"
+          },
+          {
+            "code": "054940",
+            "name": "엑사이엔씨"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 30.075187969924812,
+        "drawdown": -11.202450493537853,
+        "consolidation_range": 17.676767676767668,
+        "down_volume_ratio": 1.2972717281589636,
+        "trend_breadth": 1.0,
+        "score": 41.52608712064456,
+        "turnover_spike_ratio": 3.162270833126685,
+        "days_since_turnover_spike": 38,
+        "turnover_cooldown_ratio": 0.6151026528583514
+      }
+    }
+  ]
 }
