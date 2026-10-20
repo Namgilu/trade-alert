@@ -1,0 +1,108 @@
+{
+  "version": 4,
+  "market_date": "2026-10-21",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": -0.97,
+        "breadth": 0.25,
+        "trading_value": 91018000.0,
+        "stocks": [
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          },
+          {
+            "code": "005830",
+            "name": "DB손해보험"
+          },
+          {
+            "code": "031210",
+            "name": "서울보증보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 37.09191182032126,
+        "drawdown": -9.820133621002402,
+        "consolidation_range": 9.576837416481077,
+        "down_volume_ratio": 0.7065457533779503,
+        "trend_breadth": 1.0,
+        "score": 66.704796667771,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 24,
+        "turnover_cooldown_ratio": 0.34083975734664773
+      }
+    },
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": -1.94,
+        "breadth": 0.25,
+        "trading_value": 97403000.0,
+        "stocks": [
+          {
+            "code": "003690",
+            "name": "코리안리"
+          },
+          {
+            "code": "032830",
+            "name": "삼성생명"
+          },
+          {
+            "code": "088350",
+            "name": "한화생명"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 24.83221476510069,
+        "drawdown": -19.438468010181275,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5464019047140994,
+        "trend_breadth": 1.0,
+        "score": 54.15769230078124,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 31,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      }
+    },
+    {
+      "theme": {
+        "id": "415",
+        "name": "그래핀",
+        "change_rate": -1.17,
+        "breadth": 0.3076923076923077,
+        "trading_value": 9879112.0,
+        "stocks": [
+          {
+            "code": "073110",
+            "name": "엘엠에스"
+          },
+          {
+            "code": "154040",
+            "name": "다산솔루에타"
+          },
+          {
+            "code": "079980",
+            "name": "휴비스"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 30.075187969924812,
+        "drawdown": -12.241381822763453,
+        "consolidation_range": 17.676767676767668,
+        "down_volume_ratio": 1.3306252070031839,
+        "trend_breadth": 1.0,
+        "score": 45.20806215564841,
+        "turnover_spike_ratio": 3.162270833126685,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.5922058355435075
+      }
+    }
+  ]
+}
