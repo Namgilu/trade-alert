@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "market_date": "2026-10-26",
+  "generated_at": "2026-10-26T07:30:36.007987+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": -0.88,
+      "breadth": 0.375,
+      "trading_value": 93360000.0,
+      "score": 59.62049069331112,
+      "pattern": {
+        "peak_return": 43.992673730602206,
+        "drawdown": -10.980200207712521,
+        "consolidation_range": 7.628062360801802,
+        "down_volume_ratio": 0.7017154008510285,
+        "trend_breadth": 1.0,
+        "score": 61.318224345071904,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 26,
+        "turnover_cooldown_ratio": 0.32430889262049717
+      },
+      "stocks": [
+        {
+          "code": "031210",
+          "name": "서울보증보험",
+          "change_rate": 2.17,
+          "trade_amount": 2042000000.0,
+          "trade_volume": 48356.0,
+          "previous_volume": 16912.0,
+          "relative_volume": 2.859271523178808,
+          "score": 50.35896882717394,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 0.31,
+          "trade_amount": 81000000.0,
+          "trade_volume": 25648.0,
+          "previous_volume": 35547.0,
+          "relative_volume": 0.7215236166202492,
+          "score": 47.49743036563547,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": 0.2,
+          "trade_amount": 1454000000.0,
+          "trade_volume": 581280.0,
+          "previous_volume": 478159.0,
+          "relative_volume": 1.215662572491577,
+          "score": 47.3281995964047,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 3,
+  "telegram_text": "🌅 2026-10-26 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 60/100\n   등락 -0.88% · 확산도 38%\n   3개월 고점상승 +44.0% · 고점대비 -11.0%\n   15일 변동폭 7.6% · 하락거래대금비 0.70 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 26거래일 · 현재/고점 0.32배\n   1) 서울보증보험(031210) · 낮은 우선순위 50 · 전일 +2.17%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 흥국화재(000540) · 낮은 우선순위 47 · 전일 +0.31%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 롯데손해보험(000400) · 낮은 우선순위 47 · 전일 +0.20%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 3건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}

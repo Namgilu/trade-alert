@@ -1,0 +1,40 @@
+{
+  "version": 4,
+  "market_date": "2026-10-26",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": -0.88,
+        "breadth": 0.375,
+        "trading_value": 93360000.0,
+        "stocks": [
+          {
+            "code": "031210",
+            "name": "서울보증보험"
+          },
+          {
+            "code": "000540",
+            "name": "흥국화재"
+          },
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 43.992673730602206,
+        "drawdown": -10.980200207712521,
+        "consolidation_range": 7.628062360801802,
+        "down_volume_ratio": 0.7017154008510285,
+        "trend_breadth": 1.0,
+        "score": 61.318224345071904,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 26,
+        "turnover_cooldown_ratio": 0.32430889262049717
+      }
+    }
+  ]
+}
