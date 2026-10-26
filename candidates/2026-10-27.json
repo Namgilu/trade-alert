@@ -1,0 +1,108 @@
+{
+  "version": 4,
+  "market_date": "2026-10-27",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": -1.49,
+        "breadth": 0.125,
+        "trading_value": 68168000.0,
+        "stocks": [
+          {
+            "code": "031210",
+            "name": "서울보증보험"
+          },
+          {
+            "code": "000540",
+            "name": "흥국화재"
+          },
+          {
+            "code": "000810",
+            "name": "삼성화재"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 36.0664715068993,
+        "drawdown": -12.306595224617611,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.6648682122812299,
+        "trend_breadth": 1.0,
+        "score": 73.66095262914828,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 27,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      }
+    },
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": -0.36,
+        "breadth": 0.5,
+        "trading_value": 66308000.0,
+        "stocks": [
+          {
+            "code": "032830",
+            "name": "삼성생명"
+          },
+          {
+            "code": "085620",
+            "name": "미래에셋생명"
+          },
+          {
+            "code": "088350",
+            "name": "한화생명"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 27.592653751210495,
+        "drawdown": -19.728489525344628,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5308378170591173,
+        "trend_breadth": 1.0,
+        "score": 62.39054690307064,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 32,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      }
+    },
+    {
+      "theme": {
+        "id": "496",
+        "name": "골프",
+        "change_rate": -0.46,
+        "breadth": 0.35714285714285715,
+        "trading_value": 18512466.0,
+        "stocks": [
+          {
+            "code": "121440",
+            "name": "골프존홀딩스"
+          },
+          {
+            "code": "025980",
+            "name": "아난티"
+          },
+          {
+            "code": "069640",
+            "name": "한세엠케이"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.459959241712355,
+        "drawdown": -8.741559187746105,
+        "consolidation_range": 17.136659436008685,
+        "down_volume_ratio": 0.6430831863776179,
+        "trend_breadth": 1.0,
+        "score": 53.30241341980327,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.04740080968002223
+      }
+    }
+  ]
+}
