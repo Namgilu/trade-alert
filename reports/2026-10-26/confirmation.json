@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "market_date": "2026-10-26",
+  "generated_at": "2026-10-26T09:10:33.414879+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 43.992673730602206,
+        "drawdown": -10.980200207712521,
+        "consolidation_range": 7.628062360801802,
+        "down_volume_ratio": 0.7017154008510285,
+        "trend_breadth": 1.0,
+        "score": 61.318224345071904,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 26,
+        "turnover_cooldown_ratio": 0.32430889262049717
+      },
+      "stocks": [
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": 0.5,
+          "trade_amount": 3370000000.0,
+          "trade_volume": 5537.0,
+          "previous_volume": 84927.0,
+          "relative_volume": 0.06519716933366303,
+          "score": 60.67949564208289,
+          "signal": "관심 유지",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": -0.63,
+          "trade_amount": 8000000.0,
+          "trade_volume": 2569.0,
+          "previous_volume": 25648.0,
+          "relative_volume": 0.10016375545851529,
+          "score": 28.82508381249712,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": 0.33,
+          "trade_amount": 126000000.0,
+          "trade_volume": 20481.0,
+          "previous_volume": 354596.0,
+          "relative_volume": 0.057758688761294544,
+          "score": 25.149623647495396,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 5,
+  "telegram_text": "🔔 2026-10-26 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +44.0% · 고점대비 -11.0%\n   15일 변동폭 7.6% · 하락거래대금비 0.70 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 26거래일 · 현재/고점 0.32배\n   1) 삼성화재(000810) · 관심 유지 61\n     등락 +0.50% · 거래대금 34억 · 전일거래량 대비 0.07배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 흥국화재(000540) · 신호 무효 29\n     등락 -0.63% · 거래대금 0억 · 전일거래량 대비 0.10배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화손해보험(000370) · 신호 무효 25\n     등락 +0.33% · 거래대금 1억 · 전일거래량 대비 0.06배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 5건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
