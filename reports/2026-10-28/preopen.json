@@ -1,0 +1,391 @@
+{
+  "version": 2,
+  "market_date": "2026-10-28",
+  "generated_at": "2026-10-28T08:50:27.418812+09:00",
+  "mode": "preopen",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": -1.49,
+      "breadth": 0.125,
+      "trading_value": 68168000.0,
+      "score": 44.70932869915174,
+      "pattern": {
+        "peak_return": 36.0664715068993,
+        "drawdown": -12.306595224617611,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.6648682122812299,
+        "trend_breadth": 1.0,
+        "score": 73.66095262914828,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 27,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      },
+      "stocks": [
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 107163.0,
+          "relative_volume": null,
+          "score": 35.687105552841615,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 603000.0,
+            "expected_change_rate": 1.01,
+            "expected_volume": 37.0,
+            "expected_trade_amount": 22311000.0,
+            "total_ask_volume": 57.0,
+            "total_bid_volume": 22.0,
+            "bid_ask_ratio": 0.38596491228070173,
+            "order_imbalance": -0.4430379746835443
+          },
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 128159.0,
+          "relative_volume": null,
+          "score": 30.83595565801764,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": -1.520650592712023,
+            "direction": "중립",
+            "relevance": 0.53,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.84,
+            "event_count": 2,
+            "primary_event": {
+              "title": "주식등의대량보유상황보고서(일반)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000314",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "최대주주등소유주식변동신고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027800569",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "주식등의대량보유상황보고서(일반)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000314",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 177200.0,
+            "expected_change_rate": -0.67,
+            "expected_volume": 67.0,
+            "expected_trade_amount": 11872400.0,
+            "total_ask_volume": 42.0,
+            "total_bid_volume": 27.0,
+            "bid_ask_ratio": 0.6428571428571429,
+            "order_imbalance": -0.21739130434782608
+          },
+          "has_error": true
+        },
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 253169.0,
+          "relative_volume": null,
+          "score": 25.774035130315035,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": 0.33627312,
+            "direction": "중립",
+            "relevance": 0.27,
+            "confirmed": 0.87,
+            "event_type": "market_commentary",
+            "horizon": "open",
+            "confidence": 0.96,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "기업설명회(IR)개최(안내공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027800220",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 41950.0,
+            "expected_change_rate": 0.0,
+            "expected_volume": 16.0,
+            "expected_trade_amount": 671200.0,
+            "total_ask_volume": 81.0,
+            "total_bid_volume": 23.0,
+            "bid_ask_ratio": 0.2839506172839506,
+            "order_imbalance": -0.5576923076923077
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": 1.93,
+      "breadth": 0.75,
+      "trading_value": 75555000.0,
+      "score": 63.41186422333883,
+      "pattern": {
+        "peak_return": 33.88722466960352,
+        "drawdown": -18.17924937318378,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5826757112798393,
+        "trend_breadth": 1.0,
+        "score": 72.32251234840696,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 33,
+        "turnover_cooldown_ratio": 0.20072013385095144
+      },
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 248287.0,
+          "relative_volume": null,
+          "score": 65.64554593777727,
+          "signal": "장전 주의",
+          "event_summary": {
+            "score": 0.46555407858636294,
+            "direction": "중립",
+            "relevance": 0.58,
+            "confirmed": 0.9,
+            "event_type": "financing",
+            "horizon": "open",
+            "confidence": 0.47,
+            "event_count": 1,
+            "primary_event": {
+              "title": "[기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000012",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "[기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000012",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 268000.0,
+            "expected_change_rate": 5.1,
+            "expected_volume": 250.0,
+            "expected_trade_amount": 67000000.0,
+            "total_ask_volume": 54.0,
+            "total_bid_volume": 53.0,
+            "bid_ask_ratio": 0.9814814814814815,
+            "order_imbalance": -0.009345794392523364
+          },
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 1793052.0,
+          "relative_volume": null,
+          "score": 47.717993572055185,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 4040.0,
+            "expected_change_rate": -0.25,
+            "expected_volume": 6235.0,
+            "expected_trade_amount": 25189400.0,
+            "total_ask_volume": 1012.0,
+            "total_bid_volume": 5400.0,
+            "bid_ask_ratio": 5.335968379446641,
+            "order_imbalance": 0.6843418590143481
+          },
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 245202.0,
+          "relative_volume": null,
+          "score": 28.953529708261676,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 13800.0,
+            "expected_change_rate": 1.1,
+            "expected_volume": 89.0,
+            "expected_trade_amount": 1228200.0,
+            "total_ask_volume": 76.0,
+            "total_bid_volume": 9.0,
+            "bid_ask_ratio": 0.11842105263157894,
+            "order_imbalance": -0.788235294117647
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": -0.46,
+      "breadth": 0.35714285714285715,
+      "trading_value": 18512466.0,
+      "score": 42.33735586351976,
+      "pattern": {
+        "peak_return": 21.459959241712355,
+        "drawdown": -8.741559187746105,
+        "consolidation_range": 17.136659436008685,
+        "down_volume_ratio": 0.6430831863776179,
+        "trend_breadth": 1.0,
+        "score": 53.30241341980327,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.04740080968002223
+      },
+      "stocks": [
+        {
+          "code": "081660",
+          "name": "미스토홀딩스",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 273936.0,
+          "relative_volume": null,
+          "score": 29.921224766176355,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 37250.0,
+            "expected_change_rate": 3.33,
+            "expected_volume": 111.0,
+            "expected_trade_amount": 4134750.0,
+            "total_ask_volume": 340.0,
+            "total_bid_volume": 4.0,
+            "bid_ask_ratio": 0.011764705882352941,
+            "order_imbalance": -0.9767441860465116
+          },
+          "has_error": true
+        },
+        {
+          "code": "070960",
+          "name": "모나용평",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 6757.0,
+          "relative_volume": null,
+          "score": 29.312219348674475,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 1899.0,
+            "expected_change_rate": 2.65,
+            "expected_volume": 14.0,
+            "expected_trade_amount": 26586.0,
+            "total_ask_volume": 218.0,
+            "total_bid_volume": 30.0,
+            "bid_ask_ratio": 0.13761467889908258,
+            "order_imbalance": -0.7580645161290323
+          },
+          "has_error": true
+        },
+        {
+          "code": "069640",
+          "name": "한세엠케이",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 13087.0,
+          "relative_volume": null,
+          "score": 22.000011172826763,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": -0.815915117551852,
+            "direction": "중립",
+            "relevance": 0.42,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.91,
+            "event_count": 2,
+            "primary_event": {
+              "title": "최대주주등소유주식변동신고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027800537",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "최대주주등소유주식변동신고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027800537",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000299",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 1386.0,
+            "expected_change_rate": -0.14,
+            "expected_volume": 10.0,
+            "expected_trade_amount": 13860.0,
+            "total_ask_volume": 2706.0,
+            "total_bid_volume": 237.0,
+            "bid_ask_ratio": 0.08758314855875832,
+            "order_imbalance": -0.8389398572884812
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 9,
+  "telegram_text": "⏱️ 2026-10-28 08:55 장전 중간확정\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 45/100\n   등락 -1.49% · 확산도 12%\n   3개월 고점상승 +36.1% · 고점대비 -12.3%\n   15일 변동폭 8.6% · 하락거래대금비 0.66 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 27거래일 · 현재/고점 0.32배\n   1) 삼성화재(000810) · 장전 제외 36\n     예상 +1.01% · 체결가 603,000원 · 거래량 37주\n     매수/매도 잔량비 0.39배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) DB손해보험(005830) · 장전 제외 31\n     예상 -0.67% · 체결가 177,200원 · 거래량 67주\n     매수/매도 잔량비 0.64배\n     이벤트: 중립 -2 · 지분·경영권 · 시초가\n     핵심 공시: 주식등의대량보유상황보고서(일반)\n   3) 현대해상(001450) · 장전 제외 26\n     예상 +0.00% · 체결가 41,950원 · 거래량 16주\n     매수/매도 잔량비 0.28배\n     이벤트: 중립 +0 · 시황·반복보도 · 시초가\n\n2. 생명보험 · 강도 63/100\n   등락 +1.93% · 확산도 75%\n   3개월 고점상승 +33.9% · 고점대비 -18.2%\n   15일 변동폭 12.2% · 하락거래대금비 0.58 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 33거래일 · 현재/고점 0.20배\n   1) 삼성생명(032830) · 장전 주의 66\n     예상 +5.10% · 체결가 268,000원 · 거래량 250주\n     매수/매도 잔량비 0.98배\n     이벤트: 중립 +0 · 자금조달 · 시초가\n     핵심 공시: [기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)\n   2) 한화생명(088350) · 장전 제외 48\n     예상 -0.25% · 체결가 4,040원 · 거래량 6,235주\n     매수/매도 잔량비 5.34배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 장전 제외 29\n     예상 +1.10% · 체결가 13,800원 · 거래량 89주\n     매수/매도 잔량비 0.12배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 골프 · 강도 42/100\n   등락 -0.46% · 확산도 36%\n   3개월 고점상승 +21.5% · 고점대비 -8.7%\n   15일 변동폭 17.1% · 하락거래대금비 0.64 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 39거래일 · 현재/고점 0.05배\n   1) 미스토홀딩스(081660) · 장전 제외 30\n     예상 +3.33% · 체결가 37,250원 · 거래량 111주\n     매수/매도 잔량비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 모나용평(070960) · 장전 제외 29\n     예상 +2.65% · 체결가 1,899원 · 거래량 14주\n     매수/매도 잔량비 0.14배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한세엠케이(069640) · 장전 제외 22\n     예상 -0.14% · 체결가 1,386원 · 거래량 10주\n     매수/매도 잔량비 0.09배\n     이벤트: 중립 -1 · 지분·경영권 · 시초가\n     핵심 공시: 최대주주등소유주식변동신고서\n\n⚠️ 일부 데이터 처리 실패: 9건\n※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
