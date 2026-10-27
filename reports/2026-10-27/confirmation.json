@@ -1,0 +1,237 @@
+{
+  "version": 2,
+  "market_date": "2026-10-27",
+  "generated_at": "2026-10-27T09:10:29.271808+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 36.0664715068993,
+        "drawdown": -12.306595224617611,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.6648682122812299,
+        "trend_breadth": 1.0,
+        "score": 73.66095262914828,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 27,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      },
+      "stocks": [
+        {
+          "code": "031210",
+          "name": "서울보증보험",
+          "change_rate": 1.29,
+          "trade_amount": 162000000.0,
+          "trade_volume": 3770.0,
+          "previous_volume": 76520.0,
+          "relative_volume": 0.0492681651855724,
+          "score": 26.521019564261426,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 1.11,
+          "trade_amount": 1000000.0,
+          "trade_volume": 419.0,
+          "previous_volume": 26619.0,
+          "relative_volume": 0.015740636387542733,
+          "score": 18.74454828897773,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": 0.99,
+          "trade_amount": 13000000.0,
+          "trade_volume": 2244.0,
+          "previous_volume": 286731.0,
+          "relative_volume": 0.007826150642937109,
+          "score": 17.44920433404429,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 27.592653751210495,
+        "drawdown": -19.728489525344628,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5308378170591173,
+        "trend_breadth": 1.0,
+        "score": 62.39054690307064,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 32,
+        "turnover_cooldown_ratio": 0.19290704519162183
+      },
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": 2.64,
+          "trade_amount": 2593000000.0,
+          "trade_volume": 10295.0,
+          "previous_volume": 220584.0,
+          "relative_volume": 0.04667156276067167,
+          "score": 61.75937350433493,
+          "signal": "관심 유지",
+          "event_summary": {
+            "score": 1.275591560071861,
+            "direction": "중립",
+            "relevance": 0.6,
+            "confirmed": 0.9,
+            "event_type": "financing",
+            "horizon": "open",
+            "confidence": 0.51,
+            "event_count": 1,
+            "primary_event": {
+              "title": "[기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000012",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "[기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000012",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "085620",
+          "name": "미래에셋생명",
+          "change_rate": 0.64,
+          "trade_amount": 207000000.0,
+          "trade_volume": 12088.0,
+          "previous_volume": 63401.0,
+          "relative_volume": 0.19065945332092554,
+          "score": 41.758140760556124,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": 1.5,
+          "trade_amount": 514000000.0,
+          "trade_volume": 127423.0,
+          "previous_volume": 2140376.0,
+          "relative_volume": 0.05953299794054876,
+          "score": 33.302544776703094,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 21.459959241712355,
+        "drawdown": -8.741559187746105,
+        "consolidation_range": 17.136659436008685,
+        "down_volume_ratio": 0.6430831863776179,
+        "trend_breadth": 1.0,
+        "score": 53.30241341980327,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.04740080968002223
+      },
+      "stocks": [
+        {
+          "code": "069640",
+          "name": "한세엠케이",
+          "change_rate": 2.87,
+          "trade_amount": 1000000.0,
+          "trade_volume": 987.0,
+          "previous_volume": 7883.0,
+          "relative_volume": 0.1252061397944945,
+          "score": 39.1011280089219,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "121440",
+          "name": "골프존홀딩스",
+          "change_rate": 2.63,
+          "trade_amount": 46000.0,
+          "trade_volume": 6.0,
+          "previous_volume": 43472.0,
+          "relative_volume": 0.00013801987486198014,
+          "score": 19.03522483708242,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "067900",
+          "name": "와이엔텍",
+          "change_rate": 1.99,
+          "trade_amount": 327000.0,
+          "trade_volume": 58.0,
+          "previous_volume": 13350.0,
+          "relative_volume": 0.004344569288389513,
+          "score": 18.54052952972279,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 11,
+  "telegram_text": "🔔 2026-10-27 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +36.1% · 고점대비 -12.3%\n   15일 변동폭 8.6% · 하락거래대금비 0.66 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 27거래일 · 현재/고점 0.32배\n   1) 서울보증보험(031210) · 신호 무효 27\n     등락 +1.29% · 거래대금 2억 · 전일거래량 대비 0.05배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 흥국화재(000540) · 신호 무효 19\n     등락 +1.11% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화손해보험(000370) · 신호 무효 17\n     등락 +0.99% · 거래대금 0억 · 전일거래량 대비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 생명보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +27.6% · 고점대비 -19.7%\n   15일 변동폭 12.2% · 하락거래대금비 0.53 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 32거래일 · 현재/고점 0.19배\n   1) 삼성생명(032830) · 관심 유지 62\n     등락 +2.64% · 거래대금 26억 · 전일거래량 대비 0.05배\n     이벤트: 중립 +1 · 자금조달 · 시초가\n     핵심 공시: [기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)\n   2) 미래에셋생명(085620) · 신호 무효 42\n     등락 +0.64% · 거래대금 2억 · 전일거래량 대비 0.19배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화생명(088350) · 신호 무효 33\n     등락 +1.50% · 거래대금 5억 · 전일거래량 대비 0.06배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 골프 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +21.5% · 고점대비 -8.7%\n   15일 변동폭 17.1% · 하락거래대금비 0.64 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 39거래일 · 현재/고점 0.05배\n   1) 한세엠케이(069640) · 신호 무효 39\n     등락 +2.87% · 거래대금 0억 · 전일거래량 대비 0.13배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 골프존홀딩스(121440) · 신호 무효 19\n     등락 +2.63% · 거래대금 0억 · 전일거래량 대비 0.00배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 와이엔텍(067900) · 신호 무효 19\n     등락 +1.99% · 거래대금 0억 · 전일거래량 대비 0.00배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 11건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
