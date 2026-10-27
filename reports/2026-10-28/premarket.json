@@ -1,0 +1,237 @@
+{
+  "version": 2,
+  "market_date": "2026-10-28",
+  "generated_at": "2026-10-28T07:30:34.225096+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": -1.49,
+      "breadth": 0.125,
+      "trading_value": 68168000.0,
+      "score": 70.11180973477605,
+      "pattern": {
+        "peak_return": 36.0664715068993,
+        "drawdown": -12.306595224617611,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.6648682122812299,
+        "trend_breadth": 1.0,
+        "score": 73.66095262914828,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 27,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      },
+      "stocks": [
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 1.91,
+          "trade_amount": 25000000.0,
+          "trade_volume": 7983.0,
+          "previous_volume": 26619.0,
+          "relative_volume": 0.29989856869153614,
+          "score": 52.58179858754016,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "031210",
+          "name": "서울보증보험",
+          "change_rate": 1.29,
+          "trade_amount": 4220000000.0,
+          "trade_volume": 97384.0,
+          "previous_volume": 76520.0,
+          "relative_volume": 1.2726607422895975,
+          "score": 51.62795243369401,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": 1.16,
+          "trade_amount": 1498000000.0,
+          "trade_volume": 246884.0,
+          "previous_volume": 286731.0,
+          "relative_volume": 0.8610300246572572,
+          "score": 51.42795243369401,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": 1.93,
+      "breadth": 0.75,
+      "trading_value": 75555000.0,
+      "score": 69.02703740761103,
+      "pattern": {
+        "peak_return": 33.88722466960352,
+        "drawdown": -18.17924937318378,
+        "consolidation_range": 12.19452495974236,
+        "down_volume_ratio": 0.5826757112798393,
+        "trend_breadth": 1.0,
+        "score": 72.32251234840696,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 33,
+        "turnover_cooldown_ratio": 0.20072013385095144
+      },
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": 4.87,
+          "trade_amount": 63578000000.0,
+          "trade_volume": 248287.0,
+          "previous_volume": 220584.0,
+          "relative_volume": 1.1255893446487506,
+          "score": 57.44637268571131,
+          "signal": "장전 관심",
+          "event_summary": {
+            "score": 2.116076458604517,
+            "direction": "중립",
+            "relevance": 0.63,
+            "confirmed": 0.9,
+            "event_type": "financing",
+            "horizon": "open",
+            "confidence": 0.56,
+            "event_count": 1,
+            "primary_event": {
+              "title": "[기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000012",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "[기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000012",
+              "published_at": "2026-10-27T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "085620",
+          "name": "미래에셋생명",
+          "change_rate": 2.05,
+          "trade_amount": 1334000000.0,
+          "trade_volume": 76174.0,
+          "previous_volume": 63401.0,
+          "relative_volume": 1.2014636993107364,
+          "score": 52.52599012113353,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": 0.88,
+          "trade_amount": 7306000000.0,
+          "trade_volume": 1793052.0,
+          "previous_volume": 2140376.0,
+          "relative_volume": 0.837727576836967,
+          "score": 50.72599012113353,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": -0.46,
+      "breadth": 0.35714285714285715,
+      "trading_value": 18512466.0,
+      "score": 52.807051406832784,
+      "pattern": {
+        "peak_return": 21.459959241712355,
+        "drawdown": -8.741559187746105,
+        "consolidation_range": 17.136659436008685,
+        "down_volume_ratio": 0.6430831863776179,
+        "trend_breadth": 1.0,
+        "score": 53.30241341980327,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.04740080968002223
+      },
+      "stocks": [
+        {
+          "code": "121440",
+          "name": "골프존홀딩스",
+          "change_rate": 4.61,
+          "trade_amount": 284016000.0,
+          "trade_volume": 36129.0,
+          "previous_volume": 43472.0,
+          "relative_volume": 0.8310866764814133,
+          "score": 52.40945515940051,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "067900",
+          "name": "와이엔텍",
+          "change_rate": 2.53,
+          "trade_amount": 106913000.0,
+          "trade_volume": 18979.0,
+          "previous_volume": 13350.0,
+          "relative_volume": 1.4216479400749065,
+          "score": 49.209455159400505,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "025980",
+          "name": "아난티",
+          "change_rate": 2.35,
+          "trade_amount": 4109032000.0,
+          "trade_volume": 997574.0,
+          "previous_volume": 3079740.0,
+          "relative_volume": 0.32391500581217897,
+          "score": 48.93253208247743,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 9,
+  "telegram_text": "🌅 2026-10-28 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 70/100\n   등락 -1.49% · 확산도 12%\n   3개월 고점상승 +36.1% · 고점대비 -12.3%\n   15일 변동폭 8.6% · 하락거래대금비 0.66 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 27거래일 · 현재/고점 0.32배\n   1) 흥국화재(000540) · 낮은 우선순위 53 · 전일 +1.91%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 서울보증보험(031210) · 낮은 우선순위 52 · 전일 +1.29%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화손해보험(000370) · 낮은 우선순위 51 · 전일 +1.16%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 생명보험 · 강도 69/100\n   등락 +1.93% · 확산도 75%\n   3개월 고점상승 +33.9% · 고점대비 -18.2%\n   15일 변동폭 12.2% · 하락거래대금비 0.58 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 33거래일 · 현재/고점 0.20배\n   1) 삼성생명(032830) · 장전 관심 57 · 전일 +4.87%\n     이벤트: 중립 +2 · 자금조달 · 시초가\n     핵심 공시: [기재정정]주요사항보고서(자본으로인정되는채무증권발행결정)\n   2) 미래에셋생명(085620) · 낮은 우선순위 53 · 전일 +2.05%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화생명(088350) · 낮은 우선순위 51 · 전일 +0.88%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 골프 · 강도 53/100\n   등락 -0.46% · 확산도 36%\n   3개월 고점상승 +21.5% · 고점대비 -8.7%\n   15일 변동폭 17.1% · 하락거래대금비 0.64 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 39거래일 · 현재/고점 0.05배\n   1) 골프존홀딩스(121440) · 낮은 우선순위 52 · 전일 +4.61%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 와이엔텍(067900) · 낮은 우선순위 49 · 전일 +2.53%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 아난티(025980) · 낮은 우선순위 49 · 전일 +2.35%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 9건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
