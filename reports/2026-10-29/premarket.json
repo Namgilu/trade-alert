@@ -1,0 +1,232 @@
+{
+  "version": 2,
+  "market_date": "2026-10-29",
+  "generated_at": "2026-10-29T07:30:36.907875+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": 5.74,
+      "breadth": 1.0,
+      "trading_value": 135849000.0,
+      "score": 67.48096132485463,
+      "pattern": {
+        "peak_return": 45.10898627485933,
+        "drawdown": -13.482738287204532,
+        "consolidation_range": 18.151326568134785,
+        "down_volume_ratio": 0.582339523549595,
+        "trend_breadth": 1.0,
+        "score": 70.55892782806427,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 34,
+        "turnover_cooldown_ratio": 0.20072013385095144
+      },
+      "stocks": [
+        {
+          "code": "085620",
+          "name": "미래에셋생명",
+          "change_rate": 11.2,
+          "trade_amount": 3789000000.0,
+          "trade_volume": 197883.0,
+          "previous_volume": 76174.0,
+          "relative_volume": 2.5977761440911595,
+          "score": 64.37024033121367,
+          "signal": "장전 관심",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": 8.82,
+          "trade_amount": 119828000000.0,
+          "trade_volume": 432700.0,
+          "previous_volume": 248287.0,
+          "relative_volume": 1.742741263135001,
+          "score": 62.61945509682904,
+          "signal": "장전 관심",
+          "event_summary": {
+            "score": 0.23490684,
+            "direction": "중립",
+            "relevance": 0.28,
+            "confirmed": 0.87,
+            "event_type": "market_commentary",
+            "horizon": "open",
+            "confidence": 0.97,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "기업설명회(IR)개최(안내공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028800567",
+              "published_at": "2026-10-28T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": 1.68,
+          "trade_amount": 3347000000.0,
+          "trade_volume": 242952.0,
+          "previous_volume": 245202.0,
+          "relative_volume": 0.9908238921379108,
+          "score": 51.57024033121367,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": -1.49,
+      "breadth": 0.125,
+      "trading_value": 68168000.0,
+      "score": 63.61163740887615,
+      "pattern": {
+        "peak_return": 36.0664715068993,
+        "drawdown": -12.306595224617611,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.6648682122812299,
+        "trend_breadth": 1.0,
+        "score": 66.01369106926606,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 27,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      },
+      "stocks": [
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": 5.36,
+          "trade_amount": 51403000000.0,
+          "trade_volume": 80962.0,
+          "previous_volume": 107163.0,
+          "relative_volume": 0.7555032987131752,
+          "score": 56.2644478137575,
+          "signal": "장전 관심",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": 2.12,
+          "trade_amount": 1123000000.0,
+          "trade_volume": 463868.0,
+          "previous_volume": 675898.0,
+          "relative_volume": 0.6862988202361895,
+          "score": 51.27983242914212,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": 1.81,
+          "trade_amount": 1981000000.0,
+          "trade_volume": 322290.0,
+          "previous_volume": 246884.0,
+          "relative_volume": 1.3054308906206964,
+          "score": 50.80290935221905,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": -0.46,
+      "breadth": 0.35714285714285715,
+      "trading_value": 18512466.0,
+      "score": 52.807051406832784,
+      "pattern": {
+        "peak_return": 21.459959241712355,
+        "drawdown": -8.741559187746105,
+        "consolidation_range": 17.136659436008685,
+        "down_volume_ratio": 0.6430831863776179,
+        "trend_breadth": 1.0,
+        "score": 53.30241341980327,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.04740080968002223
+      },
+      "stocks": [
+        {
+          "code": "019010",
+          "name": "베뉴지",
+          "change_rate": 9.12,
+          "trade_amount": 478367000.0,
+          "trade_volume": 124639.0,
+          "previous_volume": 28047.0,
+          "relative_volume": 4.44393339751132,
+          "score": 59.34791669786205,
+          "signal": "장전 관심",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "070960",
+          "name": "모나용평",
+          "change_rate": 4.76,
+          "trade_amount": 44000000.0,
+          "trade_volume": 24188.0,
+          "previous_volume": 6757.0,
+          "relative_volume": 3.579695130975285,
+          "score": 52.640224390169735,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "025980",
+          "name": "아난티",
+          "change_rate": 4.75,
+          "trade_amount": 4477259000.0,
+          "trade_volume": 1057521.0,
+          "previous_volume": 997574.0,
+          "relative_volume": 1.0600927850966444,
+          "score": 52.624839774785116,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 9,
+  "telegram_text": "🌅 2026-10-29 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 생명보험 · 강도 67/100\n   등락 +5.74% · 확산도 100%\n   3개월 고점상승 +45.1% · 고점대비 -13.5%\n   15일 변동폭 18.2% · 하락거래대금비 0.58 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 34거래일 · 현재/고점 0.20배\n   1) 미래에셋생명(085620) · 장전 관심 64 · 전일 +11.20%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 삼성생명(032830) · 장전 관심 63 · 전일 +8.82%\n     이벤트: 중립 +0 · 시황·반복보도 · 시초가\n   3) 코리안리(003690) · 낮은 우선순위 52 · 전일 +1.68%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 손해보험 · 강도 64/100\n   등락 -1.49% · 확산도 12%\n   3개월 고점상승 +36.1% · 고점대비 -12.3%\n   15일 변동폭 8.6% · 하락거래대금비 0.66 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 27거래일 · 현재/고점 0.32배\n   1) 삼성화재(000810) · 장전 관심 56 · 전일 +5.36%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 롯데손해보험(000400) · 낮은 우선순위 51 · 전일 +2.12%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화손해보험(000370) · 낮은 우선순위 51 · 전일 +1.81%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 골프 · 강도 53/100\n   등락 -0.46% · 확산도 36%\n   3개월 고점상승 +21.5% · 고점대비 -8.7%\n   15일 변동폭 17.1% · 하락거래대금비 0.64 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 39거래일 · 현재/고점 0.05배\n   1) 베뉴지(019010) · 장전 관심 59 · 전일 +9.12%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 모나용평(070960) · 낮은 우선순위 53 · 전일 +4.76%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 아난티(025980) · 낮은 우선순위 53 · 전일 +4.75%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 9건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}

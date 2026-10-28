@@ -1,0 +1,108 @@
+{
+  "version": 4,
+  "market_date": "2026-10-29",
+  "candidates": [
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": 5.74,
+        "breadth": 1.0,
+        "trading_value": 135849000.0,
+        "stocks": [
+          {
+            "code": "085620",
+            "name": "미래에셋생명"
+          },
+          {
+            "code": "032830",
+            "name": "삼성생명"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 45.10898627485933,
+        "drawdown": -13.482738287204532,
+        "consolidation_range": 18.151326568134785,
+        "down_volume_ratio": 0.582339523549595,
+        "trend_breadth": 1.0,
+        "score": 70.55892782806427,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 34,
+        "turnover_cooldown_ratio": 0.20072013385095144
+      }
+    },
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": -1.49,
+        "breadth": 0.125,
+        "trading_value": 68168000.0,
+        "stocks": [
+          {
+            "code": "000810",
+            "name": "삼성화재"
+          },
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          },
+          {
+            "code": "000370",
+            "name": "한화손해보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 36.0664715068993,
+        "drawdown": -12.306595224617611,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.6648682122812299,
+        "trend_breadth": 1.0,
+        "score": 66.01369106926606,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 27,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      }
+    },
+    {
+      "theme": {
+        "id": "496",
+        "name": "골프",
+        "change_rate": -0.46,
+        "breadth": 0.35714285714285715,
+        "trading_value": 18512466.0,
+        "stocks": [
+          {
+            "code": "019010",
+            "name": "베뉴지"
+          },
+          {
+            "code": "070960",
+            "name": "모나용평"
+          },
+          {
+            "code": "025980",
+            "name": "아난티"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.459959241712355,
+        "drawdown": -8.741559187746105,
+        "consolidation_range": 17.136659436008685,
+        "down_volume_ratio": 0.6430831863776179,
+        "trend_breadth": 1.0,
+        "score": 53.30241341980327,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.04740080968002223
+      }
+    }
+  ]
+}
