@@ -2199,6 +2199,11 @@
       "stocks": []
     },
     {
+      "id": "568",
+      "name": "코리아 밸류업 지수(Korea Value-up Index)",
+      "stocks": []
+    },
+    {
       "id": "571",
       "name": "밸류업(25년 기업가치 제고계획 발표)",
       "stocks": [
@@ -2612,5 +2617,5 @@
       "stocks": []
     }
   ],
-  "updated_at": "2026-10-27"
+  "updated_at": "2026-10-28"
 }
