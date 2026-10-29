@@ -1,0 +1,108 @@
+{
+  "version": 4,
+  "market_date": "2026-10-30",
+  "candidates": [
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": 1.17,
+        "breadth": 1.0,
+        "trading_value": 139338000.0,
+        "stocks": [
+          {
+            "code": "085620",
+            "name": "미래에셋생명"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          },
+          {
+            "code": "088350",
+            "name": "한화생명"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 52.0732230739051,
+        "drawdown": -12.47048632516482,
+        "consolidation_range": 19.53369708898196,
+        "down_volume_ratio": 0.6520733079967097,
+        "trend_breadth": 1.0,
+        "score": 65.18849637502817,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 35,
+        "turnover_cooldown_ratio": 0.25876173909713746
+      }
+    },
+    {
+      "theme": {
+        "id": "496",
+        "name": "골프",
+        "change_rate": -0.66,
+        "breadth": 0.2857142857142857,
+        "trading_value": 10002633.0,
+        "stocks": [
+          {
+            "code": "067900",
+            "name": "와이엔텍"
+          },
+          {
+            "code": "081660",
+            "name": "미스토홀딩스"
+          },
+          {
+            "code": "110790",
+            "name": "크리스에프앤씨"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 22.00038175224279,
+        "drawdown": -9.34386489710699,
+        "consolidation_range": 11.713665943600882,
+        "down_volume_ratio": 0.6922968612280104,
+        "trend_breadth": 1.0,
+        "score": 59.226965833070096,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 40,
+        "turnover_cooldown_ratio": 0.043430595915946536
+      }
+    },
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 1.37,
+        "breadth": 0.75,
+        "trading_value": 131833000.0,
+        "stocks": [
+          {
+            "code": "001450",
+            "name": "현대해상"
+          },
+          {
+            "code": "000810",
+            "name": "삼성화재"
+          },
+          {
+            "code": "000370",
+            "name": "한화손해보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 34.654627444570906,
+        "drawdown": -11.105195579194882,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.7129349482373577,
+        "trend_breadth": 1.0,
+        "score": 58.987215713396935,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 28,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      }
+    }
+  ]
+}
