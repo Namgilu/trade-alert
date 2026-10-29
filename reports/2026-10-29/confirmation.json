@@ -1,0 +1,254 @@
+{
+  "version": 2,
+  "market_date": "2026-10-29",
+  "generated_at": "2026-10-29T09:10:29.059324+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 45.10898627485933,
+        "drawdown": -13.482738287204532,
+        "consolidation_range": 18.151326568134785,
+        "down_volume_ratio": 0.582339523549595,
+        "trend_breadth": 1.0,
+        "score": 70.55892782806427,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 34,
+        "turnover_cooldown_ratio": 0.20072013385095144
+      },
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": -0.18,
+          "trade_amount": 5648000000.0,
+          "trade_volume": 20420.0,
+          "previous_volume": 432700.0,
+          "relative_volume": 0.04719204991911255,
+          "score": 56.65169571883515,
+          "signal": "관망",
+          "event_summary": {
+            "score": 0.30942,
+            "direction": "중립",
+            "relevance": 0.25,
+            "confirmed": 0.85,
+            "event_type": "market_commentary",
+            "horizon": "open",
+            "confidence": 0.96,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "기업설명회(IR)개최(안내공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028800567",
+              "published_at": "2026-10-28T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "085620",
+          "name": "미래에셋생명",
+          "change_rate": 0.82,
+          "trade_amount": 145000000.0,
+          "trade_volume": 7477.0,
+          "previous_volume": 197883.0,
+          "relative_volume": 0.03778495373528802,
+          "score": 22.57053663121719,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -0.65,
+          "trade_amount": 22000000.0,
+          "trade_volume": 1627.0,
+          "previous_volume": 242952.0,
+          "relative_volume": 0.006696796074944845,
+          "score": 14.264703689594235,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 36.0664715068993,
+        "drawdown": -12.306595224617611,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.6648682122812299,
+        "trend_breadth": 1.0,
+        "score": 66.01369106926606,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 27,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      },
+      "stocks": [
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": -0.62,
+          "trade_amount": 63000000.0,
+          "trade_volume": 26591.0,
+          "previous_volume": 463868.0,
+          "relative_volume": 0.057324497486353876,
+          "score": 22.516811122464997,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": -0.24,
+          "trade_amount": 315000000.0,
+          "trade_volume": 7534.0,
+          "previous_volume": 356074.0,
+          "relative_volume": 0.02115852322831771,
+          "score": 19.106245277188226,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -0.65,
+          "trade_amount": 22000000.0,
+          "trade_volume": 1627.0,
+          "previous_volume": 242952.0,
+          "relative_volume": 0.006696796074944845,
+          "score": 14.264703689594235,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 21.459959241712355,
+        "drawdown": -8.741559187746105,
+        "consolidation_range": 17.136659436008685,
+        "down_volume_ratio": 0.6430831863776179,
+        "trend_breadth": 1.0,
+        "score": 53.30241341980327,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 39,
+        "turnover_cooldown_ratio": 0.04740080968002223
+      },
+      "stocks": [
+        {
+          "code": "067900",
+          "name": "와이엔텍",
+          "change_rate": 1.6,
+          "trade_amount": 85994000.0,
+          "trade_volume": 15213.0,
+          "previous_volume": 23224.0,
+          "relative_volume": 0.6550551153978643,
+          "score": 41.21593366185564,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "300120",
+          "name": "라온피플",
+          "change_rate": 1.25,
+          "trade_amount": 10639000.0,
+          "trade_volume": 3317.0,
+          "previous_volume": 76779.0,
+          "relative_volume": 0.04320191719089855,
+          "score": 23.358916455574313,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "110790",
+          "name": "크리스에프앤씨",
+          "change_rate": 0.52,
+          "trade_amount": 28000.0,
+          "trade_volume": 10.0,
+          "previous_volume": 4188.0,
+          "relative_volume": 0.002387774594078319,
+          "score": 15.580866994620546,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": 0.13309845554318425,
+            "direction": "중립",
+            "relevance": 0.48,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.65,
+            "event_count": 1,
+            "primary_event": {
+              "title": "주식등의대량보유상황보고서(약식)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000470",
+              "published_at": "2026-10-28T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "주식등의대량보유상황보고서(약식)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000470",
+              "published_at": "2026-10-28T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 11,
+  "telegram_text": "🔔 2026-10-29 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 생명보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +45.1% · 고점대비 -13.5%\n   15일 변동폭 18.2% · 하락거래대금비 0.58 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 34거래일 · 현재/고점 0.20배\n   1) 삼성생명(032830) · 관망 57\n     등락 -0.18% · 거래대금 56억 · 전일거래량 대비 0.05배\n     이벤트: 중립 +0 · 시황·반복보도 · 시초가\n   2) 미래에셋생명(085620) · 신호 무효 23\n     등락 +0.82% · 거래대금 1억 · 전일거래량 대비 0.04배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 14\n     등락 -0.65% · 거래대금 0억 · 전일거래량 대비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +36.1% · 고점대비 -12.3%\n   15일 변동폭 8.6% · 하락거래대금비 0.66 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 27거래일 · 현재/고점 0.32배\n   1) 롯데손해보험(000400) · 신호 무효 23\n     등락 -0.62% · 거래대금 1억 · 전일거래량 대비 0.06배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 현대해상(001450) · 신호 무효 19\n     등락 -0.24% · 거래대금 3억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 14\n     등락 -0.65% · 거래대금 0억 · 전일거래량 대비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 골프 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +21.5% · 고점대비 -8.7%\n   15일 변동폭 17.1% · 하락거래대금비 0.64 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 39거래일 · 현재/고점 0.05배\n   1) 와이엔텍(067900) · 신호 무효 41\n     등락 +1.60% · 거래대금 1억 · 전일거래량 대비 0.66배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 라온피플(300120) · 신호 무효 23\n     등락 +1.25% · 거래대금 0억 · 전일거래량 대비 0.04배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 크리스에프앤씨(110790) · 신호 무효 16\n     등락 +0.52% · 거래대금 0억 · 전일거래량 대비 0.00배\n     이벤트: 중립 +0 · 지분·경영권 · 시초가\n     핵심 공시: 주식등의대량보유상황보고서(약식)\n\n⚠️ 일부 데이터 처리 실패: 11건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
