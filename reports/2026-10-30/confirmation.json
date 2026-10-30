@@ -1,0 +1,232 @@
+{
+  "version": 2,
+  "market_date": "2026-10-30",
+  "generated_at": "2026-10-30T09:10:27.730494+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 52.0732230739051,
+        "drawdown": -12.47048632516482,
+        "consolidation_range": 19.53369708898196,
+        "down_volume_ratio": 0.6520733079967097,
+        "trend_breadth": 1.0,
+        "score": 65.18849637502817,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 35,
+        "turnover_cooldown_ratio": 0.25876173909713746
+      },
+      "stocks": [
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": -1.81,
+          "trade_amount": 565000000.0,
+          "trade_volume": 139109.0,
+          "previous_volume": 1721785.0,
+          "relative_volume": 0.08079347886060106,
+          "score": 47.79237152895646,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "085620",
+          "name": "미래에셋생명",
+          "change_rate": -0.2,
+          "trade_amount": 91000000.0,
+          "trade_volume": 4642.0,
+          "previous_volume": 154572.0,
+          "relative_volume": 0.030031312268716196,
+          "score": 22.489543200451962,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -1.14,
+          "trade_amount": 33000000.0,
+          "trade_volume": 2386.0,
+          "previous_volume": 118287.0,
+          "relative_volume": 0.020171278331515722,
+          "score": 16.763156285615626,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 22.00038175224279,
+        "drawdown": -9.34386489710699,
+        "consolidation_range": 11.713665943600882,
+        "down_volume_ratio": 0.6922968612280104,
+        "trend_breadth": 1.0,
+        "score": 59.226965833070096,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 40,
+        "turnover_cooldown_ratio": 0.043430595915946536
+      },
+      "stocks": [
+        {
+          "code": "067900",
+          "name": "와이엔텍",
+          "change_rate": 1.54,
+          "trade_amount": 31345000.0,
+          "trade_volume": 5291.0,
+          "previous_volume": 62552.0,
+          "relative_volume": 0.08458562476019951,
+          "score": 31.647327574973918,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "081660",
+          "name": "미스토홀딩스",
+          "change_rate": 0.54,
+          "trade_amount": 63000000.0,
+          "trade_volume": 1723.0,
+          "previous_volume": 67775.0,
+          "relative_volume": 0.025422353375138325,
+          "score": 21.90948734389723,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "111710",
+          "name": "남화산업",
+          "change_rate": 1.22,
+          "trade_amount": 26000.0,
+          "trade_volume": 9.0,
+          "previous_volume": 47931.0,
+          "relative_volume": 0.00018776991925893472,
+          "score": 16.490992566520255,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": -1.21,
+      "breadth": 0.0,
+      "trading_value": 4889000.0,
+      "score": 32.816793726590504,
+      "pattern": {
+        "peak_return": 34.654627444570906,
+        "drawdown": -11.105195579194882,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.7129349482373577,
+        "trend_breadth": 1.0,
+        "score": 58.987215713396935,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 28,
+        "turnover_cooldown_ratio": 0.31709392293355654
+      },
+      "stocks": [
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": -0.27,
+          "trade_amount": 826000000.0,
+          "trade_volume": 4544.0,
+          "previous_volume": 139515.0,
+          "relative_volume": 0.03256997455470738,
+          "score": 50.99694146094956,
+          "signal": "관망",
+          "event_summary": {
+            "score": 0.42345504,
+            "direction": "중립",
+            "relevance": 0.34,
+            "confirmed": 0.87,
+            "event_type": "market_commentary",
+            "horizon": "open",
+            "confidence": 0.96,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "기업설명회(IR)개최(안내공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261029800507",
+              "published_at": "2026-10-29T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 0.0,
+          "trade_amount": 3000000.0,
+          "trade_volume": 1139.0,
+          "previous_volume": 26621.0,
+          "relative_volume": 0.042785770632207655,
+          "score": 22.850691019925968,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -1.14,
+          "trade_amount": 33000000.0,
+          "trade_volume": 2386.0,
+          "previous_volume": 118287.0,
+          "relative_volume": 0.020171278331515722,
+          "score": 19.171201901761854,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 11,
+  "telegram_text": "🔔 2026-10-30 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 생명보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +52.1% · 고점대비 -12.5%\n   15일 변동폭 19.5% · 하락거래대금비 0.65 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 35거래일 · 현재/고점 0.26배\n   1) 한화생명(088350) · 관망 48\n     등락 -1.81% · 거래대금 6억 · 전일거래량 대비 0.08배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 미래에셋생명(085620) · 신호 무효 22\n     등락 -0.20% · 거래대금 1억 · 전일거래량 대비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 17\n     등락 -1.14% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 골프 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +22.0% · 고점대비 -9.3%\n   15일 변동폭 11.7% · 하락거래대금비 0.69 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 40거래일 · 현재/고점 0.04배\n   1) 와이엔텍(067900) · 신호 무효 32\n     등락 +1.54% · 거래대금 0억 · 전일거래량 대비 0.08배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 미스토홀딩스(081660) · 신호 무효 22\n     등락 +0.54% · 거래대금 1억 · 전일거래량 대비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 남화산업(111710) · 신호 무효 16\n     등락 +1.22% · 거래대금 0억 · 전일거래량 대비 0.00배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 손해보험 · 강도 33/100\n   등락 -1.21% · 확산도 0%\n   3개월 고점상승 +34.7% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.71 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 28거래일 · 현재/고점 0.32배\n   1) DB손해보험(005830) · 관망 51\n     등락 -0.27% · 거래대금 8억 · 전일거래량 대비 0.03배\n     이벤트: 중립 +0 · 시황·반복보도 · 시초가\n   2) 흥국화재(000540) · 신호 무효 23\n     등락 +0.00% · 거래대금 0억 · 전일거래량 대비 0.04배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 19\n     등락 -1.14% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 11건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
