@@ -1,0 +1,296 @@
+{
+  "version": 2,
+  "market_date": "2026-11-02",
+  "generated_at": "2026-11-02T08:50:26.983017+09:00",
+  "mode": "preopen",
+  "themes": [
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": 1.17,
+      "breadth": 1.0,
+      "trading_value": 139338000.0,
+      "score": 45.35002666388735,
+      "pattern": {
+        "peak_return": 52.0732230739051,
+        "drawdown": -12.47048632516482,
+        "consolidation_range": 19.53369708898196,
+        "down_volume_ratio": 0.6520733079967097,
+        "trend_breadth": 1.0,
+        "score": 65.18849637502817,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 35,
+        "turnover_cooldown_ratio": 0.25876173909713746
+      },
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 442574.0,
+          "relative_volume": null,
+          "score": 48.45292182688115,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 256500.0,
+            "expected_change_rate": -5.18,
+            "expected_volume": 584.0,
+            "expected_trade_amount": 149796000.0,
+            "total_ask_volume": 105.0,
+            "total_bid_volume": 254.0,
+            "bid_ask_ratio": 2.419047619047619,
+            "order_imbalance": 0.415041782729805
+          },
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 1101350.0,
+          "relative_volume": null,
+          "score": 38.21111006280344,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 4090.0,
+            "expected_change_rate": -0.61,
+            "expected_volume": 4115.0,
+            "expected_trade_amount": 16830350.0,
+            "total_ask_volume": 211.0,
+            "total_bid_volume": 884.0,
+            "bid_ask_ratio": 4.18957345971564,
+            "order_imbalance": 0.6146118721461187
+          },
+          "has_error": true
+        },
+        {
+          "code": "085620",
+          "name": "미래에셋생명",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 102858.0,
+          "relative_volume": null,
+          "score": 24.511217388253232,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 19640.0,
+            "expected_change_rate": 0.0,
+            "expected_volume": 129.0,
+            "expected_trade_amount": 2533560.0,
+            "total_ask_volume": 324.0,
+            "total_bid_volume": 56.0,
+            "bid_ask_ratio": 0.1728395061728395,
+            "order_imbalance": -0.7052631578947368
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": -0.4,
+      "breadth": 0.375,
+      "trading_value": 112728000.0,
+      "score": 48.17765532798368,
+      "pattern": {
+        "peak_return": 39.541287311511006,
+        "drawdown": -11.460774796878104,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.747096000456912,
+        "trend_breadth": 1.0,
+        "score": 62.339992009289276,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 29,
+        "turnover_cooldown_ratio": 0.32430889262049717
+      },
+      "stocks": [
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 96168.0,
+          "relative_volume": null,
+          "score": 35.397904713595786,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 659000.0,
+            "expected_change_rate": 0.0,
+            "expected_volume": 78.0,
+            "expected_trade_amount": 51402000.0,
+            "total_ask_volume": 40.0,
+            "total_bid_volume": 21.0,
+            "bid_ask_ratio": 0.525,
+            "order_imbalance": -0.3114754098360656
+          },
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 187444.0,
+          "relative_volume": null,
+          "score": 26.616675412612643,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 186300.0,
+            "expected_change_rate": 0.87,
+            "expected_volume": 94.0,
+            "expected_trade_amount": 17512200.0,
+            "total_ask_volume": 780.0,
+            "total_bid_volume": 25.0,
+            "bid_ask_ratio": 0.03205128205128205,
+            "order_imbalance": -0.937888198757764
+          },
+          "has_error": true
+        },
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 239066.0,
+          "relative_volume": null,
+          "score": 24.72354372541355,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 44000.0,
+            "expected_change_rate": 0.11,
+            "expected_volume": 175.0,
+            "expected_trade_amount": 7700000.0,
+            "total_ask_volume": 315.0,
+            "total_bid_volume": 31.0,
+            "bid_ask_ratio": 0.09841269841269841,
+            "order_imbalance": -0.8208092485549133
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": -0.66,
+      "breadth": 0.2857142857142857,
+      "trading_value": 10002633.0,
+      "score": 28.618153983203907,
+      "pattern": {
+        "peak_return": 22.00038175224279,
+        "drawdown": -9.34386489710699,
+        "consolidation_range": 11.713665943600882,
+        "down_volume_ratio": 0.6922968612280104,
+        "trend_breadth": 1.0,
+        "score": 59.226965833070096,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 40,
+        "turnover_cooldown_ratio": 0.043430595915946536
+      },
+      "stocks": [
+        {
+          "code": "081660",
+          "name": "미스토홀딩스",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 106363.0,
+          "relative_volume": null,
+          "score": 29.325544007209743,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 35850.0,
+            "expected_change_rate": -4.27,
+            "expected_volume": 341.0,
+            "expected_trade_amount": 12224850.0,
+            "total_ask_volume": 33.0,
+            "total_bid_volume": 128.0,
+            "bid_ask_ratio": 3.878787878787879,
+            "order_imbalance": 0.5900621118012422
+          },
+          "has_error": true
+        },
+        {
+          "code": "069640",
+          "name": "한세엠케이",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 10266.0,
+          "relative_volume": null,
+          "score": 19.280435978952752,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 0.0,
+            "expected_change_rate": 0.0,
+            "expected_volume": 0.0,
+            "expected_trade_amount": 0.0,
+            "total_ask_volume": 1308.0,
+            "total_bid_volume": 38.0,
+            "bid_ask_ratio": 0.0290519877675841,
+            "order_imbalance": -0.9435364041604755
+          },
+          "has_error": true
+        },
+        {
+          "code": "070960",
+          "name": "모나용평",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 40074.0,
+          "relative_volume": null,
+          "score": 14.932620516850758,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 1861.0,
+            "expected_change_rate": -1.9,
+            "expected_volume": 54.0,
+            "expected_trade_amount": 100494.0,
+            "total_ask_volume": 10531.0,
+            "total_bid_volume": 319.0,
+            "bid_ask_ratio": 0.0302915202734783,
+            "order_imbalance": -0.9411981566820277
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 9,
+  "telegram_text": "⏱️ 2026-11-02 08:55 장전 중간확정\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 생명보험 · 강도 45/100\n   등락 +1.17% · 확산도 100%\n   3개월 고점상승 +52.1% · 고점대비 -12.5%\n   15일 변동폭 19.5% · 하락거래대금비 0.65 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 35거래일 · 현재/고점 0.26배\n   1) 삼성생명(032830) · 장전 제외 48\n     예상 -5.18% · 체결가 256,500원 · 거래량 584주\n     매수/매도 잔량비 2.42배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 한화생명(088350) · 장전 제외 38\n     예상 -0.61% · 체결가 4,090원 · 거래량 4,115주\n     매수/매도 잔량비 4.19배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 미래에셋생명(085620) · 장전 제외 25\n     예상 +0.00% · 체결가 19,640원 · 거래량 129주\n     매수/매도 잔량비 0.17배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 손해보험 · 강도 48/100\n   등락 -0.40% · 확산도 38%\n   3개월 고점상승 +39.5% · 고점대비 -11.5%\n   15일 변동폭 8.6% · 하락거래대금비 0.75 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 29거래일 · 현재/고점 0.32배\n   1) 삼성화재(000810) · 장전 제외 35\n     예상 +0.00% · 체결가 659,000원 · 거래량 78주\n     매수/매도 잔량비 0.53배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) DB손해보험(005830) · 장전 제외 27\n     예상 +0.87% · 체결가 186,300원 · 거래량 94주\n     매수/매도 잔량비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 현대해상(001450) · 장전 제외 25\n     예상 +0.11% · 체결가 44,000원 · 거래량 175주\n     매수/매도 잔량비 0.10배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 골프 · 강도 29/100\n   등락 -0.66% · 확산도 29%\n   3개월 고점상승 +22.0% · 고점대비 -9.3%\n   15일 변동폭 11.7% · 하락거래대금비 0.69 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 40거래일 · 현재/고점 0.04배\n   1) 미스토홀딩스(081660) · 장전 제외 29\n     예상 -4.27% · 체결가 35,850원 · 거래량 341주\n     매수/매도 잔량비 3.88배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 한세엠케이(069640) · 장전 제외 19\n     예상 +0.00% · 체결가 0원 · 거래량 0주\n     매수/매도 잔량비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 모나용평(070960) · 장전 제외 15\n     예상 -1.90% · 체결가 1,861원 · 거래량 54주\n     매수/매도 잔량비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 9건\n※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
