@@ -1,0 +1,142 @@
+{
+  "version": 4,
+  "market_date": "2026-11-04",
+  "candidates": [
+    {
+      "theme": {
+        "id": "598",
+        "name": "콩/대두",
+        "change_rate": 14.06,
+        "breadth": 1.0,
+        "trading_value": 8308261.0,
+        "stocks": [
+          {
+            "code": "218150",
+            "name": "미래생명자원"
+          },
+          {
+            "code": "006880",
+            "name": "신송홀딩스"
+          },
+          {
+            "code": "017810",
+            "name": "풀무원"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 69.59252419742188,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      }
+    },
+    {
+      "theme": {
+        "id": "283",
+        "name": "생명보험",
+        "change_rate": 1.17,
+        "breadth": 1.0,
+        "trading_value": 139338000.0,
+        "stocks": [
+          {
+            "code": "003690",
+            "name": "코리안리"
+          },
+          {
+            "code": "088350",
+            "name": "한화생명"
+          },
+          {
+            "code": "032830",
+            "name": "삼성생명"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 52.0732230739051,
+        "drawdown": -12.47048632516482,
+        "consolidation_range": 19.53369708898196,
+        "down_volume_ratio": 0.6520733079967097,
+        "trend_breadth": 1.0,
+        "score": 65.18849637502817,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 35,
+        "turnover_cooldown_ratio": 0.25876173909713746
+      }
+    },
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 0.45,
+        "breadth": 0.625,
+        "trading_value": 107562000.0,
+        "stocks": [
+          {
+            "code": "031210",
+            "name": "서울보증보험"
+          },
+          {
+            "code": "000370",
+            "name": "한화손해보험"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 60.548937422594946,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      }
+    },
+    {
+      "theme": {
+        "id": "496",
+        "name": "골프",
+        "change_rate": -0.66,
+        "breadth": 0.2857142857142857,
+        "trading_value": 10002633.0,
+        "stocks": [
+          {
+            "code": "100120",
+            "name": "뷰웍스"
+          },
+          {
+            "code": "081660",
+            "name": "미스토홀딩스"
+          },
+          {
+            "code": "067900",
+            "name": "와이엔텍"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 22.00038175224279,
+        "drawdown": -9.34386489710699,
+        "consolidation_range": 11.713665943600882,
+        "down_volume_ratio": 0.6922968612280104,
+        "trend_breadth": 1.0,
+        "score": 59.226965833070096,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 40,
+        "turnover_cooldown_ratio": 0.043430595915946536
+      }
+    }
+  ]
+}
