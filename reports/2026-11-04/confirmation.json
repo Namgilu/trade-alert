@@ -1,0 +1,362 @@
+{
+  "version": 2,
+  "market_date": "2026-11-04",
+  "generated_at": "2026-11-04T09:10:33.503194+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 69.59252419742188,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      },
+      "stocks": [
+        {
+          "code": "218150",
+          "name": "미래생명자원",
+          "change_rate": 0.47,
+          "trade_amount": 1705000.0,
+          "trade_volume": 1003.0,
+          "previous_volume": 29614.0,
+          "relative_volume": 0.0338691159586682,
+          "score": 20.43543343373205,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "006880",
+          "name": "신송홀딩스",
+          "change_rate": 0.51,
+          "trade_amount": 2000000.0,
+          "trade_volume": 520.0,
+          "previous_volume": 17392.0,
+          "relative_volume": 0.029898804047838085,
+          "score": 20.25479919843644,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": 4.142420618930592,
+            "direction": "중립",
+            "relevance": 0.51,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.56,
+            "event_count": 1,
+            "primary_event": {
+              "title": "자기주식취득결과보고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000168",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "자기주식취득결과보고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000168",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "017810",
+          "name": "풀무원",
+          "change_rate": 0.49,
+          "trade_amount": 8000000.0,
+          "trade_volume": 1101.0,
+          "previous_volume": 61726.0,
+          "relative_volume": 0.01783689207141237,
+          "score": 18.047547741727016,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 52.0732230739051,
+        "drawdown": -12.47048632516482,
+        "consolidation_range": 19.53369708898196,
+        "down_volume_ratio": 0.6520733079967097,
+        "trend_breadth": 1.0,
+        "score": 65.18849637502817,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 35,
+        "turnover_cooldown_ratio": 0.25876173909713746
+      },
+      "stocks": [
+        {
+          "code": "032830",
+          "name": "삼성생명",
+          "change_rate": 1.91,
+          "trade_amount": 2448000000.0,
+          "trade_volume": 9220.0,
+          "previous_volume": 200021.0,
+          "relative_volume": 0.04609516000819914,
+          "score": 59.94530368297554,
+          "signal": "관망",
+          "event_summary": {
+            "score": -3.284791436579909,
+            "direction": "중립",
+            "relevance": 0.44,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.7,
+            "event_count": 4,
+            "primary_event": {
+              "title": "특수관계인에대한주식의처분",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000281",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "특수관계인에대한출자",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000289",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "특수관계인에대한주식의처분",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000281",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "특수관계인에대한증여",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000269",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "특수관계인과의수익증권거래",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000265",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": 1.35,
+          "trade_amount": 752000000.0,
+          "trade_volume": 183735.0,
+          "previous_volume": 1944194.0,
+          "relative_volume": 0.09450445788846175,
+          "score": 42.35156582390866,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": -0.0827712,
+            "direction": "중립",
+            "relevance": 0.2,
+            "confirmed": 0.86,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.96,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261103000146",
+              "published_at": "2026-11-03T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": 0.58,
+          "trade_amount": 24000000.0,
+          "trade_volume": 1800.0,
+          "previous_volume": 203657.0,
+          "relative_volume": 0.008838390038152384,
+          "score": 17.029633841918972,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 60.548937422594946,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": 1.72,
+          "trade_amount": 824000000.0,
+          "trade_volume": 4701.0,
+          "previous_volume": 224251.0,
+          "relative_volume": 0.020963117221327886,
+          "score": 32.53089541260618,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 1.93,
+          "trade_amount": 4000000.0,
+          "trade_volume": 1304.0,
+          "previous_volume": 23945.0,
+          "relative_volume": 0.054458133221967006,
+          "score": 26.340711023304852,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": 1.05,
+          "trade_amount": 366000000.0,
+          "trade_volume": 8505.0,
+          "previous_volume": 329698.0,
+          "relative_volume": 0.025796334827630135,
+          "score": 25.47202027883527,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 22.00038175224279,
+        "drawdown": -9.34386489710699,
+        "consolidation_range": 11.713665943600882,
+        "down_volume_ratio": 0.6922968612280104,
+        "trend_breadth": 1.0,
+        "score": 59.226965833070096,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 40,
+        "turnover_cooldown_ratio": 0.043430595915946536
+      },
+      "stocks": [
+        {
+          "code": "100120",
+          "name": "뷰웍스",
+          "change_rate": 3.95,
+          "trade_amount": 308856000.0,
+          "trade_volume": 9971.0,
+          "previous_volume": 55664.0,
+          "relative_volume": 0.17912834147743603,
+          "score": 49.379800792664106,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "019010",
+          "name": "베뉴지",
+          "change_rate": 1.85,
+          "trade_amount": 7838000.0,
+          "trade_volume": 2188.0,
+          "previous_volume": 53441.0,
+          "relative_volume": 0.04094234763571041,
+          "score": 24.13113535080114,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "122450",
+          "name": "KX",
+          "change_rate": 1.88,
+          "trade_amount": 418000.0,
+          "trade_volume": 193.0,
+          "previous_volume": 9980.0,
+          "relative_volume": 0.01933867735470942,
+          "score": 20.689626613710075,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 14,
+  "telegram_text": "🔔 2026-11-04 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 콩/대두 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +30.9% · 고점대비 -20.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 22거래일 · 현재/고점 0.01배\n   1) 미래생명자원(218150) · 신호 무효 20\n     등락 +0.47% · 거래대금 0억 · 전일거래량 대비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 신송홀딩스(006880) · 신호 무효 20\n     등락 +0.51% · 거래대금 0억 · 전일거래량 대비 0.03배\n     이벤트: 중립 +4 · 지분·경영권 · 시초가\n     핵심 공시: 자기주식취득결과보고서\n   3) 풀무원(017810) · 신호 무효 18\n     등락 +0.49% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 생명보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +52.1% · 고점대비 -12.5%\n   15일 변동폭 19.5% · 하락거래대금비 0.65 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 35거래일 · 현재/고점 0.26배\n   1) 삼성생명(032830) · 관망 60\n     등락 +1.91% · 거래대금 24억 · 전일거래량 대비 0.05배\n     이벤트: 중립 -3 · 지분·경영권 · 시초가\n     핵심 공시: 특수관계인에대한주식의처분\n   2) 한화생명(088350) · 신호 무효 42\n     등락 +1.35% · 거래대금 8억 · 전일거래량 대비 0.09배\n     이벤트: 중립 -0 · 지분·경영권 · 시초가\n   3) 코리안리(003690) · 신호 무효 17\n     등락 +0.58% · 거래대금 0억 · 전일거래량 대비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) DB손해보험(005830) · 신호 무효 33\n     등락 +1.72% · 거래대금 8억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 흥국화재(000540) · 신호 무효 26\n     등락 +1.93% · 거래대금 0억 · 전일거래량 대비 0.05배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 현대해상(001450) · 신호 무효 25\n     등락 +1.05% · 거래대금 4억 · 전일거래량 대비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n4. 골프 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +22.0% · 고점대비 -9.3%\n   15일 변동폭 11.7% · 하락거래대금비 0.69 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 40거래일 · 현재/고점 0.04배\n   1) 뷰웍스(100120) · 관망 49\n     등락 +3.95% · 거래대금 3억 · 전일거래량 대비 0.18배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 베뉴지(019010) · 신호 무효 24\n     등락 +1.85% · 거래대금 0억 · 전일거래량 대비 0.04배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) KX(122450) · 신호 무효 21\n     등락 +1.88% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 14건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
