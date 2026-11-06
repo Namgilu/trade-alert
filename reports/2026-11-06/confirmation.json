@@ -1,0 +1,323 @@
+{
+  "version": 2,
+  "market_date": "2026-11-06",
+  "generated_at": "2026-11-06T09:10:33.083997+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 69.59252419742188,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      },
+      "stocks": [
+        {
+          "code": "248170",
+          "name": "샘표식품",
+          "change_rate": -1.72,
+          "trade_amount": 102000000.0,
+          "trade_volume": 4510.0,
+          "previous_volume": 41498.0,
+          "relative_volume": 0.10867993638247626,
+          "score": 32.646283409129715,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "007540",
+          "name": "샘표",
+          "change_rate": 0.43,
+          "trade_amount": 69000000.0,
+          "trade_volume": 1549.0,
+          "previous_volume": 32526.0,
+          "relative_volume": 0.04762343970977064,
+          "score": 25.502336874922186,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "006880",
+          "name": "신송홀딩스",
+          "change_rate": -3.18,
+          "trade_amount": 12000000.0,
+          "trade_volume": 3230.0,
+          "previous_volume": 40109.0,
+          "relative_volume": 0.08053055423969682,
+          "score": 21.937971312888674,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "283",
+      "name": "생명보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 52.0732230739051,
+        "drawdown": -12.47048632516482,
+        "consolidation_range": 19.53369708898196,
+        "down_volume_ratio": 0.6520733079967097,
+        "trend_breadth": 1.0,
+        "score": 65.18849637502817,
+        "turnover_spike_ratio": 2.4257192449046467,
+        "days_since_turnover_spike": 35,
+        "turnover_cooldown_ratio": 0.25876173909713746
+      },
+      "stocks": [
+        {
+          "code": "088350",
+          "name": "한화생명",
+          "change_rate": -8.09,
+          "trade_amount": 800000000.0,
+          "trade_volume": 210147.0,
+          "previous_volume": 2243515.0,
+          "relative_volume": 0.09366864050385221,
+          "score": 58.74211020890161,
+          "signal": "관망",
+          "event_summary": {
+            "score": -0.7781118615191543,
+            "direction": "중립",
+            "relevance": 0.57,
+            "confirmed": 0.9,
+            "event_type": "financing",
+            "horizon": "open",
+            "confidence": 0.64,
+            "event_count": 4,
+            "primary_event": {
+              "title": "[발행조건확정]증권신고서(채무증권)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261105000520",
+              "published_at": "2026-11-05T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "[기재정정]특수관계인에대한채권매도",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261105000563",
+              "published_at": "2026-11-05T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "[기재정정]투자판단관련주요경영사항",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261105800898",
+              "published_at": "2026-11-05T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "[발행조건확정]증권신고서(채무증권)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261105000520",
+              "published_at": "2026-11-05T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "[기재정정]증권신고서(채무증권)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261105000517",
+              "published_at": "2026-11-05T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "085620",
+          "name": "미래에셋생명",
+          "change_rate": -7.08,
+          "trade_amount": 51000000.0,
+          "trade_volume": 2834.0,
+          "previous_volume": 103746.0,
+          "relative_volume": 0.02731671582518844,
+          "score": 15.313627494246017,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -3.22,
+          "trade_amount": 35000000.0,
+          "trade_volume": 2700.0,
+          "previous_volume": 164922.0,
+          "relative_volume": 0.01637137555935533,
+          "score": 12.889870368059693,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 60.548937422594946,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": -3.16,
+          "trade_amount": 208000000.0,
+          "trade_volume": 91160.0,
+          "previous_volume": 692753.0,
+          "relative_volume": 0.13159091335584255,
+          "score": 38.60624173372056,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "031210",
+          "name": "서울보증보험",
+          "change_rate": -3.92,
+          "trade_amount": 66000000.0,
+          "trade_volume": 1547.0,
+          "previous_volume": 40127.0,
+          "relative_volume": 0.0385525955092581,
+          "score": 17.738781868257636,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -3.22,
+          "trade_amount": 35000000.0,
+          "trade_volume": 2700.0,
+          "previous_volume": 164922.0,
+          "relative_volume": 0.01637137555935533,
+          "score": 12.889870368059693,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 22.00038175224279,
+        "drawdown": -9.34386489710699,
+        "consolidation_range": 11.713665943600882,
+        "down_volume_ratio": 0.6922968612280104,
+        "trend_breadth": 1.0,
+        "score": 59.226965833070096,
+        "turnover_spike_ratio": 29.226763322015728,
+        "days_since_turnover_spike": 40,
+        "turnover_cooldown_ratio": 0.043430595915946536
+      },
+      "stocks": [
+        {
+          "code": "121440",
+          "name": "골프존홀딩스",
+          "change_rate": -1.84,
+          "trade_amount": 31001000.0,
+          "trade_volume": 3873.0,
+          "previous_volume": 27545.0,
+          "relative_volume": 0.1406062806316936,
+          "score": 34.30058005206218,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "110790",
+          "name": "크리스에프앤씨",
+          "change_rate": -2.69,
+          "trade_amount": 3758000.0,
+          "trade_volume": 1388.0,
+          "previous_volume": 867.0,
+          "relative_volume": 1.6009227220299884,
+          "score": 33.03211377489544,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "111710",
+          "name": "남화산업",
+          "change_rate": -1.49,
+          "trade_amount": 1085000.0,
+          "trade_volume": 414.0,
+          "previous_volume": 41739.0,
+          "relative_volume": 0.009918780996190613,
+          "score": 13.112448301061574,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 14,
+  "telegram_text": "🔔 2026-11-06 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 콩/대두 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +30.9% · 고점대비 -20.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 22거래일 · 현재/고점 0.01배\n   1) 샘표식품(248170) · 신호 무효 33\n     등락 -1.72% · 거래대금 1억 · 전일거래량 대비 0.11배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 샘표(007540) · 신호 무효 26\n     등락 +0.43% · 거래대금 1억 · 전일거래량 대비 0.05배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 신송홀딩스(006880) · 신호 무효 22\n     등락 -3.18% · 거래대금 0억 · 전일거래량 대비 0.08배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 생명보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +52.1% · 고점대비 -12.5%\n   15일 변동폭 19.5% · 하락거래대금비 0.65 · 60일선 상회 100%\n   거래대금 최대 2.4배 · 폭발 후 35거래일 · 현재/고점 0.26배\n   1) 한화생명(088350) · 관망 59\n     등락 -8.09% · 거래대금 8억 · 전일거래량 대비 0.09배\n     이벤트: 중립 -1 · 자금조달 · 시초가\n     핵심 공시: [발행조건확정]증권신고서(채무증권)\n   2) 미래에셋생명(085620) · 신호 무효 15\n     등락 -7.08% · 거래대금 1억 · 전일거래량 대비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 13\n     등락 -3.22% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) 롯데손해보험(000400) · 신호 무효 39\n     등락 -3.16% · 거래대금 2억 · 전일거래량 대비 0.13배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 서울보증보험(031210) · 신호 무효 18\n     등락 -3.92% · 거래대금 1억 · 전일거래량 대비 0.04배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 신호 무효 13\n     등락 -3.22% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n4. 골프 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +22.0% · 고점대비 -9.3%\n   15일 변동폭 11.7% · 하락거래대금비 0.69 · 60일선 상회 100%\n   거래대금 최대 29.2배 · 폭발 후 40거래일 · 현재/고점 0.04배\n   1) 골프존홀딩스(121440) · 신호 무효 34\n     등락 -1.84% · 거래대금 0억 · 전일거래량 대비 0.14배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 크리스에프앤씨(110790) · 신호 무효 33\n     등락 -2.69% · 거래대금 0억 · 전일거래량 대비 1.60배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 남화산업(111710) · 신호 무효 13\n     등락 -1.49% · 거래대금 0억 · 전일거래량 대비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 14건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
