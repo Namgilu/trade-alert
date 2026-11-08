@@ -1,0 +1,201 @@
+{
+  "version": 2,
+  "market_date": "2026-11-09",
+  "generated_at": "2026-11-09T08:50:30.693227+09:00",
+  "mode": "preopen",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.45,
+      "breadth": 0.625,
+      "trading_value": 107562000.0,
+      "score": 45.55306553017386,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 68.2554346314959,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 358089.0,
+          "relative_volume": null,
+          "score": 49.271231434464354,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 40000.0,
+            "expected_change_rate": -4.31,
+            "expected_volume": 2407.0,
+            "expected_trade_amount": 96280000.0,
+            "total_ask_volume": 41.0,
+            "total_bid_volume": 121.0,
+            "bid_ask_ratio": 2.951219512195122,
+            "order_imbalance": 0.49382716049382713
+          },
+          "has_error": true
+        },
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 178866.0,
+          "relative_volume": null,
+          "score": 42.53774444021697,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 601000.0,
+            "expected_change_rate": -0.5,
+            "expected_volume": 31.0,
+            "expected_trade_amount": 18631000.0,
+            "total_ask_volume": 6.0,
+            "total_bid_volume": 83.0,
+            "bid_ask_ratio": 13.833333333333334,
+            "order_imbalance": 0.8651685393258427
+          },
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 238768.0,
+          "relative_volume": null,
+          "score": 21.609882906449155,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 170800.0,
+            "expected_change_rate": -0.18,
+            "expected_volume": 3.0,
+            "expected_trade_amount": 512400.0,
+            "total_ask_volume": 75.0,
+            "total_bid_volume": 3.0,
+            "bid_ask_ratio": 0.04,
+            "order_imbalance": -0.9230769230769231
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": 14.06,
+      "breadth": 1.0,
+      "trading_value": 8308261.0,
+      "score": 43.70912491133407,
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 63.664305413528666,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      },
+      "stocks": [
+        {
+          "code": "248170",
+          "name": "샘표식품",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 31351.0,
+          "relative_volume": null,
+          "score": 36.71741058595826,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 22600.0,
+            "expected_change_rate": -1.53,
+            "expected_volume": 276.0,
+            "expected_trade_amount": 6237600.0,
+            "total_ask_volume": 58.0,
+            "total_bid_volume": 544.0,
+            "bid_ask_ratio": 9.379310344827585,
+            "order_imbalance": 0.8073089700996677
+          },
+          "has_error": true
+        },
+        {
+          "code": "017810",
+          "name": "풀무원",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 185482.0,
+          "relative_volume": null,
+          "score": 34.849607853599906,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 7840.0,
+            "expected_change_rate": -3.09,
+            "expected_volume": 2126.0,
+            "expected_trade_amount": 16667840.0,
+            "total_ask_volume": 16.0,
+            "total_bid_volume": 108.0,
+            "bid_ask_ratio": 6.75,
+            "order_imbalance": 0.7419354838709677
+          },
+          "has_error": true
+        },
+        {
+          "code": "007540",
+          "name": "샘표",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 16948.0,
+          "relative_volume": null,
+          "score": 26.676661237298095,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 46300.0,
+            "expected_change_rate": 1.65,
+            "expected_volume": 21.0,
+            "expected_trade_amount": 972300.0,
+            "total_ask_volume": 335.0,
+            "total_bid_volume": 33.0,
+            "bid_ask_ratio": 0.09850746268656717,
+            "order_imbalance": -0.8206521739130435
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 6,
+  "telegram_text": "⏱️ 2026-11-09 08:55 장전 중간확정\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 46/100\n   등락 +0.45% · 확산도 62%\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) 현대해상(001450) · 장전 제외 49\n     예상 -4.31% · 체결가 40,000원 · 거래량 2,407주\n     매수/매도 잔량비 2.95배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 삼성화재(000810) · 장전 제외 43\n     예상 -0.50% · 체결가 601,000원 · 거래량 31주\n     매수/매도 잔량비 13.83배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) DB손해보험(005830) · 장전 제외 22\n     예상 -0.18% · 체결가 170,800원 · 거래량 3주\n     매수/매도 잔량비 0.04배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 콩/대두 · 강도 44/100\n   등락 +14.06% · 확산도 100%\n   3개월 고점상승 +30.9% · 고점대비 -20.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 22거래일 · 현재/고점 0.01배\n   1) 샘표식품(248170) · 장전 제외 37\n     예상 -1.53% · 체결가 22,600원 · 거래량 276주\n     매수/매도 잔량비 9.38배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 풀무원(017810) · 장전 제외 35\n     예상 -3.09% · 체결가 7,840원 · 거래량 2,126주\n     매수/매도 잔량비 6.75배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 샘표(007540) · 장전 제외 27\n     예상 +1.65% · 체결가 46,300원 · 거래량 21주\n     매수/매도 잔량비 0.10배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 6건\n※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
