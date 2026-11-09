@@ -1,0 +1,74 @@
+{
+  "version": 4,
+  "market_date": "2026-11-10",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 0.45,
+        "breadth": 0.625,
+        "trading_value": 107562000.0,
+        "stocks": [
+          {
+            "code": "000810",
+            "name": "삼성화재"
+          },
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          },
+          {
+            "code": "005830",
+            "name": "DB손해보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 68.2554346314959,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      }
+    },
+    {
+      "theme": {
+        "id": "598",
+        "name": "콩/대두",
+        "change_rate": 14.06,
+        "breadth": 1.0,
+        "trading_value": 8308261.0,
+        "stocks": [
+          {
+            "code": "218150",
+            "name": "미래생명자원"
+          },
+          {
+            "code": "017810",
+            "name": "풀무원"
+          },
+          {
+            "code": "007540",
+            "name": "샘표"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 63.664305413528666,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      }
+    }
+  ]
+}
