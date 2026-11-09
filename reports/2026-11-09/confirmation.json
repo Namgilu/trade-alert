@@ -1,0 +1,147 @@
+{
+  "version": 2,
+  "market_date": "2026-11-09",
+  "generated_at": "2026-11-09T09:10:31.759935+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 68.2554346314959,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": 0.5,
+          "trade_amount": 86000000.0,
+          "trade_volume": 14320.0,
+          "previous_volume": 456836.0,
+          "relative_volume": 0.03134604103004141,
+          "score": 55.36951473171087,
+          "signal": "관망",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": 0.22,
+          "trade_amount": 43000000.0,
+          "trade_volume": 3256.0,
+          "previous_volume": 202930.0,
+          "relative_volume": 0.016044941605479722,
+          "score": 34.60788366236254,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": -0.33,
+          "trade_amount": 4000000.0,
+          "trade_volume": 1525.0,
+          "previous_volume": 81138.0,
+          "relative_volume": 0.018795139145653086,
+          "score": 17.850040458656256,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 63.664305413528666,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      },
+      "stocks": [
+        {
+          "code": "218150",
+          "name": "미래생명자원",
+          "change_rate": -0.12,
+          "trade_amount": 4601000.0,
+          "trade_volume": 2855.0,
+          "previous_volume": 33615.0,
+          "relative_volume": 0.08493232188011304,
+          "score": 28.854141166182227,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "248170",
+          "name": "샘표식품",
+          "change_rate": -0.22,
+          "trade_amount": 17000000.0,
+          "trade_volume": 760.0,
+          "previous_volume": 31351.0,
+          "relative_volume": 0.024241650984019647,
+          "score": 24.301414154888363,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "006880",
+          "name": "신송홀딩스",
+          "change_rate": 0.51,
+          "trade_amount": 1000000.0,
+          "trade_volume": 354.0,
+          "previous_volume": 17480.0,
+          "relative_volume": 0.02025171624713959,
+          "score": 18.35321039170817,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 8,
+  "telegram_text": "🔔 2026-11-09 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) 한화손해보험(000370) · 관망 55\n     등락 +0.50% · 거래대금 1억 · 전일거래량 대비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 코리안리(003690) · 신호 무효 35\n     등락 +0.22% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 흥국화재(000540) · 신호 무효 18\n     등락 -0.33% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 콩/대두 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +30.9% · 고점대비 -20.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 22거래일 · 현재/고점 0.01배\n   1) 미래생명자원(218150) · 신호 무효 29\n     등락 -0.12% · 거래대금 0억 · 전일거래량 대비 0.08배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 샘표식품(248170) · 신호 무효 24\n     등락 -0.22% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 신송홀딩스(006880) · 신호 무효 18\n     등락 +0.51% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 8건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
