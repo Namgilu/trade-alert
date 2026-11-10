@@ -1,0 +1,147 @@
+{
+  "version": 2,
+  "market_date": "2026-11-11",
+  "generated_at": "2026-11-11T07:30:38.177266+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.45,
+      "breadth": 0.625,
+      "trading_value": 107562000.0,
+      "score": 65.51711943677151,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 68.2554346314959,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 1.83,
+          "trade_amount": 39000000.0,
+          "trade_volume": 13083.0,
+          "previous_volume": 46190.0,
+          "relative_volume": 0.28324312621779607,
+          "score": 51.31004908996211,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": 1.16,
+          "trade_amount": 1543000000.0,
+          "trade_volume": 255237.0,
+          "previous_volume": 233852.0,
+          "relative_volume": 1.09144672698972,
+          "score": 50.279279859192876,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": 0.23,
+          "trade_amount": 19649000000.0,
+          "trade_volume": 114652.0,
+          "previous_volume": 136935.0,
+          "relative_volume": 0.8372731587979698,
+          "score": 48.84851062842365,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": 14.06,
+      "breadth": 1.0,
+      "trading_value": 8308261.0,
+      "score": 61.61465960149936,
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 63.664305413528666,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      },
+      "stocks": [
+        {
+          "code": "006880",
+          "name": "신송홀딩스",
+          "change_rate": 1.29,
+          "trade_amount": 51000000.0,
+          "trade_volume": 13140.0,
+          "previous_volume": 12697.0,
+          "relative_volume": 1.0348901315271324,
+          "score": 49.503664900374844,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "017810",
+          "name": "풀무원",
+          "change_rate": 0.25,
+          "trade_amount": 201000000.0,
+          "trade_volume": 25076.0,
+          "previous_volume": 40650.0,
+          "relative_volume": 0.6168757687576876,
+          "score": 47.90366490037484,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "248170",
+          "name": "샘표식품",
+          "change_rate": 0.22,
+          "trade_amount": 268000000.0,
+          "trade_volume": 11744.0,
+          "previous_volume": 11577.0,
+          "relative_volume": 1.0144251533212403,
+          "score": 47.85751105422099,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 6,
+  "telegram_text": "🌅 2026-11-11 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 66/100\n   등락 +0.45% · 확산도 62%\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) 흥국화재(000540) · 낮은 우선순위 51 · 전일 +1.83%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 한화손해보험(000370) · 낮은 우선순위 50 · 전일 +1.16%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) DB손해보험(005830) · 낮은 우선순위 49 · 전일 +0.23%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 콩/대두 · 강도 62/100\n   등락 +14.06% · 확산도 100%\n   3개월 고점상승 +30.9% · 고점대비 -20.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 22거래일 · 현재/고점 0.01배\n   1) 신송홀딩스(006880) · 낮은 우선순위 50 · 전일 +1.29%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 풀무원(017810) · 낮은 우선순위 48 · 전일 +0.25%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 샘표식품(248170) · 낮은 우선순위 48 · 전일 +0.22%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 6건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
