@@ -75,6 +75,27 @@ def consolidation_bars() -> tuple[DailyBar, ...]:
 
 
 class ThemeProviderTest(unittest.TestCase):
+    def test_parses_current_theme_ranking(self):
+        http = FakeHttp([{"items": [{
+            "code": "435", "name": "재택근무/스마트워크", "changeRate": "20.41",
+            "risingCount": "14", "fallingCount": "1", "unchangedCount": "0",
+            "totalTradingValue": "47816856000",
+            "topByChangeRate": [{"code": "181710", "name": "NHN", "value": "27.52"}],
+        }], "hasNext": True, "cursor": "opaque"}])
+        provider = NaverThemeProvider(
+            http,
+            "https://stock.naver.com/api/stockSecurity/rankings/v2/domestic/themes?sortType=changeRate&size=100&excludeCodes=25&period=daily",
+            "theme/{theme_id}",
+        )
+        themes = provider._list_themes(100, stocks_per_theme=1)
+        self.assertEqual(len(themes), 1)
+        self.assertEqual(themes[0].id, "435")
+        self.assertAlmostEqual(themes[0].breadth, 14 / 15)
+        self.assertEqual(themes[0].trading_value, 47816856000)
+        self.assertEqual(themes[0].stocks[0].code, "181710")
+        self.assertIn("size=100", http.calls[0][0])
+        self.assertNotIn("pageSize", http.calls[0][0])
+
     def test_parses_live_contract_and_selects_top_items(self):
         http = FakeHttp(
             [

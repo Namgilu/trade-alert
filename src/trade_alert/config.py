@@ -78,7 +78,7 @@ class Settings:
             http_timeout_seconds=_positive_int("HTTP_TIMEOUT_SECONDS", 20),
             theme_list_url=os.getenv(
                 "THEME_LIST_URL",
-                "https://stock.naver.com/api/domestic/market/theme/list?startIdx=0&pageSize=20&sortType=changeRate",
+                "https://stock.naver.com/api/stockSecurity/rankings/v2/domestic/themes?sortType=changeRate&size=100&excludeCodes=25&period=daily",
             ),
             theme_stocks_url_template=os.getenv(
                 "THEME_STOCKS_URL_TEMPLATE",

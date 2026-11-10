@@ -107,7 +107,10 @@ class NaverThemeProvider:
         return tuple(stocks[:limit])
 
     def _list_themes(self, theme_limit: int, stocks_per_theme: int = 0) -> list[Theme]:
-        list_url = _query_url(self.list_url, startIdx=0, pageSize=min(theme_limit, 100))
+        if "/rankings/v2/" in self.list_url:
+            list_url = _query_url(self.list_url, size=min(theme_limit, 100))
+        else:
+            list_url = _query_url(self.list_url, startIdx=0, pageSize=min(theme_limit, 100))
         raw_themes = _items(self.http.json(list_url))
         themes: list[Theme] = []
         for raw in raw_themes:
@@ -116,16 +119,29 @@ class NaverThemeProvider:
             if not theme_id or not name:
                 continue
             total_count = _float(_first(raw, ("totalCnt", "totalCount")))
-            rise_count = _float(_first(raw, ("riseCnt", "riseCount")))
+            rise_count = _float(_first(raw, ("riseCnt", "riseCount", "risingCount")))
+            if total_count is None:
+                counts = [_float(raw.get(key)) for key in ("risingCount", "fallingCount", "unchangedCount")]
+                if all(count is not None for count in counts):
+                    total_count = sum(counts)
             breadth = rise_count / total_count if total_count and rise_count is not None else None
+            leaders = raw.get("topByChangeRate")
+            if isinstance(leaders, list):
+                stocks = tuple(
+                    Stock(str(item["code"]), str(item["name"]))
+                    for item in leaders[:stocks_per_theme]
+                    if isinstance(item, dict) and item.get("code") and item.get("name")
+                )
+            else:
+                stocks = self._leading_stocks(raw.get("leadingItem"), stocks_per_theme)
             themes.append(
                 Theme(
                     id=theme_id,
                     name=name,
                     change_rate=_float(_first(raw, ("changeRate", "fluctuationsRatio", "rate"))),
                     breadth=breadth,
-                    trading_value=_float(_first(raw, ("totalAccAmount", "tradeAmount", "tradingValue"))),
-                    stocks=self._leading_stocks(raw.get("leadingItem"), stocks_per_theme),
+                    trading_value=_float(_first(raw, ("totalTradingValue", "totalAccAmount", "tradeAmount", "tradingValue"))),
+                    stocks=stocks,
                 )
             )
 
