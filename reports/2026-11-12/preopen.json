@@ -1,0 +1,267 @@
+{
+  "version": 2,
+  "market_date": "2026-11-12",
+  "generated_at": "2026-11-12T08:50:30.382524+09:00",
+  "mode": "preopen",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.45,
+      "breadth": 0.625,
+      "trading_value": 107562000.0,
+      "score": 60.938204456692105,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 68.2554346314959,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 267307.0,
+          "relative_volume": null,
+          "score": 47.77213431640231,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 172500.0,
+            "expected_change_rate": 1.77,
+            "expected_volume": 216.0,
+            "expected_trade_amount": 37260000.0,
+            "total_ask_volume": 482.0,
+            "total_bid_volume": 3.0,
+            "bid_ask_ratio": 0.006224066390041493,
+            "order_imbalance": -0.9876288659793815
+          },
+          "has_error": true
+        },
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 211357.0,
+          "relative_volume": null,
+          "score": 47.49361063656416,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": 2.6973950877016843,
+            "direction": "중립",
+            "relevance": 0.71,
+            "confirmed": 0.9,
+            "event_type": "earnings",
+            "horizon": "open",
+            "confidence": 0.91,
+            "event_count": 1,
+            "primary_event": {
+              "title": "연결재무제표기준영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112800008",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "연결재무제표기준영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112800008",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 563000.0,
+            "expected_change_rate": -0.53,
+            "expected_volume": 33.0,
+            "expected_trade_amount": 18579000.0,
+            "total_ask_volume": 25.0,
+            "total_bid_volume": 76.0,
+            "bid_ask_ratio": 3.04,
+            "order_imbalance": 0.504950495049505
+          },
+          "has_error": true
+        },
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 779861.0,
+          "relative_volume": null,
+          "score": 46.531848026536515,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 39400.0,
+            "expected_change_rate": 1.55,
+            "expected_volume": 152.0,
+            "expected_trade_amount": 5988800.0,
+            "total_ask_volume": 5.0,
+            "total_bid_volume": 22.0,
+            "bid_ask_ratio": 4.4,
+            "order_imbalance": 0.6296296296296297
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": 14.06,
+      "breadth": 1.0,
+      "trading_value": 8308261.0,
+      "score": 45.7139542320874,
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 63.664305413528666,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      },
+      "stocks": [
+        {
+          "code": "017810",
+          "name": "풀무원",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 68332.0,
+          "relative_volume": null,
+          "score": 42.566158511626966,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 8250.0,
+            "expected_change_rate": 0.61,
+            "expected_volume": 32.0,
+            "expected_trade_amount": 264000.0,
+            "total_ask_volume": 3.0,
+            "total_bid_volume": 490.0,
+            "bid_ask_ratio": 163.33333333333334,
+            "order_imbalance": 0.9878296146044625
+          },
+          "has_error": true
+        },
+        {
+          "code": "007540",
+          "name": "샘표",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 7855.0,
+          "relative_volume": null,
+          "score": 41.833811989541715,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": -4.620734136556129,
+            "direction": "중립",
+            "relevance": 0.45,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.37,
+            "event_count": 1,
+            "primary_event": {
+              "title": "정정명령부과( 2026.10.30. 제출 주요사항보고서(회사합병 결정) )",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111100028",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "정정명령부과( 2026.10.30. 제출 주요사항보고서(회사합병 결정) )",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111100028",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 45100.0,
+            "expected_change_rate": -1.74,
+            "expected_volume": 227.0,
+            "expected_trade_amount": 10237700.0,
+            "total_ask_volume": 3.0,
+            "total_bid_volume": 123.0,
+            "bid_ask_ratio": 41.0,
+            "order_imbalance": 0.9523809523809523
+          },
+          "has_error": true
+        },
+        {
+          "code": "248170",
+          "name": "샘표식품",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 24707.0,
+          "relative_volume": null,
+          "score": 28.481972042672663,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": -4.437484509260227,
+            "direction": "중립",
+            "relevance": 0.53,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.37,
+            "event_count": 1,
+            "primary_event": {
+              "title": "정정신고서제출요구( 2026.11.02. 제출 증권신고서(합병) )",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111100027",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "정정신고서제출요구( 2026.11.02. 제출 증권신고서(합병) )",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111100027",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 23050.0,
+            "expected_change_rate": -1.5,
+            "expected_volume": 72.0,
+            "expected_trade_amount": 1659600.0,
+            "total_ask_volume": 323.0,
+            "total_bid_volume": 339.0,
+            "bid_ask_ratio": 1.0495356037151702,
+            "order_imbalance": 0.02416918429003021
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 6,
+  "telegram_text": "⏱️ 2026-11-12 08:55 장전 중간확정\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 61/100\n   등락 +0.45% · 확산도 62%\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) DB손해보험(005830) · 장전 제외 48\n     예상 +1.77% · 체결가 172,500원 · 거래량 216주\n     매수/매도 잔량비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 삼성화재(000810) · 장전 제외 47\n     예상 -0.53% · 체결가 563,000원 · 거래량 33주\n     매수/매도 잔량비 3.04배\n     이벤트: 중립 +3 · 실적 · 시초가\n     핵심 공시: 연결재무제표기준영업(잠정)실적(공정공시)\n   3) 현대해상(001450) · 장전 제외 47\n     예상 +1.55% · 체결가 39,400원 · 거래량 152주\n     매수/매도 잔량비 4.40배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 콩/대두 · 강도 46/100\n   등락 +14.06% · 확산도 100%\n   3개월 고점상승 +30.9% · 고점대비 -20.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 22거래일 · 현재/고점 0.01배\n   1) 풀무원(017810) · 장전 제외 43\n     예상 +0.61% · 체결가 8,250원 · 거래량 32주\n     매수/매도 잔량비 163.33배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 샘표(007540) · 장전 제외 42\n     예상 -1.74% · 체결가 45,100원 · 거래량 227주\n     매수/매도 잔량비 41.00배\n     이벤트: 중립 -5 · 지분·경영권 · 시초가\n     핵심 공시: 정정명령부과( 2026.10.30. 제출 주요사항보고서(회사합병 결정) )\n   3) 샘표식품(248170) · 장전 제외 28\n     예상 -1.50% · 체결가 23,050원 · 거래량 72주\n     매수/매도 잔량비 1.05배\n     이벤트: 중립 -4 · 지분·경영권 · 시초가\n     핵심 공시: 정정신고서제출요구( 2026.11.02. 제출 증권신고서(합병) )\n\n⚠️ 일부 데이터 처리 실패: 6건\n※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
