@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from statistics import median
 from typing import Any
@@ -123,6 +123,8 @@ class ThemeHistoryStore:
         self.series[theme.id] = ThemeSeries(theme, tuple(points))
 
     def append_snapshot(self, themes: list[Theme], market_date: date) -> None:
+        if any(item.points and item.points[-1].date > market_date for item in self.series.values()):
+            raise ValueError("cannot append an older snapshot")
         for theme in themes:
             existing = self.series.get(theme.id)
             existing_points = list(existing.points if existing else ())
@@ -188,8 +190,11 @@ class ThemeHistoryStore:
         }
         _write_json(path, payload)
 
-    def save_repository(self, root: Path, market_date: date) -> tuple[Path, ...]:
+    def save_repository(self, root: Path, market_date: date, *, collected_at: datetime | None = None) -> tuple[Path, ...]:
         """Persist runtime state plus reviewable, append-only repository snapshots."""
+        daily_target = root / "daily" / f"{market_date.year:04d}" / f"{market_date.month:02d}" / f"{market_date.isoformat()}.json"
+        if daily_target.exists():
+            raise ValueError(f"daily snapshot already exists: {market_date}")
         written: list[Path] = []
 
         state_path = root / "state" / "theme-history.json"
@@ -275,6 +280,8 @@ class ThemeHistoryStore:
                 {
                     "version": REPOSITORY_VERSION,
                     "market_date": market_date.isoformat(),
+                    "collected_at": collected_at.isoformat() if collected_at else None,
+                    "date_source": "kis_daily_reference_stocks" if collected_at else None,
                     "themes": daily_rows,
                 },
             )
