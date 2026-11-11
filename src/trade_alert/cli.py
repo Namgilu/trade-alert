@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .collection_date import resolve_market_date
 from .candidate_cache import load_candidates, save_candidates
 from .config import Settings
 from .http import HttpClient
@@ -52,12 +54,15 @@ def build_parser() -> argparse.ArgumentParser:
         "--report-file",
         help="write the complete alert result as JSON for the web dashboard",
     )
+    parser.add_argument("--market-date", type=date.fromisoformat, help="verified collection session (YYYY-MM-DD); cannot backfill live data")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
+        if args.market_date and args.mode != "collect":
+            raise ValueError("--market-date is only available in collect mode")
         if args.force_rescreen and args.mode != "premarket":
             raise ValueError("--force-rescreen is only available in premarket mode")
         settings = Settings.from_env(require_telegram=not args.dry_run and args.mode != "collect")
@@ -95,23 +100,30 @@ def main(argv: list[str] | None = None) -> int:
             try:
                 history = ThemeHistoryStore.load(history_path)
             except (OSError, ValueError) as exc:
+                if args.mode == "collect":
+                    raise ValueError("invalid existing history; review before collection") from exc
                 print(f"theme history ignored: {exc}", file=sys.stderr)
 
         if args.mode == "collect":
             if history_path is None:
                 raise ValueError("--history-file is required for collect mode")
-            history, warnings, action = service.collect_history(now, history)
+            market_date = resolve_market_date(now, service.market_data, args.market_date)
+            anchor = os.environ.get("COLLECTION_ANCHOR")
+            if anchor:
+                original = datetime.fromisoformat(anchor.replace("Z", "+00:00"))
+                original_date = resolve_market_date(original, service.market_data)
+                if original_date != market_date:
+                    raise ValueError("original run session differs from current live session; refusing stale rerun")
+            history, warnings, action = service.collect_history(now, history, market_date=market_date)
             if history_repository is not None and action != "unchanged":
-                latest_dates = [
-                    item.points[-1].date for item in history.series.values() if item.points
-                ]
-                repository_date = max(latest_dates, default=now.date())
-                written = history.save_repository(history_repository, repository_date)
+                repository_date = market_date
+                written = history.save_repository(history_repository, repository_date, collected_at=now)
             elif history_repository is not None:
                 written = ()
             else:
                 history.save(history_path)
                 written = (history_path,)
+            print(f"collected_at={now.isoformat()} market_date={market_date}")
             print(
                 f"theme history {action}: {len(history.series)} themes, "
                 f"{sum(len(item.points) for item in history.series.values())} points, "

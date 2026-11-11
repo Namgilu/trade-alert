@@ -5,10 +5,11 @@ import math
 import re
 from collections import Counter
 from dataclasses import dataclass, replace
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from statistics import median
 from zoneinfo import ZoneInfo
 
+from .collection_date import resolve_market_date
 from .models import (
     DailyBar,
     DailyReport,
@@ -481,25 +482,32 @@ class MarketAlertService:
         self,
         now: datetime,
         store: ThemeHistoryStore | None,
+        *,
+        market_date: date | None = None,
     ) -> tuple[ThemeHistoryStore, tuple[str, ...], str]:
+        market_date = resolve_market_date(now, self.market_data, market_date)
+        collection_day = datetime.combine(market_date, now.timetz())
         warnings: list[str] = []
+        if store is not None:
+            dates = [point.date for item in store.series.values() for point in item.points]
+            if dates and max(dates) > market_date:
+                raise ValueError("history contains future-dated points; review existing data before collecting")
+            if market_date in dates:
+                return store, (), "unchanged"
         if (
             store is None
             or not store.ready(self.history_min_bars)
-            or not store.fresh(now.date())
+            or not store.fresh(market_date)
         ):
             return (
-                self._bootstrap_history(now, warnings, include_today=True),
+                self._bootstrap_history(collection_day, warnings, include_today=True),
                 tuple(warnings),
                 "bootstrapped",
             )
         themes = self.themes.list_themes(self.theme_scan_limit)
         if not themes:
             raise RuntimeError("Naver did not return a theme snapshot")
-        if store.snapshot_unchanged(themes):
-            warnings.append("테마 스냅샷이 이전 거래일과 같아 휴장일로 간주하고 적재를 건너뜀")
-            return store, tuple(warnings), "unchanged"
-        store.append_snapshot(themes, now.date())
+        store.append_snapshot(themes, market_date)
         return store, tuple(warnings), "appended"
 
     def screen_candidates(

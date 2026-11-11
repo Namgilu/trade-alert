@@ -323,7 +323,7 @@ class CandidateCacheTest(unittest.TestCase):
 
 
 class ThemeHistoryTest(unittest.TestCase):
-    def test_daily_collection_uses_one_theme_list_call_and_no_kis(self):
+    def test_daily_collection_uses_one_theme_list_call_and_verifies_session(self):
         now = datetime(2026, 10, 7, 16, 10, tzinfo=ZoneInfo("Asia/Seoul"))
         theme = Theme("10", "전력설비", 1.0, 0.7, 1_000)
         points = tuple(
@@ -344,8 +344,8 @@ class ThemeHistoryTest(unittest.TestCase):
         class NoMarketCalls:
             enabled = True
 
-            def __getattr__(self, name):
-                raise AssertionError(f"daily collection must not call KIS {name}")
+            def history(self, stock, start, end):
+                return (DailyBar(now.date(), 100, 100, 100, 100, 100),)
 
         themes = Themes()
         service = MarketAlertService(
@@ -425,7 +425,8 @@ class ThemeHistoryTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             first = store.save_repository(root, market_date)
-            second = store.save_repository(root, market_date)
+            with self.assertRaisesRegex(ValueError, "already exists"):
+                store.save_repository(root, market_date)
 
             self.assertTrue((root / "state" / "theme-history.json").exists())
             self.assertTrue((root / "catalog" / "themes.json").exists())
@@ -434,7 +435,7 @@ class ThemeHistoryTest(unittest.TestCase):
             daily = json.loads(daily_path.read_text(encoding="utf-8"))
             self.assertEqual(daily["themes"][0]["turnover"], 2_000)
             self.assertEqual(len(first), 4)
-            self.assertEqual(len(second), 3)
+
 
 
 class ServiceScoringTest(unittest.TestCase):
