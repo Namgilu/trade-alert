@@ -1,0 +1,191 @@
+{
+  "version": 2,
+  "market_date": "2026-11-12",
+  "generated_at": "2026-11-12T07:30:38.988313+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.45,
+      "breadth": 0.625,
+      "trading_value": 107562000.0,
+      "score": 65.55222338347298,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 68.2554346314959,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": 2.64,
+          "trade_amount": 1270000000.0,
+          "trade_volume": 507855.0,
+          "previous_volume": 637935.0,
+          "relative_volume": 0.79609207834654,
+          "score": 52.564978922791326,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 1.3,
+          "trade_amount": 48000000.0,
+          "trade_volume": 15505.0,
+          "previous_volume": 13083.0,
+          "relative_volume": 1.1851257356875335,
+          "score": 50.503440461252865,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": 0.66,
+          "trade_amount": 2182000000.0,
+          "trade_volume": 365552.0,
+          "previous_volume": 255237.0,
+          "relative_volume": 1.4322061456606996,
+          "score": 49.90496849035353,
+          "signal": "낮은 우선순위",
+          "event_summary": {
+            "score": 1.404157868058374,
+            "direction": "중립",
+            "relevance": 0.69,
+            "confirmed": 0.9,
+            "event_type": "earnings",
+            "horizon": "open",
+            "confidence": 0.95,
+            "event_count": 1,
+            "primary_event": {
+              "title": "영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111800554",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111800554",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": 14.06,
+      "breadth": 1.0,
+      "trading_value": 8308261.0,
+      "score": 61.48941857340798,
+      "pattern": {
+        "peak_return": 30.914300892648725,
+        "drawdown": -20.4567709398535,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.07997275451533924,
+        "trend_breadth": 1.0,
+        "score": 63.664305413528666,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 22,
+        "turnover_cooldown_ratio": 0.006182940192894449
+      },
+      "stocks": [
+        {
+          "code": "006880",
+          "name": "신송홀딩스",
+          "change_rate": 2.55,
+          "trade_amount": 53000000.0,
+          "trade_volume": 13454.0,
+          "previous_volume": 13140.0,
+          "relative_volume": 1.023896499238965,
+          "score": 51.41081618181354,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "017810",
+          "name": "풀무원",
+          "change_rate": 1.86,
+          "trade_amount": 563000000.0,
+          "trade_volume": 68332.0,
+          "previous_volume": 25076.0,
+          "relative_volume": 2.7249960121231456,
+          "score": 50.349277720275076,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "007540",
+          "name": "샘표",
+          "change_rate": 2.32,
+          "trade_amount": 360000000.0,
+          "trade_volume": 7855.0,
+          "previous_volume": 7103.0,
+          "relative_volume": 1.1058707588342953,
+          "score": 49.67931871896218,
+          "signal": "낮은 우선순위",
+          "event_summary": {
+            "score": -5.009641123655279,
+            "direction": "중립",
+            "relevance": 0.46,
+            "confirmed": 0.9,
+            "event_type": "legal_risk",
+            "horizon": "open",
+            "confidence": 0.41,
+            "event_count": 1,
+            "primary_event": {
+              "title": "정정명령부과( 2026.10.30. 제출 주요사항보고서(회사합병 결정) )",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111100028",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "정정명령부과( 2026.10.30. 제출 주요사항보고서(회사합병 결정) )",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261111100028",
+              "published_at": "2026-11-11T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 6,
+  "telegram_text": "🌅 2026-11-12 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 66/100\n   등락 +0.45% · 확산도 62%\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) 롯데손해보험(000400) · 낮은 우선순위 53 · 전일 +2.64%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 흥국화재(000540) · 낮은 우선순위 51 · 전일 +1.30%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한화손해보험(000370) · 낮은 우선순위 50 · 전일 +0.66%\n     이벤트: 중립 +1 · 실적 · 시초가\n     핵심 공시: 영업(잠정)실적(공정공시)\n\n2. 콩/대두 · 강도 61/100\n   등락 +14.06% · 확산도 100%\n   3개월 고점상승 +30.9% · 고점대비 -20.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 22거래일 · 현재/고점 0.01배\n   1) 신송홀딩스(006880) · 낮은 우선순위 51 · 전일 +2.55%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 풀무원(017810) · 낮은 우선순위 50 · 전일 +1.86%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 샘표(007540) · 낮은 우선순위 50 · 전일 +2.32%\n     이벤트: 중립 -5 · 법률·사고 · 시초가\n     핵심 공시: 정정명령부과( 2026.10.30. 제출 주요사항보고서(회사합병 결정) )\n\n⚠️ 일부 데이터 처리 실패: 6건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
