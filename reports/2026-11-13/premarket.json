@@ -1,0 +1,101 @@
+{
+  "version": 2,
+  "market_date": "2026-11-13",
+  "generated_at": "2026-11-13T07:30:35.416640+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.45,
+      "breadth": 0.625,
+      "trading_value": 107562000.0,
+      "score": 57.02030048918381,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 58.255434631495895,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "000370",
+          "name": "한화손해보험",
+          "change_rate": -0.33,
+          "trade_amount": 1829000000.0,
+          "trade_volume": 306162.0,
+          "previous_volume": 365552.0,
+          "relative_volume": 0.8375333741847945,
+          "score": 45.89775900652357,
+          "signal": "낮은 우선순위",
+          "event_summary": {
+            "score": 0.12724209649202245,
+            "direction": "중립",
+            "relevance": 0.3,
+            "confirmed": 0.9,
+            "event_type": "earnings",
+            "horizon": "open",
+            "confidence": 0.99,
+            "event_count": 1,
+            "primary_event": {
+              "title": "분기보고서 (2026.09)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112000493",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "분기보고서 (2026.09)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112000493",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": -0.32,
+          "trade_amount": 68000000.0,
+          "trade_volume": 21988.0,
+          "previous_volume": 15505.0,
+          "relative_volume": 1.41812318606901,
+          "score": 45.87815204537288,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -0.38,
+          "trade_amount": 3331000000.0,
+          "trade_volume": 254856.0,
+          "previous_volume": 202590.0,
+          "relative_volume": 1.2579890419073005,
+          "score": 45.78584435306519,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 3,
+  "telegram_text": "🌅 2026-11-13 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 57/100\n   등락 +0.45% · 확산도 62%\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) 한화손해보험(000370) · 낮은 우선순위 46 · 전일 -0.33%\n     이벤트: 중립 +0 · 실적 · 시초가\n     핵심 공시: 분기보고서 (2026.09)\n   2) 흥국화재(000540) · 낮은 우선순위 46 · 전일 -0.32%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 코리안리(003690) · 낮은 우선순위 46 · 전일 -0.38%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 3건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}

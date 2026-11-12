@@ -1,0 +1,40 @@
+{
+  "version": 4,
+  "market_date": "2026-11-13",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 0.45,
+        "breadth": 0.625,
+        "trading_value": 107562000.0,
+        "stocks": [
+          {
+            "code": "000540",
+            "name": "흥국화재"
+          },
+          {
+            "code": "000370",
+            "name": "한화손해보험"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 58.255434631495895,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      }
+    }
+  ]
+}
