@@ -1,0 +1,150 @@
+{
+  "version": 2,
+  "market_date": "2026-11-13",
+  "generated_at": "2026-11-13T08:50:37.845632+09:00",
+  "mode": "preopen",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.45,
+      "breadth": 0.625,
+      "trading_value": 107562000.0,
+      "score": 44.04211038674447,
+      "pattern": {
+        "peak_return": 40.485409688449515,
+        "drawdown": -11.062348283464052,
+        "consolidation_range": 8.584762013457926,
+        "down_volume_ratio": 0.8030859442700244,
+        "trend_breadth": 1.0,
+        "score": 58.255434631495895,
+        "turnover_spike_ratio": 2.213727946889189,
+        "days_since_turnover_spike": 30,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 708565.0,
+          "relative_volume": null,
+          "score": 51.84773012599351,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 36100.0,
+            "expected_change_rate": -1.9,
+            "expected_volume": 665.0,
+            "expected_trade_amount": 24006500.0,
+            "total_ask_volume": 65.0,
+            "total_bid_volume": 206.0,
+            "bid_ask_ratio": 3.169230769230769,
+            "order_imbalance": 0.5202952029520295
+          },
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 327296.0,
+          "relative_volume": null,
+          "score": 35.97031427852835,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": 1.8290710127465066,
+            "direction": "중립",
+            "relevance": 0.68,
+            "confirmed": 0.9,
+            "event_type": "earnings",
+            "horizon": "open",
+            "confidence": 0.9,
+            "event_count": 1,
+            "primary_event": {
+              "title": "연결재무제표기준영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112800507",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "연결재무제표기준영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112800507",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 118000.0,
+            "expected_change_rate": -27.38,
+            "expected_volume": 166.0,
+            "expected_trade_amount": 19588000.0,
+            "total_ask_volume": 6.0,
+            "total_bid_volume": 6.0,
+            "bid_ask_ratio": 1.0,
+            "order_imbalance": 0.0
+          },
+          "has_error": true
+        },
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 351931.0,
+          "relative_volume": null,
+          "score": 31.691672617647278,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": 2.4281301952825998,
+            "direction": "중립",
+            "relevance": 0.71,
+            "confirmed": 0.9,
+            "event_type": "earnings",
+            "horizon": "open",
+            "confidence": 0.89,
+            "event_count": 1,
+            "primary_event": {
+              "title": "연결재무제표기준영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112800008",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "연결재무제표기준영업(잠정)실적(공정공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112800008",
+              "published_at": "2026-11-12T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 533000.0,
+            "expected_change_rate": 1.52,
+            "expected_volume": 25.0,
+            "expected_trade_amount": 13325000.0,
+            "total_ask_volume": 71.0,
+            "total_bid_volume": 38.0,
+            "bid_ask_ratio": 0.5352112676056338,
+            "order_imbalance": -0.30275229357798167
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 3,
+  "telegram_text": "⏱️ 2026-11-13 08:55 장전 중간확정\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 44/100\n   등락 +0.45% · 확산도 62%\n   3개월 고점상승 +40.5% · 고점대비 -11.1%\n   15일 변동폭 8.6% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 30거래일 · 현재/고점 0.37배\n   1) 현대해상(001450) · 장전 제외 52\n     예상 -1.90% · 체결가 36,100원 · 거래량 665주\n     매수/매도 잔량비 3.17배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) DB손해보험(005830) · 장전 제외 36\n     예상 -27.38% · 체결가 118,000원 · 거래량 166주\n     매수/매도 잔량비 1.00배\n     이벤트: 중립 +2 · 실적 · 시초가\n     핵심 공시: 연결재무제표기준영업(잠정)실적(공정공시)\n   3) 삼성화재(000810) · 장전 제외 32\n     예상 +1.52% · 체결가 533,000원 · 거래량 25주\n     매수/매도 잔량비 0.54배\n     이벤트: 중립 +2 · 실적 · 시초가\n     핵심 공시: 연결재무제표기준영업(잠정)실적(공정공시)\n\n⚠️ 일부 데이터 처리 실패: 3건\n※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
