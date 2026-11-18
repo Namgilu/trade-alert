@@ -1,7 +1,13 @@
 {
   "version": 1,
-  "updated_at": "2026-11-18T08:50:27.855160+09:00",
+  "updated_at": "2026-11-18T09:10:29.608571+09:00",
   "reports": [
+    {
+      "market_date": "2026-11-18",
+      "mode": "confirmation",
+      "generated_at": "2026-11-18T09:10:29.608571+09:00",
+      "path": "reports/2026-11-18/confirmation.json"
+    },
     {
       "market_date": "2026-11-18",
       "mode": "preopen",
