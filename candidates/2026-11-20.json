@@ -1,0 +1,142 @@
+{
+  "version": 4,
+  "market_date": "2026-11-20",
+  "candidates": [
+    {
+      "theme": {
+        "id": "598",
+        "name": "콩/대두",
+        "change_rate": -1.02,
+        "breadth": 0.4,
+        "trading_value": 1000226000.0,
+        "stocks": [
+          {
+            "code": "218150",
+            "name": "미래생명자원"
+          },
+          {
+            "code": "007540",
+            "name": "샘표"
+          },
+          {
+            "code": "006880",
+            "name": "신송홀딩스"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 28.045977011494273,
+        "drawdown": -21.464941596576324,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.0781097809131151,
+        "trend_breadth": 1.0,
+        "score": 77.7856805578596,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 24,
+        "turnover_cooldown_ratio": 0.006732670354695513
+      }
+    },
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 3.03,
+        "breadth": 0.625,
+        "trading_value": 154901000000.0,
+        "stocks": [
+          {
+            "code": "000540",
+            "name": "흥국화재"
+          },
+          {
+            "code": "005830",
+            "name": "DB손해보험"
+          },
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 33.37615386798729,
+        "drawdown": -8.36753743645301,
+        "consolidation_range": 7.5174518850276595,
+        "down_volume_ratio": 0.8298970047916686,
+        "trend_breadth": 1.0,
+        "score": 66.56724969806861,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 31,
+        "turnover_cooldown_ratio": 0.3915883981075772
+      }
+    },
+    {
+      "theme": {
+        "id": "44",
+        "name": "시멘트/레미콘",
+        "change_rate": 2.17,
+        "breadth": 0.8,
+        "trading_value": 9500835000.0,
+        "stocks": [
+          {
+            "code": "255220",
+            "name": "SG"
+          },
+          {
+            "code": "060560",
+            "name": "HC홈센타"
+          },
+          {
+            "code": "038500",
+            "name": "삼표시멘트"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 23.567567567567572,
+        "drawdown": -5.8865590759474395,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 11.524097524366553,
+        "trend_breadth": 1.0,
+        "score": 57.47145158728921,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 7,
+        "turnover_cooldown_ratio": 0.10197269873465822
+      }
+    },
+    {
+      "theme": {
+        "id": "415",
+        "name": "그래핀",
+        "change_rate": 1.87,
+        "breadth": 0.6923076923076923,
+        "trading_value": 8114310000.0,
+        "stocks": [
+          {
+            "code": "900250",
+            "name": "크리스탈신소재"
+          },
+          {
+            "code": "077360",
+            "name": "덕산하이메탈"
+          },
+          {
+            "code": "154040",
+            "name": "다산솔루에타"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.42397315802569,
+        "drawdown": -8.483386805062999,
+        "consolidation_range": 19.94979392899845,
+        "down_volume_ratio": 0.7041911398984974,
+        "trend_breadth": 1.0,
+        "score": 45.38414299669887,
+        "turnover_spike_ratio": 2.72336202660287,
+        "days_since_turnover_spike": 16,
+        "turnover_cooldown_ratio": 0.2781431898400329
+      }
+    }
+  ]
+}

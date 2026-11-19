@@ -1,0 +1,323 @@
+{
+  "version": 2,
+  "market_date": "2026-11-20",
+  "generated_at": "2026-11-20T07:30:37.540719+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "598",
+      "name": "콩/대두",
+      "change_rate": -1.02,
+      "breadth": 0.4,
+      "trading_value": 1000226000.0,
+      "score": 73.61782847418067,
+      "pattern": {
+        "peak_return": 28.045977011494273,
+        "drawdown": -21.464941596576324,
+        "consolidation_range": 14.060000000000006,
+        "down_volume_ratio": 0.0781097809131151,
+        "trend_breadth": 1.0,
+        "score": 77.7856805578596,
+        "turnover_spike_ratio": 204.34927592539873,
+        "days_since_turnover_spike": 24,
+        "turnover_cooldown_ratio": 0.006732670354695513
+      },
+      "stocks": [
+        {
+          "code": "218150",
+          "name": "미래생명자원",
+          "change_rate": 3.68,
+          "trade_amount": 31444000.0,
+          "trade_volume": 20403.0,
+          "previous_volume": 29084.0,
+          "relative_volume": 0.7015197359372851,
+          "score": 56.18138019546824,
+          "signal": "장전 관심",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "007540",
+          "name": "샘표",
+          "change_rate": 0.78,
+          "trade_amount": 228000000.0,
+          "trade_volume": 5111.0,
+          "previous_volume": 3239.0,
+          "relative_volume": 1.5779561593084286,
+          "score": 51.71984173392978,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "006880",
+          "name": "신송홀딩스",
+          "change_rate": 0.73,
+          "trade_amount": 40000000.0,
+          "trade_volume": 9829.0,
+          "previous_volume": 23524.0,
+          "relative_volume": 0.417828600578133,
+          "score": 51.6429186570067,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 3.03,
+      "breadth": 0.625,
+      "trading_value": 154901000000.0,
+      "score": 63.91790451826556,
+      "pattern": {
+        "peak_return": 33.37615386798729,
+        "drawdown": -8.36753743645301,
+        "consolidation_range": 7.5174518850276595,
+        "down_volume_ratio": 0.8298970047916686,
+        "trend_breadth": 1.0,
+        "score": 66.56724969806861,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 31,
+        "turnover_cooldown_ratio": 0.3915883981075772
+      },
+      "stocks": [
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 1.37,
+          "trade_amount": 97000000.0,
+          "trade_volume": 33133.0,
+          "previous_volume": 47721.0,
+          "relative_volume": 0.6943064898053268,
+          "score": 50.20255305264332,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": -0.3,
+          "trade_amount": 21477000000.0,
+          "trade_volume": 127646.0,
+          "previous_volume": 126049.0,
+          "relative_volume": 1.0126696760783505,
+          "score": 47.63332228341255,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": -0.8,
+          "trade_amount": 810000000.0,
+          "trade_volume": 325246.0,
+          "previous_volume": 653117.0,
+          "relative_volume": 0.497990406006887,
+          "score": 45.05725653816154,
+          "signal": "낮은 우선순위",
+          "event_summary": {
+            "score": -6.570309003709955,
+            "direction": "중립",
+            "relevance": 0.9,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.24,
+            "event_count": 4,
+            "primary_event": {
+              "title": "주요사항보고서(감자결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261119000310",
+              "published_at": "2026-11-19T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "주주총회소집결의",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261119800572",
+              "published_at": "2026-11-19T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "주주명부폐쇄기간또는기준일설정",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261119800547",
+              "published_at": "2026-11-19T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "주요사항보고서(감자결정)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261119000310",
+              "published_at": "2026-11-19T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "매매거래정지및정지해제(중요내용공시)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261119800507",
+              "published_at": "2026-11-19T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "44",
+      "name": "시멘트/레미콘",
+      "change_rate": 2.17,
+      "breadth": 0.8,
+      "trading_value": 9500835000.0,
+      "score": 56.35073384919583,
+      "pattern": {
+        "peak_return": 23.567567567567572,
+        "drawdown": -5.8865590759474395,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 11.524097524366553,
+        "trend_breadth": 1.0,
+        "score": 57.47145158728921,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 7,
+        "turnover_cooldown_ratio": 0.10197269873465822
+      },
+      "stocks": [
+        {
+          "code": "255220",
+          "name": "SG",
+          "change_rate": 6.53,
+          "trade_amount": 3194132000.0,
+          "trade_volume": 3098788.0,
+          "previous_volume": 695232.0,
+          "relative_volume": 4.457199898738838,
+          "score": 56.249221923837425,
+          "signal": "장전 관심",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "060560",
+          "name": "HC홈센타",
+          "change_rate": 5.38,
+          "trade_amount": 3747000.0,
+          "trade_volume": 2109.0,
+          "previous_volume": 5192.0,
+          "relative_volume": 0.4062018489984592,
+          "score": 54.47999115460665,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "038500",
+          "name": "삼표시멘트",
+          "change_rate": 5.32,
+          "trade_amount": 1519488000.0,
+          "trade_volume": 282167.0,
+          "previous_volume": 242654.0,
+          "relative_volume": 1.162836796426187,
+          "score": 54.387683462298966,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "415",
+      "name": "그래핀",
+      "change_rate": 1.87,
+      "breadth": 0.6923076923076923,
+      "trading_value": 8114310000.0,
+      "score": 46.07652154719404,
+      "pattern": {
+        "peak_return": 21.42397315802569,
+        "drawdown": -8.483386805062999,
+        "consolidation_range": 19.94979392899845,
+        "down_volume_ratio": 0.7041911398984974,
+        "trend_breadth": 1.0,
+        "score": 45.38414299669887,
+        "turnover_spike_ratio": 2.72336202660287,
+        "days_since_turnover_spike": 16,
+        "turnover_cooldown_ratio": 0.2781431898400329
+      },
+      "stocks": [
+        {
+          "code": "900250",
+          "name": "크리스탈신소재",
+          "change_rate": 3.97,
+          "trade_amount": 49790000.0,
+          "trade_volume": 55062.0,
+          "previous_volume": 92346.0,
+          "relative_volume": 0.5962575531154571,
+          "score": 49.74220730987544,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "077360",
+          "name": "덕산하이메탈",
+          "change_rate": 3.56,
+          "trade_amount": 3067854000.0,
+          "trade_volume": 440351.0,
+          "previous_volume": 518949.0,
+          "relative_volume": 0.8485438838883975,
+          "score": 49.11143807910621,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "154040",
+          "name": "다산솔루에타",
+          "change_rate": 3.23,
+          "trade_amount": 8487000.0,
+          "trade_volume": 909.0,
+          "previous_volume": 792.0,
+          "relative_volume": 1.1477272727272727,
+          "score": 48.6037457714139,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 12,
+  "telegram_text": "🌅 2026-11-20 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 콩/대두 · 강도 74/100\n   등락 -1.02% · 확산도 40%\n   3개월 고점상승 +28.0% · 고점대비 -21.5%\n   15일 변동폭 14.1% · 하락거래대금비 0.08 · 60일선 상회 100%\n   거래대금 최대 204.3배 · 폭발 후 24거래일 · 현재/고점 0.01배\n   1) 미래생명자원(218150) · 장전 관심 56 · 전일 +3.68%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 샘표(007540) · 낮은 우선순위 52 · 전일 +0.78%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 신송홀딩스(006880) · 낮은 우선순위 52 · 전일 +0.73%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 손해보험 · 강도 64/100\n   등락 +3.03% · 확산도 62%\n   3개월 고점상승 +33.4% · 고점대비 -8.4%\n   15일 변동폭 7.5% · 하락거래대금비 0.83 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 31거래일 · 현재/고점 0.39배\n   1) 흥국화재(000540) · 낮은 우선순위 50 · 전일 +1.37%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) DB손해보험(005830) · 낮은 우선순위 48 · 전일 -0.30%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 롯데손해보험(000400) · 낮은 우선순위 45 · 전일 -0.80%\n     이벤트: 중립 -7 · 지분·경영권 · 시초가\n     핵심 공시: 주요사항보고서(감자결정)\n\n3. 시멘트/레미콘 · 강도 56/100\n   등락 +2.17% · 확산도 80%\n   3개월 고점상승 +23.6% · 고점대비 -5.9%\n   15일 변동폭 8.5% · 하락거래대금비 11.52 · 60일선 상회 100%\n   거래대금 최대 59.9배 · 폭발 후 7거래일 · 현재/고점 0.10배\n   1) SG(255220) · 장전 관심 56 · 전일 +6.53%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) HC홈센타(060560) · 낮은 우선순위 54 · 전일 +5.38%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 삼표시멘트(038500) · 낮은 우선순위 54 · 전일 +5.32%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n4. 그래핀 · 강도 46/100\n   등락 +1.87% · 확산도 69%\n   3개월 고점상승 +21.4% · 고점대비 -8.5%\n   15일 변동폭 19.9% · 하락거래대금비 0.70 · 60일선 상회 100%\n   거래대금 최대 2.7배 · 폭발 후 16거래일 · 현재/고점 0.28배\n   1) 크리스탈신소재(900250) · 낮은 우선순위 50 · 전일 +3.97%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 덕산하이메탈(077360) · 낮은 우선순위 49 · 전일 +3.56%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 다산솔루에타(154040) · 낮은 우선순위 49 · 전일 +3.23%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 12건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
