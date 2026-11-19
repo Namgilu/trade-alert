@@ -10,7 +10,7 @@ import zipfile
 from http.client import RemoteDisconnected
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, Mock, patch
 from zoneinfo import ZoneInfo
 
 from trade_alert.config import Settings
@@ -33,7 +33,7 @@ from trade_alert.models import (
 from trade_alert.providers import KisMarketDataProvider, JevEventProvider, NaverThemeProvider, OpenDartProvider, deduplicate_events
 from trade_alert.report_store import report_payload, save_report
 from trade_alert.scheduler import WORKFLOW_SCHEDULES
-from trade_alert.service import MarketAlertService, format_report
+from trade_alert.service import MarketAlertService, _stock_is_actionable, format_report
 from trade_alert.theme_history import ThemeDailyPoint, ThemeHistoryStore, ThemeSeries
 
 
@@ -167,6 +167,21 @@ class ThemeProviderTest(unittest.TestCase):
         self.assertEqual(result.stocks[1].relative_volume, 0.8)
         self.assertIn("marketType=KOSPI", http.calls[0][0])
         self.assertIn("marketType=KOSDAQ", http.calls[1][0])
+
+    def test_theme_constituents_exclude_nontradable_and_preferred_shares(self):
+        http = FakeHttp([
+            [
+                {"itemcode": "1", "itemname": "보통주", "prevChangeRate": "3"},
+                {"itemcode": "2", "itemname": "관리종목", "manageStatusGb": "1"},
+                {"itemcode": "3", "itemname": "거래정지", "tradeStopYn": "Y"},
+                {"itemcode": "4", "itemname": "회사우", "prevChangeRate": "10"},
+            ],
+            [],
+        ])
+        result = NaverThemeProvider(http, "themes", "theme/{theme_id}").hydrate_theme(
+            Theme("10", "테마"), 3
+        )
+        self.assertEqual([stock.code for stock in result.stocks], ["1"])
 
     def test_market_movers_exclude_managed_stocks_and_collapse_preferred_shares(self):
         http = FakeHttp(
@@ -323,6 +338,67 @@ class CandidateCacheTest(unittest.TestCase):
 
 
 class ThemeHistoryTest(unittest.TestCase):
+    def test_migrates_legacy_turnover_units_once(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "history.json"
+            rows = []
+            for index in range(5):
+                rows.append({
+                    "theme": {"id": str(index), "name": f"테마{index}", "stocks": []},
+                    "points": [
+                        {"date": "2026-11-09", "close": 100, "high": 100, "low": 100, "turnover": 100},
+                        {"date": "2026-11-11", "close": 101, "high": 101, "low": 101, "turnover": 100_000},
+                    ],
+                })
+            path.write_text(json.dumps({"version": 1, "themes": rows}), encoding="utf-8")
+            migrated = ThemeHistoryStore.load(path)
+            self.assertEqual(migrated.series["0"].points[0].turnover, 100_000)
+            migrated.save(path)
+            self.assertEqual(ThemeHistoryStore.load(path).series["0"].points[0].turnover, 100_000)
+
+    def test_delayed_collection_uses_previous_market_date(self):
+        now = datetime(2026, 11, 18, 1, 50, tzinfo=ZoneInfo("Asia/Seoul"))
+        theme = Theme("10", "전력설비", 1.0, 0.7, 1_000)
+        points = tuple(
+            ThemeDailyPoint(now.date() - timedelta(days=65 - index), 100, 100, 100, 100)
+            for index in range(65)
+        )
+        store = ThemeHistoryStore({theme.id: ThemeSeries(theme, points)})
+        themes = Mock()
+        themes.list_themes.return_value = [Theme("10", "전력설비", 2.0, 0.8, 2_000)]
+        service = MarketAlertService(
+            themes, None, None, None, Mock(enabled=True), theme_limit=1,
+            theme_candidate_pool=1, stocks_per_theme=1, news_per_stock=3,
+            max_events_per_stock=3, news_lookback_hours=24,
+        )
+        collected, _, action = service.collect_history(now, store)
+        self.assertEqual(action, "appended")
+        self.assertEqual(collected.series["10"].points[-1].date, date(2026, 11, 17))
+
+    def test_spike_age_affects_rank_without_excluding_fresh_spike(self):
+        service = MarketAlertService(
+            None, None, None, None, None, theme_limit=2, theme_candidate_pool=2,
+            stocks_per_theme=1, news_per_stock=3, max_events_per_stock=3,
+            news_lookback_hours=24,
+        )
+        base = ThemePattern(30, -10, 10, 0.6, 1, 0, 2.5, 1, 0.5)
+        scored = service._score_patterns([
+            (Theme("fresh", "최근"), base),
+            (Theme("mature", "숙성"), ThemePattern(30, -10, 10, 0.6, 1, 0, 2.5, 20, 0.5)),
+        ], require_turnover_spike=True)
+        self.assertEqual([theme.id for theme, _ in scored], ["mature", "fresh"])
+        self.assertGreater(scored[0][1].score, scored[1][1].score)
+
+    def test_intraday_stock_gates_require_liquidity_and_confirmation(self):
+        now = datetime(2026, 11, 18, 9, 10, tzinfo=ZoneInfo("Asia/Seoul"))
+        liquid = Stock("1", "유동성", 5, 500_000_000, 150_000, 1_000_000)
+        thin = Stock("2", "저유동", 5, 20_000_000, 150_000, 1_000_000)
+        quote = PreopenQuote(10_000, 3, 20_000, 100_000, 120_000)
+        self.assertTrue(_stock_is_actionable(liquid, quote, "preopen", now))
+        self.assertTrue(_stock_is_actionable(liquid, None, "confirmation", now))
+        self.assertFalse(_stock_is_actionable(thin, None, "confirmation", now))
+        self.assertFalse(_stock_is_actionable(liquid, PreopenQuote(10_000, 3, 1_000, 100_000, 120_000), "preopen", now))
+
     def test_daily_collection_uses_one_theme_list_call_and_no_kis(self):
         now = datetime(2026, 10, 7, 16, 10, tzinfo=ZoneInfo("Asia/Seoul"))
         theme = Theme("10", "전력설비", 1.0, 0.7, 1_000)
@@ -396,6 +472,8 @@ class ThemeHistoryTest(unittest.TestCase):
         first_close = store.series["10"].points[-1].close
         store.append_snapshot([Theme("10", "전력설비", 2.0, 0.8, 2_000)], now.date())
         self.assertEqual(store.series["10"].points[-1].close, first_close)
+        morning_after_early_collection, _, _ = service.prepare_candidates(now, store)
+        self.assertEqual(morning_after_early_collection[0][1].days_since_turnover_spike, 34)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "history.json"
             store.save(path)

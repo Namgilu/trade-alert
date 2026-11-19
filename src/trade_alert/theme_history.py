@@ -12,6 +12,7 @@ from .models import DailyBar, Stock, Theme
 
 HISTORY_VERSION = 1
 REPOSITORY_VERSION = 1
+NAVER_VALUE_UNIT_CHANGE = date(2026, 11, 10)
 
 
 def _float(value: Any, field: str) -> float:
@@ -56,6 +57,44 @@ class ThemeHistoryStore:
     def fresh(self, market_date: date, maximum_age_days: int = 10) -> bool:
         latest_dates = [item.points[-1].date for item in self.series.values() if item.points]
         return bool(latest_dates) and (market_date - max(latest_dates)).days <= maximum_age_days
+
+    def normalize_legacy_turnover(self) -> bool:
+        """Migrate old Naver thousand-won snapshots to the current won unit."""
+        ratios = []
+        for item in self.series.values():
+            before = next(
+                (point.turnover for point in reversed(item.points)
+                 if point.date < NAVER_VALUE_UNIT_CHANGE and point.turnover > 0),
+                None,
+            )
+            after = next(
+                (point.turnover for point in item.points
+                 if point.date >= NAVER_VALUE_UNIT_CHANGE and point.turnover > 0),
+                None,
+            )
+            if before is not None and after is not None:
+                ratios.append(after / before)
+        # Do not alter custom or already consistent history files. A single
+        # stock's genuine turnover jump cannot trigger this global migration.
+        if len(ratios) < 5 or not 100 <= median(ratios) <= 10_000:
+            return False
+        for theme_id, item in self.series.items():
+            points = tuple(
+                ThemeDailyPoint(
+                    point.date, point.close, point.high, point.low,
+                    point.turnover * (1_000 if point.date < NAVER_VALUE_UNIT_CHANGE else 1),
+                )
+                for point in item.points
+            )
+            trading_value = item.theme.trading_value
+            if points and points[-1].date < NAVER_VALUE_UNIT_CHANGE and trading_value is not None:
+                trading_value *= 1_000
+            theme = Theme(
+                item.theme.id, item.theme.name, item.theme.change_rate,
+                item.theme.breadth, trading_value, item.theme.stocks,
+            )
+            self.series[theme_id] = ThemeSeries(theme, points)
+        return True
 
     def snapshot_unchanged(self, themes: list[Theme]) -> bool:
         comparisons = 0
@@ -329,4 +368,6 @@ class ThemeHistoryStore:
                 if isinstance(point, dict)
             )
             series[theme_id] = ThemeSeries(theme, points)
-        return cls(series)
+        store = cls(series)
+        store.normalize_legacy_turnover()
+        return store

@@ -121,8 +121,9 @@ class FixedCandidatesTest(unittest.TestCase):
         self.assertTrue(item.summary_unavailable)
         self.assertIsNone(item.score)
         # Amount: 50 (one stock); price: (3 + 3) / 13 * 100;
-        # volume: 100 / 1000 / .15 * 100; event: neutral 50.
-        expected = (0.30 * 50 + 0.20 * (6 / 13 * 100) + 0.20 * (0.1 / 0.15 * 100) + 0.15 * 50) / 0.85
+        # The synthetic confirmation timestamp precedes the open, so the
+        # elapsed-session volume pace is clamped to the maximum score.
+        expected = (0.30 * 50 + 0.20 * (6 / 13 * 100) + 0.20 * 100 + 0.15 * 50) / 0.85
         self.assertAlmostEqual(item.stocks[0].score, expected)
 
     def test_missing_summary_does_not_mask_real_stock_failure(self):
@@ -154,6 +155,16 @@ class FixedCandidatesTest(unittest.TestCase):
         self.assertEqual(len(report.themes), 5)
         self.assertTrue(all(item.data_error for item in report.themes))
         self.assertNotIn("장전 유효", format_report(report))
+
+    def test_high_score_cannot_override_intraday_liquidity_gate(self):
+        self.service.theme_limit = 5
+        for mode, excluded in (("preopen", "장전 제외"), ("confirmation", "신호 무효")):
+            with self.subTest(mode=mode):
+                report = self.service.run(mode, NOW, screened_candidates=self.candidates)
+                self.assertTrue(all(
+                    stock.signal == excluded
+                    for theme in report.themes for stock in theme.stocks
+                ))
 
     def test_v3_pool_is_not_accepted_as_a_final_selection(self):
         with tempfile.TemporaryDirectory() as directory:

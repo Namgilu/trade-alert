@@ -134,13 +134,17 @@ class NaverThemeProvider:
                 )
             else:
                 stocks = self._leading_stocks(raw.get("leadingItem"), stocks_per_theme)
+            trading_value = _float(_first(raw, ("totalTradingValue", "totalAccAmount", "tradeAmount", "tradingValue")))
+            if raw.get("totalTradingValue") is None and raw.get("totalAccAmount") is not None and trading_value is not None:
+                # The legacy ranking endpoint reports this field in thousand won.
+                trading_value *= 1_000
             themes.append(
                 Theme(
                     id=theme_id,
                     name=name,
                     change_rate=_float(_first(raw, ("changeRate", "fluctuationsRatio", "rate"))),
                     breadth=breadth,
-                    trading_value=_float(_first(raw, ("totalTradingValue", "totalAccAmount", "tradeAmount", "tradingValue"))),
+                    trading_value=trading_value,
                     stocks=stocks,
                 )
             )
@@ -163,9 +167,15 @@ class NaverThemeProvider:
                 pageSize=max(stocks_per_theme, 3),
             )
             for raw in _items(self.http.json(url)):
+                if str(raw.get("type", "ST")) != "ST":
+                    continue
+                if str(raw.get("manageStatusGb", "0")) != "0" or str(raw.get("tradeStopYn", "N")) == "Y":
+                    continue
                 code = str(_first(raw, ("itemCode", "itemcode", "stockCode", "symbol", "code"), "")).strip()
                 name = str(_first(raw, ("stockName", "itemName", "itemname", "name", "korName"), "")).strip()
                 if not code or not name:
+                    continue
+                if re.search(r"(?:\d*우B?|우선주)$", name, flags=re.IGNORECASE):
                     continue
                 krx = raw.get("krx") if isinstance(raw.get("krx"), dict) else {}
                 stocks_by_code.setdefault(

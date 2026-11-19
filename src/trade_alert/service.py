@@ -5,7 +5,7 @@ import math
 import re
 from collections import Counter
 from dataclasses import dataclass, replace
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 from statistics import median
 from zoneinfo import ZoneInfo
 
@@ -15,6 +15,7 @@ from .models import (
     EmergingThemeAnalysis,
     EventSummary,
     MarketEvent,
+    PreopenQuote,
     Stock,
     StockAnalysis,
     Theme,
@@ -194,9 +195,50 @@ def _history_pattern_is_eligible(pattern: ThemePattern) -> bool:
     return (
         _pattern_is_eligible(pattern)
         and pattern.turnover_spike_ratio >= 1.8
-        and 10 <= pattern.days_since_turnover_spike <= 45
         and pattern.turnover_cooldown_ratio <= 0.8
     )
+
+
+def _spike_age_score(days: int) -> float:
+    if days < 10:
+        return _scale(days, 0, 10)
+    if days <= 45:
+        return 100.0
+    return _inverse_scale(days, 45, 65)
+
+
+def _volume_pace(stock: Stock, now: datetime) -> float | None:
+    relative = stock.relative_volume
+    if relative is None:
+        return None
+    elapsed = (now.hour - 9) * 60 + now.minute
+    session_fraction = min(1.0, max(1, elapsed) / 390.0)
+    return relative / session_fraction
+
+
+def _stock_is_actionable(
+    stock: Stock, quote: PreopenQuote | None, mode: str, now: datetime
+) -> bool:
+    if mode == "preopen":
+        return bool(
+            quote
+            and quote.expected_change_rate is not None
+            and 0.0 <= quote.expected_change_rate <= 10.0
+            and quote.expected_trade_amount is not None
+            and quote.expected_trade_amount >= 100_000_000
+            and quote.bid_ask_ratio is not None
+            and quote.bid_ask_ratio >= 1.0
+        )
+    if mode == "confirmation":
+        return bool(
+            stock.change_rate is not None
+            and 2.0 <= stock.change_rate <= 15.0
+            and stock.trade_amount is not None
+            and stock.trade_amount >= 300_000_000
+            and _volume_pace(stock, now) is not None
+            and _volume_pace(stock, now) >= 1.5
+        )
+    return True
 
 
 def _event_score(summary: EventSummary | None) -> float:
@@ -370,13 +412,14 @@ class MarketAlertService:
         for theme, pattern in eligible:
             if require_turnover_spike:
                 score = (
-                    0.20 * _relative(pattern.peak_return, momentum_values)
-                    + 0.20 * _drawdown_score(pattern.drawdown)
+                    0.15 * _relative(pattern.peak_return, momentum_values)
+                    + 0.15 * _drawdown_score(pattern.drawdown)
                     + 0.15 * _inverse_scale(pattern.consolidation_range, 5.0, 20.0)
                     + 0.10 * _inverse_scale(pattern.down_volume_ratio, 0.5, 1.2)
                     + 0.10 * pattern.trend_breadth * 100.0
                     + 0.15 * _scale(pattern.turnover_spike_ratio, 1.8, 5.0)
                     + 0.10 * _inverse_scale(pattern.turnover_cooldown_ratio, 0.2, 0.8)
+                    + 0.10 * _spike_age_score(pattern.days_since_turnover_spike)
                 )
             else:
                 score = (
@@ -456,9 +499,12 @@ class MarketAlertService:
     ) -> list[tuple[Theme, ThemePattern]]:
         raw_patterns: list[tuple[Theme, ThemePattern]] = []
         for item in store.series.values():
-            if not item.points or (now.date() - item.points[-1].date).days > 10:
+            # A delayed collection can leave a premature row dated today.
+            # Morning screening must use completed sessions only.
+            completed_points = tuple(point for point in item.points if point.date < now.date())
+            if not completed_points or (now.date() - completed_points[-1].date).days > 10:
                 continue
-            pattern = _history_pattern(item.points, self.history_min_bars)
+            pattern = _history_pattern(completed_points, self.history_min_bars)
             if pattern is not None:
                 raw_patterns.append((item.theme, pattern))
         return self._score_patterns(raw_patterns, require_turnover_spike=True)
@@ -483,13 +529,27 @@ class MarketAlertService:
         store: ThemeHistoryStore | None,
     ) -> tuple[ThemeHistoryStore, tuple[str, ...], str]:
         warnings: list[str] = []
+        # A delayed 16:10 cron may start after midnight. The snapshot still
+        # belongs to the most recently completed Korean trading session.
+        collection_date = now.date()
+        if now.time() < time(16, 10):
+            collection_date -= timedelta(days=1)
+        while collection_date.weekday() >= 5:
+            collection_date -= timedelta(days=1)
+        collection_now = datetime.combine(collection_date, time(16, 10), tzinfo=now.tzinfo)
+        if store is not None and any(
+            item.points and item.points[-1].date > collection_date
+            for item in store.series.values()
+        ):
+            warnings.append("수집일보다 미래 날짜의 기록이 있어 이번 스냅샷을 건너뜀")
+            return store, tuple(warnings), "unchanged"
         if (
             store is None
             or not store.ready(self.history_min_bars)
-            or not store.fresh(now.date())
+            or not store.fresh(collection_date)
         ):
             return (
-                self._bootstrap_history(now, warnings, include_today=True),
+                self._bootstrap_history(collection_now, warnings, include_today=True),
                 tuple(warnings),
                 "bootstrapped",
             )
@@ -499,7 +559,7 @@ class MarketAlertService:
         if store.snapshot_unchanged(themes):
             warnings.append("테마 스냅샷이 이전 거래일과 같아 휴장일로 간주하고 적재를 건너뜀")
             return store, tuple(warnings), "unchanged"
-        store.append_snapshot(themes, now.date())
+        store.append_snapshot(themes, collection_date)
         return store, tuple(warnings), "appended"
 
     def screen_candidates(
@@ -862,12 +922,14 @@ class MarketAlertService:
                 elif mode == "confirmation":
                     amount = _relative(stock.trade_amount, stock_values)
                     price = _scale(stock.change_rate, -3.0, 10.0)
-                    volume = _scale(stock.relative_volume, 0.0, 0.15, default=0.0)
+                    volume = _scale(_volume_pace(stock, now), 0.5, 4.0, default=0.0)
                     stock_score = 0.30 * amount + 0.20 * price + 0.20 * volume + 0.15 * event
                     # Normalize the available stock components instead of
                     # awarding points for unknown theme aggregates.
                     score = stock_score / 0.85 if analysis.summary_unavailable else stock_score + 0.15 * theme_score
                     signal = _confirmation_signal(score)
+                    if not _stock_is_actionable(stock, None, mode, now):
+                        signal = "신호 무효"
                 else:
                     quote = stock_result.preopen_quote
                     price = _scale(quote.expected_change_rate, -3.0, 10.0, default=0.0) if quote else 0.0
@@ -883,8 +945,16 @@ class MarketAlertService:
                     )
                     score = 0.30 * price + 0.20 * amount + 0.20 * orderbook + 0.15 * event + 0.15 * theme_score
                     signal = _preopen_signal(score)
+                    if not _stock_is_actionable(stock, quote, mode, now):
+                        signal = "장전 제외"
                 scored_stocks.append(replace(stock_result, score=_clamp(score), signal=signal))
-            scored_stocks.sort(key=lambda item: item.score, reverse=True)
+            scored_stocks.sort(
+                key=lambda item: (
+                    _stock_is_actionable(item.stock, item.preopen_quote, mode, now),
+                    item.score,
+                ),
+                reverse=True,
+            )
             scored_themes.append(
                 ThemeAnalysis(
                     theme=theme,
