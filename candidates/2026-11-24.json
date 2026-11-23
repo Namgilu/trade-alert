@@ -1,0 +1,142 @@
+{
+  "version": 4,
+  "market_date": "2026-11-24",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": -3.12,
+        "breadth": 0.125,
+        "trading_value": 104428000000.0,
+        "stocks": [
+          {
+            "code": "000400",
+            "name": "롯데손해보험"
+          },
+          {
+            "code": "031210",
+            "name": "서울보증보험"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 41.4423947680711,
+        "drawdown": -11.226470268435683,
+        "consolidation_range": 5.3358039332924045,
+        "down_volume_ratio": 0.8042738759877586,
+        "trend_breadth": 1.0,
+        "score": 73.40334159497658,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 32,
+        "turnover_cooldown_ratio": 0.3915883981075772
+      }
+    },
+    {
+      "theme": {
+        "id": "52",
+        "name": "교육/온라인 교육",
+        "change_rate": -0.81,
+        "breadth": 0.2916666666666667,
+        "trading_value": 5145906000.0,
+        "stocks": [
+          {
+            "code": "072130",
+            "name": "유엔젤"
+          },
+          {
+            "code": "019680",
+            "name": "대교"
+          },
+          {
+            "code": "095720",
+            "name": "웅진씽크빅"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.12604380288461,
+        "drawdown": -7.008027872784572,
+        "consolidation_range": 9.469311629659893,
+        "down_volume_ratio": 0.49710677048344193,
+        "trend_breadth": 1.0,
+        "score": 68.54273017951697,
+        "turnover_spike_ratio": 9.371867192938446,
+        "days_since_turnover_spike": 19,
+        "turnover_cooldown_ratio": 0.08467098165233294
+      }
+    },
+    {
+      "theme": {
+        "id": "44",
+        "name": "시멘트/레미콘",
+        "change_rate": -3.43,
+        "breadth": 0.06666666666666667,
+        "trading_value": 9425078000.0,
+        "stocks": [
+          {
+            "code": "079650",
+            "name": "서산"
+          },
+          {
+            "code": "198440",
+            "name": "강동씨앤엘"
+          },
+          {
+            "code": "038500",
+            "name": "삼표시멘트"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 23.39295136551374,
+        "drawdown": -9.114650099642441,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 12.060436724972883,
+        "trend_breadth": 1.0,
+        "score": 62.297081504775385,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 8,
+        "turnover_cooldown_ratio": 0.060178494379667664
+      }
+    },
+    {
+      "theme": {
+        "id": "415",
+        "name": "그래핀",
+        "change_rate": 1.87,
+        "breadth": 0.6923076923076923,
+        "trading_value": 8114310000.0,
+        "stocks": [
+          {
+            "code": "154040",
+            "name": "다산솔루에타"
+          },
+          {
+            "code": "024900",
+            "name": "디와이덕양"
+          },
+          {
+            "code": "065500",
+            "name": "오리엔트정공"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 21.42397315802569,
+        "drawdown": -8.483386805062999,
+        "consolidation_range": 19.94979392899845,
+        "down_volume_ratio": 0.7041911398984974,
+        "trend_breadth": 1.0,
+        "score": 45.60411066386381,
+        "turnover_spike_ratio": 2.72336202660287,
+        "days_since_turnover_spike": 16,
+        "turnover_cooldown_ratio": 0.2781431898400329
+      }
+    }
+  ]
+}
