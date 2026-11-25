@@ -1,0 +1,254 @@
+{
+  "version": 2,
+  "market_date": "2026-11-25",
+  "generated_at": "2026-11-25T09:10:31.397609+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": -0.54,
+      "breadth": 0.125,
+      "trading_value": 3239000000.0,
+      "score": 48.282313412492975,
+      "pattern": {
+        "peak_return": 41.4423947680711,
+        "drawdown": -11.226470268435683,
+        "consolidation_range": 5.3358039332924045,
+        "down_volume_ratio": 0.8042738759877586,
+        "trend_breadth": 1.0,
+        "score": 73.40334159497658,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 32,
+        "turnover_cooldown_ratio": 0.3915883981075772
+      },
+      "stocks": [
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": 0.24,
+          "trade_amount": 348000000.0,
+          "trade_volume": 2125.0,
+          "previous_volume": 148518.0,
+          "relative_volume": 0.014308030003097268,
+          "score": 49.92936542875101,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": -1.7213439600000002,
+            "direction": "중립",
+            "relevance": 0.42,
+            "confirmed": 0.79,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.81,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "특수관계인과의수익증권거래",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261124000447",
+              "published_at": "2026-11-24T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": 0.0,
+          "trade_amount": 106000000.0,
+          "trade_volume": 9114.0,
+          "previous_volume": 480147.0,
+          "relative_volume": 0.018981686858399616,
+          "score": 29.868724304470376,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": -0.2,
+          "trade_amount": 36000000.0,
+          "trade_volume": 14339.0,
+          "previous_volume": 641659.0,
+          "relative_volume": 0.02234676050674891,
+          "score": 24.276479936932365,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "52",
+      "name": "교육/온라인 교육",
+      "change_rate": -0.74,
+      "breadth": 0.25,
+      "trading_value": 264607000.0,
+      "score": 35.181763246488075,
+      "pattern": {
+        "peak_return": 21.12604380288461,
+        "drawdown": -7.008027872784572,
+        "consolidation_range": 9.469311629659893,
+        "down_volume_ratio": 0.49710677048344193,
+        "trend_breadth": 1.0,
+        "score": 68.54273017951697,
+        "turnover_spike_ratio": 9.371867192938446,
+        "days_since_turnover_spike": 19,
+        "turnover_cooldown_ratio": 0.08467098165233294
+      },
+      "stocks": [
+        {
+          "code": "067280",
+          "name": "멀티캠퍼스",
+          "change_rate": 0.89,
+          "trade_amount": 74364000.0,
+          "trade_volume": 2629.0,
+          "previous_volume": 17104.0,
+          "relative_volume": 0.1537067352666043,
+          "score": 45.17256952676101,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "072130",
+          "name": "유엔젤",
+          "change_rate": 1.83,
+          "trade_amount": 8000000.0,
+          "trade_volume": 1980.0,
+          "previous_volume": 19340.0,
+          "relative_volume": 0.10237849017580145,
+          "score": 40.82585842475471,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": -0.40620558487791797,
+            "direction": "중립",
+            "relevance": 0.46,
+            "confirmed": 0.9,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.69,
+            "event_count": 1,
+            "primary_event": {
+              "title": "주식등의대량보유상황보고서(약식)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261123000408",
+              "published_at": "2026-11-24T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          },
+          "events": [
+            {
+              "title": "주식등의대량보유상황보고서(약식)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261123000408",
+              "published_at": "2026-11-24T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "095720",
+          "name": "웅진씽크빅",
+          "change_rate": 0.54,
+          "trade_amount": 0.0,
+          "trade_volume": 48.0,
+          "previous_volume": 13065.0,
+          "relative_volume": 0.0036739380022962113,
+          "score": 18.223418333127057,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "44",
+      "name": "시멘트/레미콘",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 23.39295136551374,
+        "drawdown": -9.114650099642441,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 12.060436724972883,
+        "trend_breadth": 1.0,
+        "score": 62.297081504775385,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 8,
+        "turnover_cooldown_ratio": 0.060178494379667664
+      },
+      "stocks": [
+        {
+          "code": "001520",
+          "name": "동양",
+          "change_rate": -0.62,
+          "trade_amount": 16000000.0,
+          "trade_volume": 16853.0,
+          "previous_volume": 105571.0,
+          "relative_volume": 0.15963664263860342,
+          "score": 38.28335153690123,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000910",
+          "name": "유니온",
+          "change_rate": 0.0,
+          "trade_amount": 5000000.0,
+          "trade_volume": 2820.0,
+          "previous_volume": 34866.0,
+          "relative_volume": 0.08088108759249699,
+          "score": 32.60494627416772,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "060560",
+          "name": "HC홈센타",
+          "change_rate": -0.28,
+          "trade_amount": 229000.0,
+          "trade_volume": 130.0,
+          "previous_volume": 4425.0,
+          "relative_volume": 0.02937853107344633,
+          "score": 18.11109341547166,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 11,
+  "telegram_text": "🔔 2026-11-25 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 48/100\n   등락 -0.54% · 확산도 12%\n   3개월 고점상승 +41.4% · 고점대비 -11.2%\n   15일 변동폭 5.3% · 하락거래대금비 0.80 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 32거래일 · 현재/고점 0.39배\n   1) DB손해보험(005830) · 신호 무효 50\n     등락 +0.24% · 거래대금 3억 · 전일거래량 대비 0.01배\n     이벤트: 중립 -2 · 지분·경영권 · 시초가\n   2) 코리안리(003690) · 신호 무효 30\n     등락 +0.00% · 거래대금 1억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 롯데손해보험(000400) · 신호 무효 24\n     등락 -0.20% · 거래대금 0억 · 전일거래량 대비 0.02배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 교육/온라인 교육 · 강도 35/100\n   등락 -0.74% · 확산도 25%\n   3개월 고점상승 +21.1% · 고점대비 -7.0%\n   15일 변동폭 9.5% · 하락거래대금비 0.50 · 60일선 상회 100%\n   거래대금 최대 9.4배 · 폭발 후 19거래일 · 현재/고점 0.08배\n   1) 멀티캠퍼스(067280) · 신호 무효 45\n     등락 +0.89% · 거래대금 1억 · 전일거래량 대비 0.15배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 유엔젤(072130) · 신호 무효 41\n     등락 +1.83% · 거래대금 0억 · 전일거래량 대비 0.10배\n     이벤트: 중립 -0 · 지분·경영권 · 시초가\n     핵심 공시: 주식등의대량보유상황보고서(약식)\n   3) 웅진씽크빅(095720) · 신호 무효 18\n     등락 +0.54% · 거래대금 0억 · 전일거래량 대비 0.00배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 시멘트/레미콘 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +23.4% · 고점대비 -9.1%\n   15일 변동폭 8.5% · 하락거래대금비 12.06 · 60일선 상회 100%\n   거래대금 최대 59.9배 · 폭발 후 8거래일 · 현재/고점 0.06배\n   1) 동양(001520) · 신호 무효 38\n     등락 -0.62% · 거래대금 0억 · 전일거래량 대비 0.16배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 유니온(000910) · 신호 무효 33\n     등락 +0.00% · 거래대금 0억 · 전일거래량 대비 0.08배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) HC홈센타(060560) · 신호 무효 18\n     등락 -0.28% · 거래대금 0억 · 전일거래량 대비 0.03배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 11건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
