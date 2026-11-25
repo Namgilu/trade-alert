@@ -1,0 +1,300 @@
+{
+  "version": 2,
+  "market_date": "2026-11-26",
+  "generated_at": "2026-11-26T07:30:45.785652+09:00",
+  "mode": "premarket",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.43,
+      "breadth": 0.375,
+      "trading_value": 73284000000.0,
+      "score": 70.58096134760272,
+      "pattern": {
+        "peak_return": 39.72909523521422,
+        "drawdown": -10.844744090589964,
+        "consolidation_range": 5.3358039332924045,
+        "down_volume_ratio": 0.7286011342754302,
+        "trend_breadth": 1.0,
+        "score": 74.21088099482674,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 33,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": 2.11,
+          "trade_amount": 17267000000.0,
+          "trade_volume": 518400.0,
+          "previous_volume": 422385.0,
+          "relative_volume": 1.227316310948542,
+          "score": 53.02561632043914,
+          "signal": "낮은 우선순위",
+          "event_summary": {
+            "score": 0.06850008,
+            "direction": "중립",
+            "relevance": 0.16,
+            "confirmed": 0.87,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.99,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261125000395",
+              "published_at": "2026-11-25T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": 1.03,
+          "trade_amount": 18898000000.0,
+          "trade_volume": 114100.0,
+          "previous_volume": 148518.0,
+          "relative_volume": 0.7682570462839521,
+          "score": 51.34524033690069,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": 0.39,
+          "trade_amount": 30446000000.0,
+          "trade_volume": 59716.0,
+          "previous_volume": 60348.0,
+          "relative_volume": 0.9895274077019951,
+          "score": 50.3606249522853,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": 2.65,
+      "breadth": 0.3333333333333333,
+      "trading_value": 10702932000.0,
+      "score": 63.45465235005401,
+      "pattern": {
+        "peak_return": 21.86482577251807,
+        "drawdown": -9.312861935296413,
+        "consolidation_range": 5.640290138175197,
+        "down_volume_ratio": 1.39060199499055,
+        "trend_breadth": 1.0,
+        "score": 65.82900276476943,
+        "turnover_spike_ratio": 16.225093630596994,
+        "days_since_turnover_spike": 43,
+        "turnover_cooldown_ratio": 0.08953037632104915
+      },
+      "stocks": [
+        {
+          "code": "081660",
+          "name": "미스토홀딩스",
+          "change_rate": 6.18,
+          "trade_amount": 3331000000.0,
+          "trade_volume": 103477.0,
+          "previous_volume": 115532.0,
+          "relative_volume": 0.8956566146175952,
+          "score": 57.48674001059043,
+          "signal": "장전 관심",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "025980",
+          "name": "아난티",
+          "change_rate": 3.69,
+          "trade_amount": 5555405000.0,
+          "trade_volume": 1738918.0,
+          "previous_volume": 1850433.0,
+          "relative_volume": 0.9397357267190977,
+          "score": 53.6559707798212,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "110790",
+          "name": "크리스에프앤씨",
+          "change_rate": 1.32,
+          "trade_amount": 10568000.0,
+          "trade_volume": 4038.0,
+          "previous_volume": 238.0,
+          "relative_volume": 16.96638655462185,
+          "score": 50.00981693366735,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "44",
+      "name": "시멘트/레미콘",
+      "change_rate": -3.43,
+      "breadth": 0.06666666666666667,
+      "trading_value": 9425078000.0,
+      "score": 60.12051496179809,
+      "pattern": {
+        "peak_return": 23.39295136551374,
+        "drawdown": -9.114650099642441,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 12.060436724972883,
+        "trend_breadth": 1.0,
+        "score": 61.90648819035069,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 8,
+        "turnover_cooldown_ratio": 0.060178494379667664
+      },
+      "stocks": [
+        {
+          "code": "000910",
+          "name": "유니온",
+          "change_rate": 0.48,
+          "trade_amount": 68000000.0,
+          "trade_volume": 32927.0,
+          "previous_volume": 34866.0,
+          "relative_volume": 0.9443870819709745,
+          "score": 47.88397489429568,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "225530",
+          "name": "HC보광산업",
+          "change_rate": -0.25,
+          "trade_amount": 91282000.0,
+          "trade_volume": 44969.0,
+          "previous_volume": 29005.0,
+          "relative_volume": 1.5503878641613515,
+          "score": 46.76089797121876,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "198440",
+          "name": "강동씨앤엘",
+          "change_rate": -0.27,
+          "trade_amount": 162944000.0,
+          "trade_volume": 147891.0,
+          "previous_volume": 233828.0,
+          "relative_volume": 0.6324777186650016,
+          "score": 46.73012874044953,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "513",
+      "name": "미용기기",
+      "change_rate": 6.33,
+      "breadth": 0.47368421052631576,
+      "trading_value": 368726624000.0,
+      "score": 42.86309251724504,
+      "pattern": {
+        "peak_return": 28.336053790170435,
+        "drawdown": -13.220077145417154,
+        "consolidation_range": 13.45661064515582,
+        "down_volume_ratio": 1.0553214814797227,
+        "trend_breadth": 1.0,
+        "score": 41.6036382555824,
+        "turnover_spike_ratio": 2.230076807435463,
+        "days_since_turnover_spike": 0,
+        "turnover_cooldown_ratio": 0.6071810507504877
+      },
+      "stocks": [
+        {
+          "code": "278470",
+          "name": "에이피알",
+          "change_rate": 10.63,
+          "trade_amount": 255594000000.0,
+          "trade_volume": 884683.0,
+          "previous_volume": 240001.0,
+          "relative_volume": 3.6861638076508014,
+          "score": 58.215773129311266,
+          "signal": "장전 관심",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000100",
+          "name": "유한양행",
+          "change_rate": 6.73,
+          "trade_amount": 30268000000.0,
+          "trade_volume": 368256.0,
+          "previous_volume": 194567.0,
+          "relative_volume": 1.8926950613413374,
+          "score": 53.185003898542035,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "483650",
+          "name": "달바글로벌",
+          "change_rate": 4.65,
+          "trade_amount": 28586000000.0,
+          "trade_volume": 212394.0,
+          "previous_volume": 102049.0,
+          "relative_volume": 2.081294280198728,
+          "score": 49.98500389854203,
+          "signal": "낮은 우선순위",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 12,
+  "telegram_text": "🌅 2026-11-26 07:30 3개월 조정 후보\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 71/100\n   등락 +0.43% · 확산도 38%\n   3개월 고점상승 +39.7% · 고점대비 -10.8%\n   15일 변동폭 5.3% · 하락거래대금비 0.73 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 33거래일 · 현재/고점 0.37배\n   1) 현대해상(001450) · 낮은 우선순위 53 · 전일 +2.11%\n     이벤트: 중립 +0 · 지분·경영권 · 시초가\n   2) DB손해보험(005830) · 낮은 우선순위 51 · 전일 +1.03%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 삼성화재(000810) · 낮은 우선순위 50 · 전일 +0.39%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 골프 · 강도 63/100\n   등락 +2.65% · 확산도 33%\n   3개월 고점상승 +21.9% · 고점대비 -9.3%\n   15일 변동폭 5.6% · 하락거래대금비 1.39 · 60일선 상회 100%\n   거래대금 최대 16.2배 · 폭발 후 43거래일 · 현재/고점 0.09배\n   1) 미스토홀딩스(081660) · 장전 관심 57 · 전일 +6.18%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 아난티(025980) · 낮은 우선순위 54 · 전일 +3.69%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 크리스에프앤씨(110790) · 낮은 우선순위 50 · 전일 +1.32%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 시멘트/레미콘 · 강도 60/100\n   등락 -3.43% · 확산도 7%\n   3개월 고점상승 +23.4% · 고점대비 -9.1%\n   15일 변동폭 8.5% · 하락거래대금비 12.06 · 60일선 상회 100%\n   거래대금 최대 59.9배 · 폭발 후 8거래일 · 현재/고점 0.06배\n   1) 유니온(000910) · 낮은 우선순위 48 · 전일 +0.48%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) HC보광산업(225530) · 낮은 우선순위 47 · 전일 -0.25%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 강동씨앤엘(198440) · 낮은 우선순위 47 · 전일 -0.27%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n4. 미용기기 · 강도 43/100\n   등락 +6.33% · 확산도 47%\n   3개월 고점상승 +28.3% · 고점대비 -13.2%\n   15일 변동폭 13.5% · 하락거래대금비 1.06 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 0거래일 · 현재/고점 0.61배\n   1) 에이피알(278470) · 장전 관심 58 · 전일 +10.63%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 유한양행(000100) · 낮은 우선순위 53 · 전일 +6.73%\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 달바글로벌(483650) · 낮은 우선순위 50 · 전일 +4.65%\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 12건\n※ 3개월 가격·거래량 패턴과 뉴스·공시를 결합한 후보이며 09:10 최종확인 전에는 거래 신호가 아닙니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
