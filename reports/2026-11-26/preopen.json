@@ -1,0 +1,408 @@
+{
+  "version": 2,
+  "market_date": "2026-11-26",
+  "generated_at": "2026-11-26T08:50:27.948066+09:00",
+  "mode": "preopen",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": 0.43,
+      "breadth": 0.375,
+      "trading_value": 73284000000.0,
+      "score": 48.65931593288438,
+      "pattern": {
+        "peak_return": 39.72909523521422,
+        "drawdown": -10.844744090589964,
+        "consolidation_range": 5.3358039332924045,
+        "down_volume_ratio": 0.7286011342754302,
+        "trend_breadth": 1.0,
+        "score": 74.21088099482674,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 33,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "000810",
+          "name": "삼성화재",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 59716.0,
+          "relative_volume": null,
+          "score": 40.01950793515437,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 524000.0,
+            "expected_change_rate": 1.95,
+            "expected_volume": 156.0,
+            "expected_trade_amount": 81744000.0,
+            "total_ask_volume": 78.0,
+            "total_bid_volume": 10.0,
+            "bid_ask_ratio": 0.1282051282051282,
+            "order_imbalance": -0.7727272727272727
+          },
+          "has_error": true
+        },
+        {
+          "code": "005830",
+          "name": "DB손해보험",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 114100.0,
+          "relative_volume": null,
+          "score": 37.76238226738876,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 164400.0,
+            "expected_change_rate": -1.02,
+            "expected_volume": 50.0,
+            "expected_trade_amount": 8220000.0,
+            "total_ask_volume": 17.0,
+            "total_bid_volume": 106.0,
+            "bid_ask_ratio": 6.235294117647059,
+            "order_imbalance": 0.7235772357723578
+          },
+          "has_error": true
+        },
+        {
+          "code": "001450",
+          "name": "현대해상",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 518400.0,
+          "relative_volume": null,
+          "score": 22.601163420081043,
+          "signal": "장전 제외",
+          "event_summary": {
+            "score": 0.089345025,
+            "direction": "중립",
+            "relevance": 0.21,
+            "confirmed": 0.85,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.99,
+            "event_count": 1,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "대규모기업집단현황공시[분기별공시(대표회사용)]",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261125000395",
+              "published_at": "2026-11-25T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": {
+            "expected_price": 33550.0,
+            "expected_change_rate": -0.59,
+            "expected_volume": 76.0,
+            "expected_trade_amount": 2549800.0,
+            "total_ask_volume": 203.0,
+            "total_bid_volume": 21.0,
+            "bid_ask_ratio": 0.10344827586206896,
+            "order_imbalance": -0.8125
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": 2.65,
+      "breadth": 0.3333333333333333,
+      "trading_value": 10702932000.0,
+      "score": 42.05148125344634,
+      "pattern": {
+        "peak_return": 21.86482577251807,
+        "drawdown": -9.312861935296413,
+        "consolidation_range": 5.640290138175197,
+        "down_volume_ratio": 1.39060199499055,
+        "trend_breadth": 1.0,
+        "score": 65.82900276476943,
+        "turnover_spike_ratio": 16.225093630596994,
+        "days_since_turnover_spike": 43,
+        "turnover_cooldown_ratio": 0.08953037632104915
+      },
+      "stocks": [
+        {
+          "code": "070960",
+          "name": "모나용평",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 11993.0,
+          "relative_volume": null,
+          "score": 33.02781410575522,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 1687.0,
+            "expected_change_rate": -1.0,
+            "expected_volume": 2.0,
+            "expected_trade_amount": 3374.0,
+            "total_ask_volume": 447.0,
+            "total_bid_volume": 1210.0,
+            "bid_ask_ratio": 2.7069351230425056,
+            "order_imbalance": 0.4604707302353651
+          },
+          "has_error": true
+        },
+        {
+          "code": "081660",
+          "name": "미스토홀딩스",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 103477.0,
+          "relative_volume": null,
+          "score": 32.94008887051238,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 32300.0,
+            "expected_change_rate": -0.46,
+            "expected_volume": 14.0,
+            "expected_trade_amount": 452200.0,
+            "total_ask_volume": 36.0,
+            "total_bid_volume": 70.0,
+            "bid_ask_ratio": 1.9444444444444444,
+            "order_imbalance": 0.32075471698113206
+          },
+          "has_error": true
+        },
+        {
+          "code": "069640",
+          "name": "한세엠케이",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 8299.0,
+          "relative_volume": null,
+          "score": 26.716336614612104,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 1350.0,
+            "expected_change_rate": 1.89,
+            "expected_volume": 74.0,
+            "expected_trade_amount": 99900.0,
+            "total_ask_volume": 2478.0,
+            "total_bid_volume": 217.0,
+            "bid_ask_ratio": 0.08757062146892655,
+            "order_imbalance": -0.8389610389610389
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "44",
+      "name": "시멘트/레미콘",
+      "change_rate": -3.43,
+      "breadth": 0.06666666666666667,
+      "trading_value": 9425078000.0,
+      "score": 39.75287334786502,
+      "pattern": {
+        "peak_return": 23.39295136551374,
+        "drawdown": -9.114650099642441,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 12.060436724972883,
+        "trend_breadth": 1.0,
+        "score": 61.90648819035069,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 8,
+        "turnover_cooldown_ratio": 0.060178494379667664
+      },
+      "stocks": [
+        {
+          "code": "004980",
+          "name": "성신양회",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 14819.0,
+          "relative_volume": null,
+          "score": 38.27677839011397,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 6670.0,
+            "expected_change_rate": -0.3,
+            "expected_volume": 16.0,
+            "expected_trade_amount": 106720.0,
+            "total_ask_volume": 105.0,
+            "total_bid_volume": 1362.0,
+            "bid_ask_ratio": 12.971428571428572,
+            "order_imbalance": 0.8568507157464212
+          },
+          "has_error": true
+        },
+        {
+          "code": "183190",
+          "name": "아세아시멘트",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 53946.0,
+          "relative_volume": null,
+          "score": 30.271607680356794,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 8160.0,
+            "expected_change_rate": 3.29,
+            "expected_volume": 7.0,
+            "expected_trade_amount": 57120.0,
+            "total_ask_volume": 31.0,
+            "total_bid_volume": 4.0,
+            "bid_ask_ratio": 0.12903225806451613,
+            "order_imbalance": -0.7714285714285715
+          },
+          "has_error": true
+        },
+        {
+          "code": "300720",
+          "name": "한일시멘트",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 27958.0,
+          "relative_volume": null,
+          "score": 24.22709145776271,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 15000.0,
+            "expected_change_rate": -0.13,
+            "expected_volume": 90.0,
+            "expected_trade_amount": 1350000.0,
+            "total_ask_volume": 329.0,
+            "total_bid_volume": 81.0,
+            "bid_ask_ratio": 0.24620060790273557,
+            "order_imbalance": -0.6048780487804878
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    },
+    {
+      "id": "513",
+      "name": "미용기기",
+      "change_rate": 6.33,
+      "breadth": 0.47368421052631576,
+      "trading_value": 368726624000.0,
+      "score": 38.74974595699183,
+      "pattern": {
+        "peak_return": 28.336053790170435,
+        "drawdown": -13.220077145417154,
+        "consolidation_range": 13.45661064515582,
+        "down_volume_ratio": 1.0553214814797227,
+        "trend_breadth": 1.0,
+        "score": 41.6036382555824,
+        "turnover_spike_ratio": 2.230076807435463,
+        "days_since_turnover_spike": 0,
+        "turnover_cooldown_ratio": 0.6071810507504877
+      },
+      "stocks": [
+        {
+          "code": "278470",
+          "name": "에이피알",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 884683.0,
+          "relative_volume": null,
+          "score": 51.18842343201031,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 289500.0,
+            "expected_change_rate": -0.86,
+            "expected_volume": 490.0,
+            "expected_trade_amount": 141855000.0,
+            "total_ask_volume": 113.0,
+            "total_bid_volume": 207.0,
+            "bid_ask_ratio": 1.831858407079646,
+            "order_imbalance": 0.29375
+          },
+          "has_error": true
+        },
+        {
+          "code": "000100",
+          "name": "유한양행",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 368256.0,
+          "relative_volume": null,
+          "score": 36.11492766385494,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 82300.0,
+            "expected_change_rate": -1.44,
+            "expected_volume": 88.0,
+            "expected_trade_amount": 7242400.0,
+            "total_ask_volume": 13.0,
+            "total_bid_volume": 130.0,
+            "bid_ask_ratio": 10.0,
+            "order_imbalance": 0.8181818181818182
+          },
+          "has_error": true
+        },
+        {
+          "code": "483650",
+          "name": "달바글로벌",
+          "change_rate": null,
+          "trade_amount": null,
+          "trade_volume": null,
+          "previous_volume": 212394.0,
+          "relative_volume": null,
+          "score": 24.607012710514997,
+          "signal": "장전 제외",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": {
+            "expected_price": 134900.0,
+            "expected_change_rate": -1.82,
+            "expected_volume": 80.0,
+            "expected_trade_amount": 10792000.0,
+            "total_ask_volume": 90.0,
+            "total_bid_volume": 49.0,
+            "bid_ask_ratio": 0.5444444444444444,
+            "order_imbalance": -0.2949640287769784
+          },
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 12,
+  "telegram_text": "⏱️ 2026-11-26 08:55 장전 중간확정\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 강도 49/100\n   등락 +0.43% · 확산도 38%\n   3개월 고점상승 +39.7% · 고점대비 -10.8%\n   15일 변동폭 5.3% · 하락거래대금비 0.73 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 33거래일 · 현재/고점 0.37배\n   1) 삼성화재(000810) · 장전 제외 40\n     예상 +1.95% · 체결가 524,000원 · 거래량 156주\n     매수/매도 잔량비 0.13배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) DB손해보험(005830) · 장전 제외 38\n     예상 -1.02% · 체결가 164,400원 · 거래량 50주\n     매수/매도 잔량비 6.24배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 현대해상(001450) · 장전 제외 23\n     예상 -0.59% · 체결가 33,550원 · 거래량 76주\n     매수/매도 잔량비 0.10배\n     이벤트: 중립 +0 · 지분·경영권 · 시초가\n\n2. 골프 · 강도 42/100\n   등락 +2.65% · 확산도 33%\n   3개월 고점상승 +21.9% · 고점대비 -9.3%\n   15일 변동폭 5.6% · 하락거래대금비 1.39 · 60일선 상회 100%\n   거래대금 최대 16.2배 · 폭발 후 43거래일 · 현재/고점 0.09배\n   1) 모나용평(070960) · 장전 제외 33\n     예상 -1.00% · 체결가 1,687원 · 거래량 2주\n     매수/매도 잔량비 2.71배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 미스토홀딩스(081660) · 장전 제외 33\n     예상 -0.46% · 체결가 32,300원 · 거래량 14주\n     매수/매도 잔량비 1.94배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한세엠케이(069640) · 장전 제외 27\n     예상 +1.89% · 체결가 1,350원 · 거래량 74주\n     매수/매도 잔량비 0.09배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n3. 시멘트/레미콘 · 강도 40/100\n   등락 -3.43% · 확산도 7%\n   3개월 고점상승 +23.4% · 고점대비 -9.1%\n   15일 변동폭 8.5% · 하락거래대금비 12.06 · 60일선 상회 100%\n   거래대금 최대 59.9배 · 폭발 후 8거래일 · 현재/고점 0.06배\n   1) 성신양회(004980) · 장전 제외 38\n     예상 -0.30% · 체결가 6,670원 · 거래량 16주\n     매수/매도 잔량비 12.97배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 아세아시멘트(183190) · 장전 제외 30\n     예상 +3.29% · 체결가 8,160원 · 거래량 7주\n     매수/매도 잔량비 0.13배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 한일시멘트(300720) · 장전 제외 24\n     예상 -0.13% · 체결가 15,000원 · 거래량 90주\n     매수/매도 잔량비 0.25배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n4. 미용기기 · 강도 39/100\n   등락 +6.33% · 확산도 47%\n   3개월 고점상승 +28.3% · 고점대비 -13.2%\n   15일 변동폭 13.5% · 하락거래대금비 1.06 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 0거래일 · 현재/고점 0.61배\n   1) 에이피알(278470) · 장전 제외 51\n     예상 -0.86% · 체결가 289,500원 · 거래량 490주\n     매수/매도 잔량비 1.83배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 유한양행(000100) · 장전 제외 36\n     예상 -1.44% · 체결가 82,300원 · 거래량 88주\n     매수/매도 잔량비 10.00배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 달바글로벌(483650) · 장전 제외 25\n     예상 -1.82% · 체결가 134,900원 · 거래량 80주\n     매수/매도 잔량비 0.54배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 12건\n※ 동시호가 예상체결 데이터는 09:00 전 바뀔 수 있으며 09:10 최종 확인 전 중간 신호입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
