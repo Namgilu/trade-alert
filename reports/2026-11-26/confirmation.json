@@ -1,0 +1,306 @@
+{
+  "version": 2,
+  "market_date": "2026-11-26",
+  "generated_at": "2026-11-26T09:10:39.874434+09:00",
+  "mode": "confirmation",
+  "themes": [
+    {
+      "id": "164",
+      "name": "손해보험",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 39.72909523521422,
+        "drawdown": -10.844744090589964,
+        "consolidation_range": 5.3358039332924045,
+        "down_volume_ratio": 0.7286011342754302,
+        "trend_breadth": 1.0,
+        "score": 74.21088099482674,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 33,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      },
+      "stocks": [
+        {
+          "code": "000400",
+          "name": "롯데손해보험",
+          "change_rate": -0.39,
+          "trade_amount": 89000000.0,
+          "trade_volume": 35222.0,
+          "previous_volume": 565047.0,
+          "relative_volume": 0.062334637649611446,
+          "score": 26.674390003871288,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "003690",
+          "name": "코리안리",
+          "change_rate": -0.69,
+          "trade_amount": 121000000.0,
+          "trade_volume": 10572.0,
+          "previous_volume": 197176.0,
+          "relative_volume": 0.05361707307177344,
+          "score": 23.89838380790065,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000540",
+          "name": "흥국화재",
+          "change_rate": 0.91,
+          "trade_amount": 1000000.0,
+          "trade_volume": 375.0,
+          "previous_volume": 34233.0,
+          "relative_volume": 0.010954342301288231,
+          "score": 15.900843655070497,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "496",
+      "name": "골프",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 21.86482577251807,
+        "drawdown": -9.312861935296413,
+        "consolidation_range": 5.640290138175197,
+        "down_volume_ratio": 1.39060199499055,
+        "trend_breadth": 1.0,
+        "score": 65.82900276476943,
+        "turnover_spike_ratio": 16.225093630596994,
+        "days_since_turnover_spike": 43,
+        "turnover_cooldown_ratio": 0.08953037632104915
+      },
+      "stocks": [
+        {
+          "code": "110790",
+          "name": "크리스에프앤씨",
+          "change_rate": 1.91,
+          "trade_amount": 1440000.0,
+          "trade_volume": 551.0,
+          "previous_volume": 4038.0,
+          "relative_volume": 0.13645368994551757,
+          "score": 41.240933335648755,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "111710",
+          "name": "남화산업",
+          "change_rate": 1.79,
+          "trade_amount": 7167000.0,
+          "trade_volume": 2842.0,
+          "previous_volume": 14130.0,
+          "relative_volume": 0.20113234253361642,
+          "score": 41.03315141204159,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "439270",
+          "name": "크리에이츠",
+          "change_rate": 2.7,
+          "trade_amount": 23229000.0,
+          "trade_volume": 5642.0,
+          "previous_volume": 80664.0,
+          "relative_volume": 0.06994446097391649,
+          "score": 34.038844581837985,
+          "signal": "신호 무효",
+          "event_summary": {
+            "score": -1.3077288,
+            "direction": "중립",
+            "relevance": 0.42,
+            "confirmed": 0.87,
+            "event_type": "governance",
+            "horizon": "open",
+            "confidence": 0.8,
+            "event_count": 2,
+            "primary_event": null
+          },
+          "events": [
+            {
+              "title": "주식등의대량보유상황보고서(일반)",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261125000721",
+              "published_at": "2026-11-25T00:00:00+09:00",
+              "source_kind": "disclosure"
+            },
+            {
+              "title": "임원ㆍ주요주주특정증권등소유상황보고서",
+              "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261125000695",
+              "published_at": "2026-11-25T00:00:00+09:00",
+              "source_kind": "disclosure"
+            }
+          ],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "44",
+      "name": "시멘트/레미콘",
+      "change_rate": null,
+      "breadth": null,
+      "trading_value": null,
+      "score": null,
+      "pattern": {
+        "peak_return": 23.39295136551374,
+        "drawdown": -9.114650099642441,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 12.060436724972883,
+        "trend_breadth": 1.0,
+        "score": 61.90648819035069,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 8,
+        "turnover_cooldown_ratio": 0.060178494379667664
+      },
+      "stocks": [
+        {
+          "code": "198440",
+          "name": "강동씨앤엘",
+          "change_rate": 1.98,
+          "trade_amount": 17726000.0,
+          "trade_volume": 15724.0,
+          "previous_volume": 147891.0,
+          "relative_volume": 0.10632154762629234,
+          "score": 41.39439712498794,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "000910",
+          "name": "유니온",
+          "change_rate": 1.93,
+          "trade_amount": 3000000.0,
+          "trade_volume": 1869.0,
+          "previous_volume": 32927.0,
+          "relative_volume": 0.05676192790111459,
+          "score": 29.27105898775787,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "037760",
+          "name": "쎄니트",
+          "change_rate": 1.7,
+          "trade_amount": 762000.0,
+          "trade_volume": 374.0,
+          "previous_volume": 33125.0,
+          "relative_volume": 0.01129056603773585,
+          "score": 17.330316742081447,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": true
+    },
+    {
+      "id": "513",
+      "name": "미용기기",
+      "change_rate": 1.41,
+      "breadth": 0.42105263157894735,
+      "trading_value": 24809920000.0,
+      "score": 42.38857267968224,
+      "pattern": {
+        "peak_return": 28.336053790170435,
+        "drawdown": -13.220077145417154,
+        "consolidation_range": 13.45661064515582,
+        "down_volume_ratio": 1.0553214814797227,
+        "trend_breadth": 1.0,
+        "score": 41.6036382555824,
+        "turnover_spike_ratio": 2.230076807435463,
+        "days_since_turnover_spike": 0,
+        "turnover_cooldown_ratio": 0.6071810507504877
+      },
+      "stocks": [
+        {
+          "code": "278470",
+          "name": "에이피알",
+          "change_rate": 3.42,
+          "trade_amount": 21475000000.0,
+          "trade_volume": 70904.0,
+          "previous_volume": 884683.0,
+          "relative_volume": 0.08014622186704164,
+          "score": 68.73922413781612,
+          "signal": "관심 유지",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "336570",
+          "name": "원텍",
+          "change_rate": 1.83,
+          "trade_amount": 166834000.0,
+          "trade_volume": 50537.0,
+          "previous_volume": 346383.0,
+          "relative_volume": 0.1458991925123346,
+          "score": 41.521061502400435,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        },
+        {
+          "code": "200670",
+          "name": "휴메딕스",
+          "change_rate": 2.38,
+          "trade_amount": 28803000.0,
+          "trade_volume": 1351.0,
+          "previous_volume": 17443.0,
+          "relative_volume": 0.07745227311815628,
+          "score": 36.57803233284197,
+          "signal": "신호 무효",
+          "event_summary": null,
+          "events": [],
+          "preopen_quote": null,
+          "has_error": true
+        }
+      ],
+      "data_error": false,
+      "summary_unavailable": false
+    }
+  ],
+  "emerging_themes": [],
+  "warning_count": 14,
+  "telegram_text": "🔔 2026-11-26 09:10 장초 최종확인\n\n당일 추적 테마 · 장전 선정 순서\n\n1. 손해보험 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +39.7% · 고점대비 -10.8%\n   15일 변동폭 5.3% · 하락거래대금비 0.73 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 33거래일 · 현재/고점 0.37배\n   1) 롯데손해보험(000400) · 신호 무효 27\n     등락 -0.39% · 거래대금 1억 · 전일거래량 대비 0.06배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 코리안리(003690) · 신호 무효 24\n     등락 -0.69% · 거래대금 1억 · 전일거래량 대비 0.05배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 흥국화재(000540) · 신호 무효 16\n     등락 +0.91% · 거래대금 0억 · 전일거래량 대비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n2. 골프 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +21.9% · 고점대비 -9.3%\n   15일 변동폭 5.6% · 하락거래대금비 1.39 · 60일선 상회 100%\n   거래대금 최대 16.2배 · 폭발 후 43거래일 · 현재/고점 0.09배\n   1) 크리스에프앤씨(110790) · 신호 무효 41\n     등락 +1.91% · 거래대금 0억 · 전일거래량 대비 0.14배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 남화산업(111710) · 신호 무효 41\n     등락 +1.79% · 거래대금 0억 · 전일거래량 대비 0.20배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 크리에이츠(439270) · 신호 무효 34\n     등락 +2.70% · 거래대금 0억 · 전일거래량 대비 0.07배\n     이벤트: 중립 -1 · 지분·경영권 · 시초가\n\n3. 시멘트/레미콘 · 종합점수 미제공\n   테마 전체 지표 미확보 · 종목 점수는 테마 가중치를 제외한 참고 평가\n   등락 - · 확산도 -\n   3개월 고점상승 +23.4% · 고점대비 -9.1%\n   15일 변동폭 8.5% · 하락거래대금비 12.06 · 60일선 상회 100%\n   거래대금 최대 59.9배 · 폭발 후 8거래일 · 현재/고점 0.06배\n   1) 강동씨앤엘(198440) · 신호 무효 41\n     등락 +1.98% · 거래대금 0억 · 전일거래량 대비 0.11배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 유니온(000910) · 신호 무효 29\n     등락 +1.93% · 거래대금 0억 · 전일거래량 대비 0.06배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 쎄니트(037760) · 신호 무효 17\n     등락 +1.70% · 거래대금 0억 · 전일거래량 대비 0.01배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n4. 미용기기 · 강도 42/100\n   등락 +1.41% · 확산도 42%\n   3개월 고점상승 +28.3% · 고점대비 -13.2%\n   15일 변동폭 13.5% · 하락거래대금비 1.06 · 60일선 상회 100%\n   거래대금 최대 2.2배 · 폭발 후 0거래일 · 현재/고점 0.61배\n   1) 에이피알(278470) · 관심 유지 69\n     등락 +3.42% · 거래대금 215억 · 전일거래량 대비 0.08배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   2) 원텍(336570) · 신호 무효 42\n     등락 +1.83% · 거래대금 2억 · 전일거래량 대비 0.15배\n     이벤트: 분석할 신규 뉴스·공시 없음\n   3) 휴메딕스(200670) · 신호 무효 37\n     등락 +2.38% · 거래대금 0억 · 전일거래량 대비 0.08배\n     이벤트: 분석할 신규 뉴스·공시 없음\n\n⚠️ 일부 데이터 처리 실패: 14건\n※ 뉴스·공시·초기 수급을 결합한 참고 지표입니다.\n\n※ 본 알림은 정보 제공용 참고자료이며 투자 권유나 매매 신호가 아닙니다. 모든 투자 판단과 손익의 책임은 이용자 본인에게 있으며 서비스 제공자는 투자 결과에 책임지지 않습니다."
+}
