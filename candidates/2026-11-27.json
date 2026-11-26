@@ -1,0 +1,142 @@
+{
+  "version": 4,
+  "market_date": "2026-11-27",
+  "candidates": [
+    {
+      "theme": {
+        "id": "164",
+        "name": "손해보험",
+        "change_rate": 0.43,
+        "breadth": 0.375,
+        "trading_value": 73284000000.0,
+        "stocks": [
+          {
+            "code": "000540",
+            "name": "흥국화재"
+          },
+          {
+            "code": "003690",
+            "name": "코리안리"
+          },
+          {
+            "code": "001450",
+            "name": "현대해상"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 39.72909523521422,
+        "drawdown": -10.844744090589964,
+        "consolidation_range": 5.3358039332924045,
+        "down_volume_ratio": 0.7286011342754302,
+        "trend_breadth": 1.0,
+        "score": 74.21088099482674,
+        "turnover_spike_ratio": 2.2137279468891884,
+        "days_since_turnover_spike": 33,
+        "turnover_cooldown_ratio": 0.37364302814959205
+      }
+    },
+    {
+      "theme": {
+        "id": "496",
+        "name": "골프",
+        "change_rate": 0.77,
+        "breadth": 0.6666666666666666,
+        "trading_value": 7473384000.0,
+        "stocks": [
+          {
+            "code": "439270",
+            "name": "크리에이츠"
+          },
+          {
+            "code": "121440",
+            "name": "골프존홀딩스"
+          },
+          {
+            "code": "111710",
+            "name": "남화산업"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 20.924303412641976,
+        "drawdown": -8.614570972198198,
+        "consolidation_range": 5.640290138175197,
+        "down_volume_ratio": 1.4006920051999907,
+        "trend_breadth": 1.0,
+        "score": 64.7815663201221,
+        "turnover_spike_ratio": 16.225093630596994,
+        "days_since_turnover_spike": 44,
+        "turnover_cooldown_ratio": 0.08953037632104915
+      }
+    },
+    {
+      "theme": {
+        "id": "44",
+        "name": "시멘트/레미콘",
+        "change_rate": 1.73,
+        "breadth": 0.5333333333333333,
+        "trading_value": 37789874000.0,
+        "stocks": [
+          {
+            "code": "038500",
+            "name": "삼표시멘트"
+          },
+          {
+            "code": "006920",
+            "name": "모헨즈"
+          },
+          {
+            "code": "198440",
+            "name": "강동씨앤엘"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 26.019845644983477,
+        "drawdown": -7.542333546366242,
+        "consolidation_range": 8.548600379608562,
+        "down_volume_ratio": 3.482643761999306,
+        "trend_breadth": 1.0,
+        "score": 63.329456155520724,
+        "turnover_spike_ratio": 59.915300708034366,
+        "days_since_turnover_spike": 9,
+        "turnover_cooldown_ratio": 0.10197269873465822
+      }
+    },
+    {
+      "theme": {
+        "id": "513",
+        "name": "미용기기",
+        "change_rate": 3.68,
+        "breadth": 0.3684210526315789,
+        "trading_value": 251365526000.0,
+        "stocks": [
+          {
+            "code": "278470",
+            "name": "에이피알"
+          },
+          {
+            "code": "200670",
+            "name": "휴메딕스"
+          },
+          {
+            "code": "216080",
+            "name": "제테마"
+          }
+        ]
+      },
+      "pattern": {
+        "peak_return": 27.260273972602754,
+        "drawdown": -10.026575984368513,
+        "consolidation_range": 17.631813916897563,
+        "down_volume_ratio": 0.9376016014530475,
+        "trend_breadth": 1.0,
+        "score": 34.940240272334094,
+        "turnover_spike_ratio": 2.230076807435463,
+        "days_since_turnover_spike": 1,
+        "turnover_cooldown_ratio": 0.6071810507504877
+      }
+    }
+  ]
+}
